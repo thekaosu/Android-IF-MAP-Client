@@ -45,7 +45,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.core.Encryption;
 
 import de.hshannover.f4.trust.ifmapj.IfmapJ;
 import de.hshannover.f4.trust.ifmapj.IfmapJHelper;
@@ -1267,13 +1267,13 @@ public class MainActivity extends Activity {
 	        Encryption mNscaEncryption = null;
 	        switch(mPreferences.getNscaEncPreference()) {
 	        case "0":
-	            mNscaEncryption = Encryption.NONE;
+	            mNscaEncryption = Encryption.NO_ENCRYPTION;
 	            break;
 	        case "1":
-	            mNscaEncryption = Encryption.XOR;
+	            mNscaEncryption = Encryption.XOR_ENCRYPTION;
 	            break;
 	        case "2":
-	            mNscaEncryption = Encryption.TRIPLE_DES;
+	            mNscaEncryption = Encryption.TRIPLE_DES_ENCRYPTION;
 	            break;
 	        }
 

@@ -21,9 +21,6 @@
 
 package de.simu.decoit.android.decomap.services;
 
-import java.io.IOException;
-import java.util.List;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -32,13 +29,16 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.googlecode.jsendnsca.MessagePayload;
-import com.googlecode.jsendnsca.NagiosException;
-import com.googlecode.jsendnsca.NagiosPassiveCheckSender;
-import com.googlecode.jsendnsca.NagiosSettings;
-import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
-import com.googlecode.jsendnsca.encryption.Encryption;
+import com.googlecode.jsendnsca.core.Encryption;
+import com.googlecode.jsendnsca.core.MessagePayload;
+import com.googlecode.jsendnsca.core.NagiosException;
+import com.googlecode.jsendnsca.core.NagiosPassiveCheckSender;
+import com.googlecode.jsendnsca.core.NagiosSettings;
+import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
+import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Service to manage communication with NSCA/iMonitor
@@ -135,9 +135,9 @@ public class NscaService extends Service {
 		protected Void doInBackground(Void... params) {
 			mNagiosSettings = new NagiosSettingsBuilder()
 					.withNagiosHost(mServerIP).withPort(mServerPort)
-					.withPassword(mServerPass).withEncryption(mServerEnc)
-					.withLargeMessageSupportEnabled()
+					.withPassword(mServerPass).withEncryption(mServerEnc.ordinal())
 					.create();
+			//TODO: test encript with ordinal
 
 			sender = new NagiosPassiveCheckSender(mNagiosSettings);
 			readyToSend = true;

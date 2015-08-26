@@ -23,10 +23,13 @@ package de.simu.decoit.android.decomap.util;
 
 import java.io.File;
 import java.io.StringWriter;
+import java.net.NetworkInterface;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import android.app.Notification;
@@ -241,4 +244,28 @@ public class Toolbox {
 
 		return mJSON.toString();
 	}
+
+    /**
+     * Returns MAC address of the given interface name.
+     * @param interfaceName eth0, wlan0 or NULL=use first interface
+     * @return  mac address or empty string
+     */
+    public static String getMACAddress(String interfaceName) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                if (interfaceName != null) {
+                    if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
+                }
+                byte[] mac = intf.getHardwareAddress();
+                if (mac==null) return "UNKNOWN EMULATOR";
+                StringBuilder buf = new StringBuilder();
+                for (int idx=0; idx<mac.length; idx++)
+                    buf.append(String.format("%02X:", mac[idx]));
+                if (buf.length()>0) buf.deleteCharAt(buf.length()-1);
+                return buf.toString();
+            }
+        } catch (Exception ex) { }
+        return "UNKNOWN EMULATOR";
+    }
 }

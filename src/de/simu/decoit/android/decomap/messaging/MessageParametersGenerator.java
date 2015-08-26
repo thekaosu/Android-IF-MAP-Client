@@ -170,7 +170,15 @@ public class MessageParametersGenerator<T> {
         
         // changed value of device-identifier to mac-address as value
         // (changes due to demonstrator - usecase3)
-        deviceIdentifier = Identifiers.createDev(deviceProperties.getSystemProperties().getMAC());
+        if (deviceProperties.getSystemProperties().getMAC() == null) {
+            String mac = Toolbox.getMACAddress("eth0");
+            if (mac == null || mac.equals("UNKNOWN EMULATOR")) {
+                mac = Toolbox.getMACAddress("wlan0");
+            }
+            deviceIdentifier = Identifiers.createDev(mac);
+        } else {
+            deviceIdentifier = Identifiers.createDev(deviceProperties.getSystemProperties().getMAC());
+        }
 
         // create metadata-factory
         StandardIfmapMetadataFactory metadataFactory = IfmapJ.createStandardMetadataFactory();
