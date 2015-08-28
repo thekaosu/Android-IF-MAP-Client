@@ -1,79 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:id="@+id/LinearLayout01"
-	android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-	android:paddingLeft="10sp" android:paddingRight="10sp"
-	android:layout_height="wrap_content" android:orientation="vertical">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10sp"
+    android:paddingRight="10sp">
 
-	<!-- timestamp -->
-	<TextView android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/tvTimestamp"
-		android:typeface="sans" android:textSize="16sp" android:textStyle="bold"></TextView>
-	<LinearLayout android:id="@+id/LinearLayout02"
-		android:layout_height="wrap_content" android:layout_width="fill_parent">
+    <!-- timestamp -->
+    <TextView
+        android:id="@+id/tvTimestamp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="sans"></TextView>
 
-		<!-- message type label -->
-		<TextView android:id="@+id/TextView01" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textStyle="bold"
-			android:text="Type:   " android:textSize="13sp">
-		</TextView>
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-		<!-- message type value -->
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Number"
-			android:id="@+id/tvMessagetype" android:textSize="13sp">
-		</TextView>
-	</LinearLayout>
-	<LinearLayout android:id="@id/LinearLayout02"
-		android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <!-- message type label -->
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type:   "
+            android:textSize="13sp"
+            android:textStyle="bold"></TextView>
 
-		<!-- target address label -->
-		<TextView android:id="@id/TextView01" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textStyle="bold"
-			android:text="Target: " android:textSize="13sp">
-		</TextView>
+        <!-- message type value -->
+        <TextView
+            android:id="@+id/tvMessagetype"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Number"
+            android:textSize="13sp"></TextView>
+    </LinearLayout>
 
-		<!-- target address value -->
-		<TextView android:layout_width="0dp"
-			android:layout_height="wrap_content" android:text="Mail" android:id="@+id/tvTarget"
-			android:textSize="13sp" android:layout_weight="1">
-		</TextView>
-	</LinearLayout>
-	<LinearLayout android:id="@id/LinearLayout02"
-		android:layout_height="wrap_content" android:layout_width="fill_parent">
-		<!-- status label -->
-		<TextView android:id="@id/TextView01" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:textStyle="bold"
-			android:text="Status: " android:textSize="13sp">
-		</TextView>
+    <LinearLayout
+        android:id="@id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
 
-		<!-- status value -->
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:text="Mail" android:id="@+id/tvStatus"
-			android:textSize="13sp" android:layout_weight="1">
-		</TextView>
-	</LinearLayout>
-	<LinearLayout android:id="@id/LinearLayout02"
-		android:layout_height="wrap_content" android:layout_width="fill_parent">
-		 <!-- details button -->
-		<Button android:id="@+id/details_button" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:padding="10dp"
-			android:background="@drawable/details_button" />
+        <!-- target address label -->
+        <TextView
+            android:id="@id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Target: "
+            android:textSize="13sp"
+            android:textStyle="bold"></TextView>
 
-		<!-- export button -->
-		<Button android:id="@+id/export_button" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:padding="10dp"
-			android:background="@drawable/export_button" />
+        <!-- target address value -->
+        <TextView
+            android:id="@+id/tvTarget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mail"
+            android:textSize="13sp"></TextView>
+    </LinearLayout>
 
-		<!-- remove button -->
-		<Button android:id="@+id/remove_button" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:padding="10dp"
-			android:background="@drawable/remove_button" />
+    <LinearLayout
+        android:id="@id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <!-- status label -->
+        <TextView
+            android:id="@id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status: "
+            android:textSize="13sp"
+            android:textStyle="bold"></TextView>
 
-		<!-- removeall button -->
-		<Button android:id="@+id/removeall_button"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:padding="10dp" android:background="@drawable/removeall_button" />
-			
-	</LinearLayout>
+        <!-- status value -->
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mail"
+            android:textSize="13sp"></TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@id/LinearLayout02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp">
+        <!-- details button -->
+        <Button
+            android:id="@+id/details_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_beige"
+            android:padding="6dp"
+            android:layout_marginRight="1dp"
+            android:textSize="10sp"
+            android:text="DETAILS"
+            android:textStyle="bold" />
+
+        <!-- export button -->
+        <Button
+            android:id="@+id/export_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_beige"
+            android:padding="6dp"
+            android:layout_marginRight="1dp"
+            android:textSize="10sp"
+            android:text="EXPORT"
+            android:textStyle="bold" />
+
+        <!-- remove button -->
+        <Button
+            android:id="@+id/remove_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_beige"
+            android:padding="6dp"
+            android:layout_marginRight="1dp"
+            android:textSize="10sp"
+            android:text="REMOVE"
+            android:textStyle="bold" />
+
+        <!-- removeall button -->
+        <Button
+            android:id="@+id/removeall_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/custom_btn_beige"
+            android:padding="6dp"
+            android:textSize="10sp"
+            android:text="REMOVE ALL"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 </LinearLayout>

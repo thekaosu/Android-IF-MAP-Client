@@ -30,10 +30,10 @@
 					android:scrollHorizontally="false"
 					android:text="Message:"
 					android:textColor="#ffffff"
-					android:textSize="35px" />
+					android:textSize="35px"
+					android:layout_marginBottom="20px"/>
 			</HorizontalScrollView>
 		</TableRow>
-
 		<TableRow android:layout_marginTop="10px">
 
 			<Button
