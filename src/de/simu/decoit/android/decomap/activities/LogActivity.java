@@ -21,14 +21,19 @@
 
 package de.simu.decoit.android.decomap.activities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
 import android.widget.ListView;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
+
 import de.simu.decoit.android.decomap.database.LoggingDatabase;
 import de.simu.decoit.android.decomap.logging.LogMessage;
 import de.simu.decoit.android.decomap.logging.LogMessageAdapter;
@@ -37,136 +42,202 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Activity for showing Log-Messages
- * 
+ *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
  * @version 0.2
  */
 public class LogActivity extends Activity {
 
-	// database for log messages
-	private LoggingDatabase mLogDB = null;
+    // database for log messages
+    private LoggingDatabase mLogDB = null;
 
-	// -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
     // -------------------------------------------------------------------------
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		Toolbox.logTxt(this.getClass().getName(), "LogActivity.OnCreate(...) called");
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tab2);
 
-		// create new database connection
-		mLogDB = new LoggingDatabase(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Toolbox.logTxt(this.getClass().getName(), "LogActivity.OnCreate(...) called");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tab2);
 
-		// create log message list
-		createListAdapter();
-	}
+        // create new database connection
+        mLogDB = new LoggingDatabase(this);
 
-	@Override
-	public void onResume() {
-		Toolbox.logTxt(this.getClass().getName(), "LogActivity.OnResume(...) called");
-		super.onStart();
+        // create log message list
+        createListAdapter();
+    }
 
-		// re-create list adapter
-		createListAdapter();
-	}
+    @Override
+    public void onResume() {
+        Toolbox.logTxt(this.getClass().getName(), "LogActivity.OnResume(...) called");
+        super.onResume();
 
-	// -------------------------------------------------------------------------
+        // re-create list adapter
+        createListAdapter();
+    }
+
+    // -------------------------------------------------------------------------
     // LOG-ENTRIES-LIST OPERATIONS
     // -------------------------------------------------------------------------
 
-	/**
-	 * create new log-message-list-adapter for list-view and fill it with
-	 * messages from database
-	 */
-	private void createListAdapter() {
-		// get view for log-msg list
-		ListView list = (ListView) findViewById(R.id.logMessages_ListView);
+    /**
+     * create new log-message-list-adapter for list-view and fill it with
+     * messages from database
+     */
+    private void createListAdapter() {
+        // get view for log-msg list
+        ListView list = (ListView) findViewById(R.id.logMessages_ListView);
 
-		// get messages from database
-		List<LogMessage> listOfLogMessages = getAllEntrys();
+        // get messages from database
+        List<LogMessage> listOfLogMessages = getAllEntrys();
 
-		// create and set new adapter
-		LogMessageAdapter adapter = new LogMessageAdapter(this, listOfLogMessages);
-		list.setAdapter(adapter);
-	}
+        // create and set new adapter
+        LogMessageAdapter adapter = new LogMessageAdapter(this, listOfLogMessages);
+        list.setAdapter(adapter);
+    }
 
-	/**
-	 * show message-content-Dialog-Box. Will be called by LogMessageAdapter to
-	 * show message-content/details
-	 * 
-	 * @param msg
-	 *            message to show
-	 */
-	public void showLogMessage(String msg) {
-		LogMessageDialog dialog = new LogMessageDialog(this, msg);
-		dialog.show();
-	}
+    /**
+     * show message-content-Dialog-Box. Will be called by LogMessageAdapter to
+     * show message-content/details
+     *
+     * @param msg message to show
+     */
+    public void showLogMessage(String msg) {
+        LogMessageDialog dialog = new LogMessageDialog(this, msg);
+        dialog.show();
+    }
 
-	/**
-	 * get log-messages from database
-	 * 
-	 * @return log-messages from database
-	 */
-	public ArrayList<LogMessage> getAllEntrys() {
-		// create log message list for list-view
-		ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
+    /**
+     * Handel the delete all button.
+     * Deleting all log-messages.
+     *
+     * @return log-messages from database
+     */
+    public ArrayList<LogMessage> getAllEntrys() {
+        // create log message list for list-view
+        ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
 
-		// get db content
-		Cursor resultCursor = null;
-		try {
-			resultCursor = mLogDB.getReadableDatabase().query(false, "logmessages",
-					new String[] { "_id", "timestamp", "msgtype", "msgcontent", "target", "status" }, null, null, null,
-					null, null, null);
+        // get db content
+        Cursor resultCursor = null;
+        try {
+            resultCursor = mLogDB.getReadableDatabase().query(false, "logmessages",
+                    new String[]{"_id", "timestamp", "msgtype", "msgcontent", "target", "status"}, null, null, null,
+                    null, null, null);
 
-			while (resultCursor.moveToNext()) {
-				LogMessage lMsg = new LogMessage(resultCursor.getInt(0), // id
-						resultCursor.getString(1), // timestamp
-						resultCursor.getString(3), // msg-type
-						resultCursor.getString(2), // msg-content
-						resultCursor.getString(4), // target address
-						resultCursor.getString(5)); // msg-status
-				logMessageList.add(lMsg);
-			}
-		} finally {
-			resultCursor.close();
-		}
-		return logMessageList;
-	}
+            while (resultCursor.moveToNext()) {
+                LogMessage lMsg = new LogMessage(resultCursor.getInt(0), // id
+                        resultCursor.getString(1), // timestamp
+                        resultCursor.getString(3), // msg-type
+                        resultCursor.getString(2), // msg-content
+                        resultCursor.getString(4), // target address
+                        resultCursor.getString(5)); // msg-status
+                logMessageList.add(lMsg);
+            }
+        } finally {
+            resultCursor.close();
+        }
+        return logMessageList;
+    }
 
-	/**
-	 * delete log-message from database at passed in index
-	 * 
-	 * @param id
-	 *            index to delete message from database
-	 */
-	public void deleteEntry(int id) {
-		mLogDB.deleteMessageAtId(mLogDB.getWritableDatabase(), Integer.valueOf(id).toString());
-	}
+    /**
+     * delete log-message from database at passed in index
+     *
+     * @param id index to delete message from database
+     */
+    public void deleteEntry(int id) {
+        mLogDB.deleteMessageAtId(mLogDB.getWritableDatabase(), Integer.valueOf(id).toString());
+    }
 
-	/**
-	 * delete all log messages from database
-	 */
-	public void deleteLog() {
-		mLogDB.deleteAllMassages(mLogDB.getWritableDatabase());
-	}
+    /**
+     * delete all log messages from database
+     */
+    public void deleteLog() {
+        mLogDB.deleteAllMassages(mLogDB.getWritableDatabase());
+    }
 
-	// -------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
     // BUTTON HANDLING
     // -------------------------------------------------------------------------
-    
-	/**
-	 * we override the behavior of the back-button so that the application runs
-	 * in the background (instead of destroying it) when pressing back (similar
-	 * to the home button)
-	 */
-	@Override
-	public void onBackPressed() {
-		Intent setIntent = new Intent(Intent.ACTION_MAIN);
-		setIntent.addCategory(Intent.CATEGORY_HOME);
-		setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(setIntent);
-	}
+
+    /**
+     * we override the behavior of the back-button so that the application runs
+     * in the background (instead of destroying it) when pressing back (similar
+     * to the home button)
+     */
+    @Override
+    public void onBackPressed() {
+        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+        setIntent.addCategory(Intent.CATEGORY_HOME);
+        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(setIntent);
+    }
+
+    /**
+     * Handling remove all Button click.
+     * Deleting log-messages
+     *
+     * @param view element that originated the call
+     */
+    public void removeAllLogEntrys(View view) {
+        //Deleting all log-messages from the Database
+        deleteLog();
+
+        //updating view, by recreating the ListAdapter
+        createListAdapter();
+    }
+
+    /**
+     * Handling export button click.
+     * Exporting all log-messages into a file
+     *
+     * @param view element that originated the call
+     */
+    public void exportLogEntrys(View view) {
+// name for export file
+        String exportFileName = "message_export_" + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT) + ".txt";
+
+        // prepare export
+        BufferedWriter bw = null;
+        ArrayList<LogMessage> exportList = new ArrayList<LogMessage>();
+
+        try {
+            if (!Toolbox.sLogFolderExists) {
+                Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(Toolbox.sLogPath);
+            }
+            try {
+                // write log-message to file
+                bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + Toolbox.sLogPath + exportFileName, true));
+                exportList = getAllEntrys();
+                // write entries to file
+                for (int i = 0; i < exportList.size(); i++) {
+                    bw.newLine();
+                    bw.write("----------------------------------------------");
+                    bw.newLine();
+                    bw.write("Type:   " + exportList.get(i).getMsgType());
+                    bw.newLine();
+                    bw.write("Target: " + exportList.get(i).getTarget());
+                    bw.newLine();
+                    bw.write("Time:   " + exportList.get(i).getTimestamp());
+                    bw.newLine();
+                    bw.write("----------------------------------------------");
+                    bw.newLine();
+                    bw.write(exportList.get(i).getMsg());
+                    bw.newLine();
+                }
+                bw.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // show quick success-message
+            LogMessageDialog dialog = new LogMessageDialog(this,
+                    "messages have been exported");
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

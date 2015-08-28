@@ -1,8 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:id="@+id/log_tab" android:orientation="vertical"
-	android:paddingTop="5px">
-    <ListView android:layout_width="fill_parent" android:layout_height="fill_parent" 
-    android:id="@+id/logMessages_ListView"></ListView>
+    android:id="@+id/log_tab"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/custom_header">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="EXPORT"
+            android:onClick="exportLogEntrys"/>
+
+        <Button
+            android:id="@+id/removeall_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="REMOVE ALL"
+            android:onClick="removeAllLogEntrys"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/logMessages_ListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></ListView>
 </LinearLayout>
