@@ -86,7 +86,7 @@ public class LogActivity extends Activity {
      * create new log-message-list-adapter for list-view and fill it with
      * messages from database
      */
-    private void createListAdapter() {
+    public void createListAdapter() {
         // get view for log-msg list
         ListView list = (ListView) findViewById(R.id.logMessages_ListView);
 

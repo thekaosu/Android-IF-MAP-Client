@@ -21,9 +21,6 @@
 
 package de.simu.decoit.android.decomap.activities;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +30,10 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Date;
+
 import de.simu.decoit.android.decomap.device.DeviceProperties;
 import de.simu.decoit.android.decomap.device.DevicePropertiesDialog;
 import de.simu.decoit.android.decomap.device.ListEntry;
@@ -225,7 +226,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * Handler for update status information button
-     * 
+     *
      * @param view
      *            element that originated the call
      */
@@ -235,7 +236,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         updateEntry(mDeviceProperties.getSystemProperties().getLocalIpAddress(), LIST_POSITION_IP);
         updateEntry(String.valueOf(SMSObserver.sSmsInCount), LIST_POSITION_DEVICE_SMSCOUNT_IN);
         updateEntry(String.valueOf(SMSObserver.sSmsSentCount), LIST_POSITION_DEVICE_SMSCOUNT_OUT);
-        updateEntry(convertLastSentDate(SMSObserver.sLastSendDate), LIST_POSITION_DEVICE_SMSSENDDATE); 
+        updateEntry(convertLastSentDate(SMSObserver.sLastSendDate), LIST_POSITION_DEVICE_SMSSENDDATE);
         updateEntry(convertLastSentDate(CameraReceiver.sLastPictureTakenDate), LIST_POSITION_DEVICE_LASTCAMERAUSE);
         updateEntry(mDeviceProperties.getPhoneProperties().getBluetoothActiveStatusString(), LIST_POSITION_BLUEATOOTH_ENABLED);
         updateEntry(mDeviceProperties.getPhoneProperties().getMicrophoneActiveString(), LIST_POSITION_MICROPHONE_MUTED);
@@ -360,7 +361,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * show applications-informations inside a dialog-box
-     * 
+     *
      * @param infoType
      *            type of applications-informations
      */
@@ -422,7 +423,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * add a new value to device properties list
-     * 
+     *
      * @param label
      *            label of device properties list-entry
      * @param entry
@@ -437,7 +438,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * set updated value to device properties list
-     * 
+     *
      * @param value
      *            new value for entry
      * @param position
@@ -455,7 +456,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * show the current location of the user
-     * 
+     *
      * @param latitude
      *            current latitude value
      * @param longitude
@@ -474,7 +475,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * get current longitude
-     * 
+     *
      * @return longitude-textview
      */
     public TextView getmLocationLongitude() {
@@ -483,7 +484,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * get current latitude
-     * 
+     *
      * @return latitude-textview
      */
     public TextView getmLocationLatitude() {
@@ -492,7 +493,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * get current altitude
-     * 
+     *
      * @return altitude-textview
      */
     public TextView getmLocationAltitude() {
@@ -501,7 +502,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     /**
      * helper function to convert the passed in date to timestamp-string
-     * 
+     *
      * @param date
      *            date to convert
      * @return date as timestamp-string

@@ -52,7 +52,7 @@ public class InfoActivity extends Activity {
 
     /**
      * Handler for Info-Tab Buttons
-     * 
+     *
      * @param view
      *            element that originated the call
      */

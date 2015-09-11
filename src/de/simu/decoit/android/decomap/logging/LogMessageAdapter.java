@@ -177,7 +177,8 @@ public class LogMessageAdapter extends BaseAdapter implements OnClickListener {
                         mListLogMessage.remove(msg);
                     }
                 }
-                notifyDataSetChanged();
+                mActivityCallback.createListAdapter();
+//                notifyDataSetChanged();
             }
         });
         return convertView;
