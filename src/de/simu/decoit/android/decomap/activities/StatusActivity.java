@@ -135,6 +135,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     @Override
     public void onResume() {
+        super.onResume();
         Toolbox.logTxt(this.getLocalClassName(), "onResume() called");
         super.onStart();
         try {

@@ -436,15 +436,15 @@ public class MainActivity extends Activity {
                 .getDefaultSharedPreferences(getBaseContext());
 
         // set preferences
-        PreferencesValues.sApplicationFileLogging = prefs.getBoolean(
+        mPreferences.sApplicationFileLogging = prefs.getBoolean(
                 "applicatiologging", false);
-        PreferencesValues.sMonitoringPreference = prefs.getString(
+        mPreferences.sMonitoringPreference = prefs.getString(
                 "serverPref", "IF-MAP");
-        PreferencesValues.sLocationTrackingType = prefs.getString(
+        mPreferences.sLocationTrackingType = prefs.getString(
                 "locationPref", "GPS");
-        PreferencesValues.sEnableLocationTracking = prefs.getBoolean(
+        mPreferences.sEnableLocationTracking = prefs.getBoolean(
                 "enableLocationTracking", false);
-        PreferencesValues.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
+        mPreferences.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
         mPreferences.setUseNonConformMetadata(prefs.getBoolean(
                 "nonConformDataPreferences", true));
         mPreferences.setmSendApplicationsInfos(prefs.getBoolean(
