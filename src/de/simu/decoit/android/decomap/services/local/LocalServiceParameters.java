@@ -82,9 +82,9 @@ public class LocalServiceParameters {
 	public LocalServiceParameters(int serviceType, PreferencesValues prefs, String ipAddress, byte messageType,
 			PublishRequest reguestParams, Handler msgHandler) {
 		this.mSSLConnectionType = prefs.isAllowUnsafeSSLPreference();
-		this.mServerIpPreference = prefs.getServerIpPreference();
+		this.mServerIpPreference = prefs.getIFMAPServerIpPreference();
 		//this.mServerPort = new Integer(prefs.getServerPortPreference()).intValue();
-		this.mServerPort = prefs.getServerPortPreference();
+		this.mServerPort = prefs.getIFMAPServerPortPreference();
 		this.mUsername = prefs.getUsernamePreference();
 		this.mPassword = prefs.getPasswordPreference();
 		this.mIpAddress = ipAddress;

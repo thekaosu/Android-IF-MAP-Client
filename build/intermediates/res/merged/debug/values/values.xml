@@ -13,7 +13,7 @@
 	</string-array>
     <string-array name="preferences_display_serverForm">
 		<item>iMonitor</item>
-		<item>SIMU</item>
+		<item>IF-MAP</item>
 	</string-array>
     <string-array name="preferences_value_cryptForm">
 		<item>0</item>

@@ -36,6 +36,8 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TabHost;
 
+import de.simu.decoit.android.decomap.activities.setupview.SetupActivity;
+
 /**
  * Tab.-Activity for Setting the different Activities to Tab-Widget
  * 

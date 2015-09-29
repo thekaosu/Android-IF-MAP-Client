@@ -2276,7 +2276,9 @@ containing a value of this type.
         public static final int btnStyleBeige=0x7f09012e;
     }
     public static final class xml {
-        public static final int preferences=0x7f050000;
+        public static final int ifmap_preferences=0x7f050000;
+        public static final int imonitor_preferences=0x7f050001;
+        public static final int preferences=0x7f050002;
     }
     public static final class styleable {
         /** Attributes that can be used with a ActionBar.

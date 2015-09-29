@@ -44,7 +44,7 @@
 		</activity>
 		
 		<activity
-			android:name="SetupActivity"
+			android:name=".setupview.SetupActivity"
 			android:label="Set Preferences">
 		</activity>
 

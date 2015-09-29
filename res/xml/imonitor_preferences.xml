@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:enabled="true"
+        android:key="applicationSettings"
+        android:persistent="true"
+        android:title="Application Settings">
+        <PreferenceScreen
+            android:persistent="false"
+            android:title="Automation Settings">
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="autostartPreferences"
+                android:summary="@string/preferences_summary_autostart"
+                android:title="@string/preferences_title_autostart" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="autoconnectPreferences"
+                android:summary="@string/preferences_summary_autoconnect"
+                android:title="@string/preferences_title_autoconnect" />
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="autoUpdate"
+                android:summary="@string/preferences_summary_autoupdate"
+                android:title="@string/preferences_title_autoupdate" />
+            <EditTextPreference
+                android:name="Update Interval"
+                android:defaultValue="60000"
+                android:key="updateInterval"
+                android:summary="@string/preferences_summary_updateinterval"
+                android:title="@string/preferences_title_updateinterval" />
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:enabled="true"
+        android:key="connectionSettings"
+        android:title="Connection Settings">
+        <PreferenceScreen
+            android:persistent="false"
+            android:title="Server Settings">
+            <EditTextPreference
+                android:name="Server IP-Address"
+                android:defaultValue="127.0.0.1"
+                android:key="iMonitorServeripPreference"
+                android:summary="@string/preferences_summary_serverip"
+                android:title="@string/preferences_title_serverip" />
+            <EditTextPreference
+                android:name="EditText Preference"
+                android:defaultValue="5443"
+                android:key="iMonitorServerportPreference"
+                android:summary="@string/preferences_summary_serverport"
+                android:title="@string/preferences_title_serverport" />
+        </PreferenceScreen>
+
+        <PreferenceScreen
+            android:persistent="false"
+            android:title="iMonitor-Encryption">
+            <EditTextPreference
+                android:name="Password"
+                android:defaultValue="icinga"
+                android:inputType="textPassword"
+                android:key="nscaPassPreference"
+                android:summary="@string/preferences_summary_imonitorpassword"
+                android:title="@string/preferences_title_password" />
+            <ListPreference
+                android:defaultValue="1"
+                android:entries="@array/preferences_display_cryptForm"
+                android:entryValues="@array/preferences_value_cryptForm"
+                android:key="nscaEncPref"
+                android:summary="@string/preferences_summary_cryptPref"
+                android:title="@string/preferences_title_cryptPref" />
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:enabled="true"
+        android:title="Logging Settings">
+
+        <PreferenceScreen
+            android:persistent="false"
+            android:title="Logging Settings">
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="applicatiologging"
+                android:summary="@string/preferences_summary_applicationlogging"
+                android:title="@string/preferences_title_applicationlogging" />
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="logNewsessionRequest"
+                android:summary="@string/preferences_summary_lognewsessionrequest"
+                android:title="@string/preferences_title_lognewsessionrequest" />
+
+            <!--
+            <CheckBoxPreference android:title="@string/preferences_title_logpollrequest"
+            android:defaultValue="true" android:summary="@string/preferences_summary_logpollrequest"
+            android:key="logPollRequest" />-->
+
+            <!--
+            <CheckBoxPreference android:title="@string/preferences_title_logsubscripe"
+            android:defaultValue="true" android:summary="@string/preferences_summary_logsubscribe"
+            android:key="logSubscripeRequest" />-->
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="logRenewRequest"
+                android:summary="@string/preferences_summary_logrenewrequest"
+                android:title="@string/preferences_title_logrenewrequest" />
+
+            <!--  CheckBoxPreference android:title="@string/preferences_title_logsearch"
+            android:defaultValue="true" android:summary="@string/preferences_summary_logsearch"
+            android:key="logSearch" /-->
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="logLocationTracking"
+                android:summary="@string/preferences_summary_loglocationtracking"
+                android:title="@string/preferences_title_loglocationtracking" />
+
+            <!-- CheckBoxPreference android:title="@string/preferences_title_logdeletelocation"
+            android:defaultValue="true" android:summary="@string/preferences_summary_logdeletelocation"
+            android:key="logDeleteLocation" /-->
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="logPublishCharacteristics"
+                android:summary="@string/preferences_summary_logpublishcharacteristics"
+                android:title="@string/preferences_title_logpublishcharacteristics" />
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="logErrorMessage"
+                android:summary="@string/preferences_summary_logerrormessage"
+                android:title="@string/preferences_title_logerrormessage" />
+
+            <SwitchPreference
+                android:defaultValue="true"
+                android:key="logInvalideResponse"
+                android:summary="@string/preferences_summary_loginvalidresponse"
+                android:title="@string/preferences_title_loginvalidresponse" />
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+
+    <!-- Test-Service not used a.t.m. -->
+    <!-- PreferenceCategory android:title="EnduranceTest Settings" android:enabled="true">
+        <EditTextPreference android:summary="@string/preferences_summary_testcount"
+        android:defaultValue="10" android:title="@string/preferences_title_testcount"
+        android:key="testCount" android:name="Message to send"/> </PreferenceCategory -->
+
+</PreferenceScreen>

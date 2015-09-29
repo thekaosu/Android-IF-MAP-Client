@@ -39,9 +39,6 @@ public class PreferencesValues {
     public static boolean sLockPreferences = false;
     public static boolean sLockLocationTrackingOptions = false;
 
-    // "lock" parts of the preferences, which are not used in iMonitor
-    public static boolean sLockIMonitorPreferences = false;
-
     // monitoring mode
     public static String sMonitoringPreference = null;
 
@@ -62,8 +59,11 @@ public class PreferencesValues {
     private boolean mAutoconnect;
 
     // server-settings
-    private String mServerIpPreference;
-    private String mServerPortPreference;
+    private String mIFMAPServerIpPreference;
+    private String mIFMAPServerPortPreference;
+
+    private String mIMonitorServerIpPreference;
+    private String mIMonitorServerPortPreference;
 
     // imonitor-settings
     private String mNscaPassPreference;
@@ -122,33 +122,63 @@ public class PreferencesValues {
     }
 
     /**
-     * @return the mServerIpPreference
+     * @return the mIMonitorServerIpPreference
      */
-    public String getServerIpPreference() {
-        return mServerIpPreference;
+    public String getIMonitorServerIpPreference() {
+        return mIMonitorServerIpPreference;
     }
 
     /**
-     * @param mServerIpPreference
-     *            the mServerIpPreference to set
+     * @return the mIFMAPServerIpPreference
      */
-    public void setServerIpPreference(String mServerIpPreference) {
-        this.mServerIpPreference = mServerIpPreference;
+    public String getIFMAPServerIpPreference() {
+        return mIFMAPServerIpPreference;
     }
 
     /**
-     * @return the mServerPortPreference
+     * @param mIFMAPServerIpPreference
+     *            the mIFMAPServerIpPreference to set
      */
-    public String getServerPortPreference() {
-        return mServerPortPreference;
+    public void setIFMAPServerIpPreference(String mIFMAPServerIpPreference) {
+        this.mIFMAPServerIpPreference = mIFMAPServerIpPreference;
     }
 
     /**
-     * @param mServerPortPreference
-     *            the mServerPortPreference to set
+     * @param mIMonitorServerIpPreference
+     *            the mIMonitorServerIpPreference to set
      */
-    public void setServerPortPreference(String mServerPortPreference) {
-        this.mServerPortPreference = mServerPortPreference;
+    public void setIMonitorServerIpPreference(String mIMonitorServerIpPreference) {
+        this.mIMonitorServerIpPreference = mIMonitorServerIpPreference;
+    }
+
+    /**
+     * @return the mIFMAPServerPortPreference
+     */
+    public String getIFMAPServerPortPreference() {
+        return mIFMAPServerPortPreference;
+    }
+
+    /**
+     * @return the mIMonitorServerPortPreference
+     */
+    public String getIMonitorServerPortPreference() {
+        return mIMonitorServerPortPreference;
+    }
+
+    /**
+     * @param mIFMAPServerPortPreference
+     *            the mIFMAPServerPortPreference to set
+     */
+    public void setIFMAPServerPortPreference(String mIFMAPServerPortPreference) {
+        this.mIFMAPServerPortPreference = mIFMAPServerPortPreference;
+    }
+
+    /**
+     * @param mIMonitorServerPortPreference
+     *            the mIMonitorServerPortPreference to set
+     */
+    public void setIMonitorServerPortPreference(String mIMonitorServerPortPreference) {
+        this.mIMonitorServerPortPreference = mIMonitorServerPortPreference;
     }
 
     /**

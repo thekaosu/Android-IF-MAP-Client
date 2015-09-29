@@ -45,7 +45,7 @@
         <activity android:name="de.simu.decoit.android.decomap.activities.LogActivity" >
         </activity>
         <activity
-            android:name="de.simu.decoit.android.decomap.activities.SetupActivity"
+            android:name="de.simu.decoit.android.decomap.activities.setupview.SetupActivity"
             android:label="Set Preferences" >
         </activity>
 

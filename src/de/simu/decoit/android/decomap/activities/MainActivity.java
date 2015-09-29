@@ -268,13 +268,13 @@ public class MainActivity extends Activity {
                         + getResources().getString(
                         R.string.main_status_message_prefix) + " "
                         + "Sending Request to "
-                        + mPreferences.getServerIpPreference() + ":"
-                        + mPreferences.getServerPortPreference());
+                        + mPreferences.getIFMAPServerIpPreference() + ":"
+                        + mPreferences.getIFMAPServerPortPreference());
 
                 // start new session
                 mMessageType = MessageHandler.MSG_TYPE_REQUEST_NEWSESSION;
-                initConnection();
-                startConnectionService();
+                initIFMAPConnection();
+                startIFMAPConnectionService();
             } else {
                 connectNSCA();
             }
@@ -477,10 +477,14 @@ public class MainActivity extends Activity {
                 "usernamePreference", "user"));
         mPreferences.setPasswordPreference(prefs.getString(
                 "passwordPreference", "password"));
-        mPreferences.setServerIpPreference(prefs.getString(
-                "serveripPreference", ""));
-        mPreferences.setServerPortPreference(prefs.getString(
-                "serverportPreference", "8443"));
+        mPreferences.setIFMAPServerIpPreference(prefs.getString(
+                "IF-MAPServeripPreference", ""));
+        mPreferences.setIFMAPServerPortPreference(prefs.getString(
+                "IF-MAPServerportPreference", "8443"));
+        mPreferences.setIMonitorServerIpPreference(prefs.getString(
+                "iMonitorServeripPreference", ""));
+        mPreferences.setIMonitorServerPortPreference(prefs.getString(
+                "iMonitorServerportPreference", "5443"));
         mPreferences.setNscaEncPreference(prefs.getString(
                 "nscaEncPref", "1"));
         mPreferences.setNscaPassPreference(prefs.getString(
@@ -533,8 +537,8 @@ public class MainActivity extends Activity {
      * Initialize the connection object if not already initialized, else assign
      * already existing connection object
      */
-    private void initConnection() {
-        Toolbox.logTxt(this.getLocalClassName(), "initConnection(...) called");
+    private void initIFMAPConnection() {
+        Toolbox.logTxt(this.getLocalClassName(), "initIFMAPConnection(...) called");
         if (ConnectionObjects.getSsrcConnection() == null
                 || (mResponseType == MessageHandler.MSG_TYPE_ERRORMSG)) {
             try {
@@ -563,8 +567,8 @@ public class MainActivity extends Activity {
                             "initializing ssrc-connecion using basic-auth");
                     sSsrcConnection = new SsrcImpl(
                             "https://"
-                                    + mPreferences.getServerIpPreference() + ":"
-                                    + mPreferences.getServerPortPreference(), mPreferences.getUsernamePreference(), mPreferences
+                                    + mPreferences.getIFMAPServerIpPreference() + ":"
+                                    + mPreferences.getIFMAPServerPortPreference(), mPreferences.getUsernamePreference(), mPreferences
                             .getPasswordPreference(), trustManagers, 120000);
                 } else {
                     // create ssrc-connection using certificates
@@ -573,8 +577,8 @@ public class MainActivity extends Activity {
                     KeyManager[] keyManagers = IfmapJHelper.getKeyManagers(getResources().openRawResource(R.raw.keystore),
                             "androidmap");
                     sSsrcConnection = new SsrcImpl("https://"
-                            + mPreferences.getServerIpPreference() + ":"
-                            + mPreferences.getServerPortPreference(), keyManagers, trustManagers, 120000);
+                            + mPreferences.getIFMAPServerIpPreference() + ":"
+                            + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, 120000);
                 }
 
                 mResponseType = 0;
@@ -698,15 +702,14 @@ public class MainActivity extends Activity {
                     + getResources().getString(
                     R.string.main_status_message_prefix) + " "
                     + "Sending data to "
-                    + mPreferences.getServerIpPreference() + ":"
-                    + mPreferences.getServerPortPreference());
+                    + mPreferences.getIMonitorServerIpPreference() + ":"
+                    + mPreferences.getIMonitorServerPortPreference());
 
             mIsBound = BinderClass.doBindNscaService(getApplicationContext(),
                     mNscaConnection);
 
             PreferencesValues.sLockPreferences = true;
             PreferencesValues.sLockConnectionPreferences = true;
-            PreferencesValues.sLockIMonitorPreferences = true;
 
             mIsConnected = true;
             mConnectButton.setEnabled(false);
@@ -735,7 +738,6 @@ public class MainActivity extends Activity {
 
         PreferencesValues.sLockPreferences = false;
         PreferencesValues.sLockConnectionPreferences = false;
-        PreferencesValues.sLockIMonitorPreferences = false;
     }
 
     private void mainTabButtonHandlerIfmap(View view) {
@@ -782,10 +784,10 @@ public class MainActivity extends Activity {
                     + getResources().getString(
                     R.string.main_status_message_prefix) + " "
                     + "Sending Request to "
-                    + mPreferences.getServerIpPreference() + ":"
-                    + mPreferences.getServerPortPreference());
-            initConnection();
-            startConnectionService();
+                    + mPreferences.getIFMAPServerIpPreference() + ":"
+                    + mPreferences.getIFMAPServerPortPreference());
+            initIFMAPConnection();
+            startIFMAPConnectionService();
         }
     }
 
@@ -809,63 +811,72 @@ public class MainActivity extends Activity {
      * check if the preference values are valid
      */
     public boolean validatePreferences() {
-        boolean ipValid = false;
-        boolean portValid = false;
-        boolean authValid = false;
-        boolean userValid = false;
-        boolean passValid = false;
-
-        // validate ip-setting from preferences
-        if (mPreferences.getServerIpPreference() != null
-                && mPreferences.getServerIpPreference().length() > 0) {
-            Matcher ipMatcher = Toolbox.getIpPattern().matcher(
-                    mPreferences.getServerIpPreference());
-            if (ipMatcher.find()) {
-                ipValid = true;
-            }
-        }
-        // validate portnumber
-        if (mPreferences.getServerPortPreference() != null
-                && mPreferences.getServerPortPreference().length() > 0) {
-            portValid = true;
-        }
-
-        if (mPreferences.isUseBasicAuth()) {
-            // validate username
-            if (mPreferences.getUsernamePreference() != null
-                    && mPreferences.getUsernamePreference().length() > 0) {
-                userValid = true;
-            }
-            // validate password
-            if (mPreferences.getPasswordPreference() != null
-                    && mPreferences.getPasswordPreference().length() > 0) {
-                passValid = true;
-            }
-        } else {
-            authValid = true;
-        }
 
         if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
             // validate password (defaults always to "icinga")
-            if (mPreferences.getNscaPassPreference() != null
-                    && mPreferences.getNscaPassPreference().length() > 0) {
-                passValid = true;
+            if (mPreferences.getNscaPassPreference() == null
+                    || !(mPreferences.getNscaPassPreference().length() > 0)) {
+                return false;
+            }
+
+            // validate ip-setting from preferences
+            if (mPreferences.getIMonitorServerIpPreference() == null
+                    || !(mPreferences.getIMonitorServerIpPreference().length() > 0)) {
+                return false;
+            } else {
+                Matcher ipMatcher = Toolbox.getIpPattern().matcher(
+                        mPreferences.getIMonitorServerIpPreference());
+                if (!ipMatcher.find()) {
+                    return false;
+                }
+            }
+            // validate portnumber
+            if (mPreferences.getIMonitorServerPortPreference() == null ||
+                    !(mPreferences.getIMonitorServerPortPreference().length() > 0)) {
+                return false;
+            }
+        } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("IF-MAP")) {
+
+            if (mPreferences.isUseBasicAuth()) {
+                // validate username
+                if (mPreferences.getUsernamePreference() == null
+                        || !(mPreferences.getUsernamePreference().length() > 0)) {
+                    return false;
+                }
+                // validate password
+                if (mPreferences.getPasswordPreference() == null
+                        || !(mPreferences.getPasswordPreference().length() > 0)) {
+                    return false;
+                }
+            }
+
+            // validate ip-setting from preferences
+            if (mPreferences.getIFMAPServerIpPreference() == null
+                    || !(mPreferences.getIFMAPServerIpPreference().length() > 0)) {
+                return false;
+            } else {
+                Matcher ipMatcher = Toolbox.getIpPattern().matcher(
+                        mPreferences.getIFMAPServerIpPreference());
+                if (!ipMatcher.find()) {
+                    return false;
+                }
+            }
+            // validate portnumber
+            if (mPreferences.getIFMAPServerPortPreference() == null ||
+                    !(mPreferences.getIFMAPServerPortPreference().length() > 0)) {
+                return false;
             }
         }
 
-        if (ipValid && portValid && (authValid || (userValid && passValid))) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**
      * start the connection-service to connect to the Map-Server
      */
-    public void startConnectionService() {
+    public void startIFMAPConnectionService() {
         Toolbox.logTxt(this.getLocalClassName(),
-                "startConnectionService(...) called");
+                "startIFMAPConnectionService(...) called");
 
         // disable buttons before starting request-generation
         mConnectButton.setEnabled(false);
@@ -1232,7 +1243,7 @@ public class MainActivity extends Activity {
     public void sendMetadataUpdateToServer() {
         if (mIsConnected) {
             mMessageType = MessageHandler.MSG_TYPE_METADATA_UPDATE;
-            startConnectionService();
+            startIFMAPConnectionService();
         }
     }
 
@@ -1263,7 +1274,7 @@ public class MainActivity extends Activity {
                     break;
             }
 
-            mNscaServiceBind.setupConnection(mPreferences.getServerIpPreference(), mPreferences.getServerPortPreference(), mPreferences.getNscaPassPreference(), mNscaEncryption);
+            mNscaServiceBind.setupConnection(mPreferences.getIMonitorServerIpPreference(), mPreferences.getIMonitorServerPortPreference(), mPreferences.getNscaPassPreference(), mNscaEncryption);
 
             LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMonitorEventReceiver, new IntentFilter("iMonitor-Event"));
 

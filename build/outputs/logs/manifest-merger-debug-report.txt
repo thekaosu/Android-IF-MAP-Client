@@ -121,12 +121,12 @@ activity#de.simu.decoit.android.decomap.activities.LogActivity
 ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:42:4-44:14
 	android:name
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:43:4-72
-activity#de.simu.decoit.android.decomap.activities.SetupActivity
+activity#de.simu.decoit.android.decomap.activities.setupview.SetupActivity
 ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:46:3-49:14
 	android:label
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:48:4-35
 	android:name
-		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:47:4-32
+		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:47:4-43
 service#de.simu.decoit.android.decomap.services.RenewConnectionService
 ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:51:3-53:13
 	android:enabled
