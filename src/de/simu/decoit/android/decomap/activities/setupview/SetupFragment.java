@@ -33,9 +33,7 @@ public class SetupFragment extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences);
 
         initializeFunctionality();
-
         handleSettingsLock();
-
     }
 
     @Override

@@ -275,8 +275,13 @@ public class MainActivity extends Activity {
                 mMessageType = MessageHandler.MSG_TYPE_REQUEST_NEWSESSION;
                 initIFMAPConnection();
                 startIFMAPConnectionService();
-            } else {
+            } else if(PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")){
                 connectNSCA();
+            } else{
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix)
+                        + " monitoring mode is invalid!");
             }
         }
 
@@ -439,7 +444,7 @@ public class MainActivity extends Activity {
         mPreferences.sApplicationFileLogging = prefs.getBoolean(
                 "applicatiologging", false);
         mPreferences.sMonitoringPreference = prefs.getString(
-                "serverPref", "IF-MAP");
+                "monitoringModeSettings", "IF-MAP");
         mPreferences.sLocationTrackingType = prefs.getString(
                 "locationPref", "GPS");
         mPreferences.sEnableLocationTracking = prefs.getBoolean(
@@ -661,8 +666,13 @@ public class MainActivity extends Activity {
     public void mainTabButtonHandler(View view) {
         if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("IF-MAP")) {
             mainTabButtonHandlerIfmap(view);
-        } else {
+        } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
             mainTabButtonHandlerIMonitor(view);
+        } else{
+            mStatusMessageField.append("\n"
+                    + getResources().getString(
+                    R.string.main_status_message_errorprefix)
+                    + " monitoring mode is invalid!");
         }
     }
 
@@ -816,24 +826,50 @@ public class MainActivity extends Activity {
             // validate password (defaults always to "icinga")
             if (mPreferences.getNscaPassPreference() == null
                     || !(mPreferences.getNscaPassPreference().length() > 0)) {
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix)
+                        + " NSCA Password is null or empty!");
                 return false;
             }
 
             // validate ip-setting from preferences
             if (mPreferences.getIMonitorServerIpPreference() == null
                     || !(mPreferences.getIMonitorServerIpPreference().length() > 0)) {
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix)
+                        + " iMonitor ip is null or empty!");
                 return false;
             } else {
                 Matcher ipMatcher = Toolbox.getIpPattern().matcher(
                         mPreferences.getIMonitorServerIpPreference());
                 if (!ipMatcher.find()) {
+                    mStatusMessageField.append("\n"
+                            + getResources().getString(
+                            R.string.main_status_message_errorprefix)
+                            + " iMonitor ip is not valid!");
                     return false;
                 }
             }
             // validate portnumber
             if (mPreferences.getIMonitorServerPortPreference() == null ||
                     !(mPreferences.getIMonitorServerPortPreference().length() > 0)) {
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix)
+                        + " iMonitor port is null or empty!");
                 return false;
+            } else {
+                try {
+                    int d = Integer.parseInt(mPreferences.getIMonitorServerPortPreference());
+                } catch (NumberFormatException nfe) {
+                    mStatusMessageField.append("\n"
+                            + getResources().getString(
+                            R.string.main_status_message_errorprefix)
+                            + " iMonitor port is not a number!");
+                    return false;
+                }
             }
         } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("IF-MAP")) {
 
@@ -841,11 +877,19 @@ public class MainActivity extends Activity {
                 // validate username
                 if (mPreferences.getUsernamePreference() == null
                         || !(mPreferences.getUsernamePreference().length() > 0)) {
+                    mStatusMessageField.append("\n"
+                            + getResources().getString(
+                            R.string.main_status_message_errorprefix)
+                            + " basic auth username is null or empty!");
                     return false;
                 }
                 // validate password
                 if (mPreferences.getPasswordPreference() == null
                         || !(mPreferences.getPasswordPreference().length() > 0)) {
+                    mStatusMessageField.append("\n"
+                            + getResources().getString(
+                            R.string.main_status_message_errorprefix)
+                            + " basic auth password is null or empty!");
                     return false;
                 }
             }
@@ -853,19 +897,47 @@ public class MainActivity extends Activity {
             // validate ip-setting from preferences
             if (mPreferences.getIFMAPServerIpPreference() == null
                     || !(mPreferences.getIFMAPServerIpPreference().length() > 0)) {
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix)
+                        + " IF-MAP ip is null or empty!");
                 return false;
             } else {
                 Matcher ipMatcher = Toolbox.getIpPattern().matcher(
                         mPreferences.getIFMAPServerIpPreference());
                 if (!ipMatcher.find()) {
+                    mStatusMessageField.append("\n"
+                            + getResources().getString(
+                            R.string.main_status_message_errorprefix)
+                            + " IF-MAP ip is not valid!");
                     return false;
                 }
             }
             // validate portnumber
             if (mPreferences.getIFMAPServerPortPreference() == null ||
                     !(mPreferences.getIFMAPServerPortPreference().length() > 0)) {
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix)
+                        + " IF-MAP port is null or empty!");
                 return false;
+            } else {
+                try {
+                    int d = Integer.parseInt(mPreferences.getIFMAPServerPortPreference());
+                } catch (NumberFormatException nfe) {
+                    mStatusMessageField.append("\n"
+                            + getResources().getString(
+                            R.string.main_status_message_errorprefix)
+                            + " IF-MAP port is not a number!");
+                    return false;
+                }
             }
+        } else {
+            mStatusMessageField.append("\n"
+                    + getResources().getString(
+                    R.string.main_status_message_errorprefix)
+                    + " Running mode is unknown!");
+            return false;
         }
 
         return true;

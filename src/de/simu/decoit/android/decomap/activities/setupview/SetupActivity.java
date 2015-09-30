@@ -44,8 +44,10 @@ public class SetupActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getClass().getName(), "SetupActivity.OnCreate(...) called");
         super.onCreate(savedInstanceState);
+
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SetupFragment()).commit();
 //        addPreferencesFromResource(R.xml.preferences);
+
     }
 
     @Override

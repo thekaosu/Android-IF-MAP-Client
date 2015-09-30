@@ -77,7 +77,7 @@
         android:title="Connection Settings">
         <PreferenceScreen
             android:persistent="false"
-            android:title="Server Settings">
+            android:title="Server Setting">
             <EditTextPreference
                 android:name="Server IP-Address"
                 android:defaultValue="127.0.0.1"

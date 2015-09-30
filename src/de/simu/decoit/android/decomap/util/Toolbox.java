@@ -74,7 +74,7 @@ public class Toolbox {
      * 
      * @return Pattern
      */
-    public static String REGEX_IP4 = "(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))";
+    public static String REGEX_IP4 = "^(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))$";
 
     public static Pattern getIpPattern() {
         return Pattern.compile(REGEX_IP4);
