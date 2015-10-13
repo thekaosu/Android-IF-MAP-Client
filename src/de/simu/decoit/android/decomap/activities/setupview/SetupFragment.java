@@ -111,6 +111,7 @@ public class SetupFragment extends PreferenceFragment {
                         addPreferencesFromResource(R.xml.imonitor_preferences);
                     }
                 }
+
                 return true;
             }
         });

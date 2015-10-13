@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="applicatiologging"
+        android:summary="@string/preferences_summary_applicationlogging"
+        android:title="@string/preferences_title_applicationlogging" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="logNewsessionRequest"
+        android:summary="@string/preferences_summary_lognewsessionrequest"
+        android:title="@string/preferences_title_lognewsessionrequest" />
+
+    <!--
+    <CheckBoxPreference android:title="@string/preferences_title_logpollrequest"
+    android:defaultValue="true" android:summary="@string/preferences_summary_logpollrequest"
+    android:key="logPollRequest" />-->
+
+    <!--
+    <CheckBoxPreference android:title="@string/preferences_title_logsubscripe"
+    android:defaultValue="true" android:summary="@string/preferences_summary_logsubscribe"
+    android:key="logSubscripeRequest" />-->
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="logRenewRequest"
+        android:summary="@string/preferences_summary_logrenewrequest"
+        android:title="@string/preferences_title_logrenewrequest" />
+
+    <!--  CheckBoxPreference android:title="@string/preferences_title_logsearch"
+    android:defaultValue="true" android:summary="@string/preferences_summary_logsearch"
+    android:key="logSearch" /-->
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="logLocationTracking"
+        android:summary="@string/preferences_summary_loglocationtracking"
+        android:title="@string/preferences_title_loglocationtracking" />
+
+    <!-- CheckBoxPreference android:title="@string/preferences_title_logdeletelocation"
+    android:defaultValue="true" android:summary="@string/preferences_summary_logdeletelocation"
+    android:key="logDeleteLocation" /-->
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="logPublishCharacteristics"
+        android:summary="@string/preferences_summary_logpublishcharacteristics"
+        android:title="@string/preferences_title_logpublishcharacteristics" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="logErrorMessage"
+        android:summary="@string/preferences_summary_logerrormessage"
+        android:title="@string/preferences_title_logerrormessage" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="logInvalideResponse"
+        android:summary="@string/preferences_summary_loginvalidresponse"
+        android:title="@string/preferences_title_loginvalidresponse" />
+</PreferenceScreen>

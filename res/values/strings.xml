@@ -190,5 +190,16 @@
 	<!-- enable/cancel -->
 	<string name="enable">"Enable"</string>
 	<string name="cancel">"Cancel"</string>
-	
+
+	<!-- einordnen!!!! -->
+	<string name="preferences_header_automationSettings">Automation Settings</string>
+    <string name="preferences_kategoryheader_applicationSettings">Application Settings</string>
+    <string name="preferences_header_esukomMetadataSettings">ESUKOM-Metadata Settings</string>
+    <string name="preferences_kategoryheader_connectionSettings">Connection Settings</string>
+    <string name="preferences_header_serverSettings">Server Settings</string>
+    <string name="preferences_header_basicAuthSettings">Basic-Authentication</string>
+    <string name="preferences_header_connectionTzpeSettings">Connection-Type Settings</string>
+    <string name="preferences_header_iMonitorEncryption">iMonitor-Encryption</string>
+    <string name="preferences_header_loggingSettings">Logging Settings</string>
+
 </resources>

@@ -24,17 +24,24 @@ package de.simu.decoit.android.decomap.activities.setupview;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.widget.ListAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.simu.decoit.android.decomap.activities.R;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Activity for setting Preferences
- * 
- * @version 0.2
+ *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
+ * @version 0.2
  */
 public class SetupActivity extends PreferenceActivity {
+
+    private List<Header> headers;
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -44,22 +51,42 @@ public class SetupActivity extends PreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getClass().getName(), "SetupActivity.OnCreate(...) called");
         super.onCreate(savedInstanceState);
-
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SetupFragment()).commit();
+//        getFragmentManager().beginTransaction().replace(android.R.id.content, new SetupFragment()).commit();
 //        addPreferencesFromResource(R.xml.preferences);
-
+        getListView().setPadding(0,0,0,0);
     }
 
     @Override
     protected void onResume() {
         Toolbox.logTxt(this.getClass().getName(), "SetupActivity.OnResume(...) called");
         super.onResume();
+
+//        if (getListAdapter() instanceof MyPrefsHeaderAdapter) {
+//            ((MyPrefsHeaderAdapter) getListAdapter()).resume();
+//        }
+    }
+
+    public void onBuildHeaders(List<Header> target) {
+        // Called when the settings screen is up for the first time
+        // we load the headers from our xml description
+
+        loadHeadersFromResource(R.xml.preferences_header, target);
+
+        headers = target;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (getListAdapter() instanceof SetupAdapter) {
+            ((SetupAdapter) getListAdapter()).pause();
+        }
     }
 
     // -------------------------------------------------------------------------
     // BUTTON HANDLING
     // -------------------------------------------------------------------------
-    
+
     /**
      * we override the behavior of the back-button so that the application runs
      * in the background (instead of destroying it) when pressing back (similar
@@ -71,5 +98,35 @@ public class SetupActivity extends PreferenceActivity {
         setIntent.addCategory(Intent.CATEGORY_HOME);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(setIntent);
+    }
+
+    // -------------------------------------------------------------------------
+    // ADAPTER HANDLING
+    // -------------------------------------------------------------------------
+
+    /**
+     * we are setting our own list adapter to use a toggle switch button
+     */
+    public void setListAdapter(ListAdapter adapter) {
+        int i, count;
+
+        if (headers == null) {
+            headers = new ArrayList<Header>();
+            // When the saved state provides the list of headers,
+            // onBuildHeaders is not called
+            // so we build it from the adapter given, then use our own adapter
+
+            count = adapter.getCount();
+            for (i = 0; i < count; ++i)
+                headers.add((Header) adapter.getItem(i));
+        }
+
+        super.setListAdapter(new SetupAdapter(this, headers));
+    }
+
+
+    @Override
+    protected boolean isValidFragment(String fragmentName) {
+        return true;
     }
 }

@@ -84,7 +84,7 @@ MERGED from [com.android.support:support-v4:23.0.0] C:\Users\lschwenke\android\A
 	android:icon
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:20:15-44
 	android:theme
-		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:20:78-108
+		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:20:78-121
 activity#de.simu.decoit.android.decomap.activities.TabLayout
 ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:21:3-28:14
 	android:screenOrientation

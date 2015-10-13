@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="basicAuth"
+        android:summary="@string/preferences_summary_basicauth"
+        android:title="@string/preferences_title_basicauth" />
+    <EditTextPreference
+        android:name="Username"
+        android:defaultValue="user"
+        android:key="usernamePreference"
+        android:summary="@string/preferences_summary_username"
+        android:title="@string/preferences_title_username" />
+    <EditTextPreference
+        android:name="Password"
+        android:defaultValue="pass"
+        android:inputType="textPassword"
+        android:key="passwordPreference"
+        android:summary="@string/preferences_summary_password"
+        android:title="@string/preferences_title_password" />
+</PreferenceScreen>
