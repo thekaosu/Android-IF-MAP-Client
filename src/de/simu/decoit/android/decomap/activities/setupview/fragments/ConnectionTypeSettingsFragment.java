@@ -21,6 +21,7 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
@@ -38,5 +39,10 @@ public class ConnectionTypeSettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_connectiontype_fragment);
+
+        ActionBar actionbar = (getActivity()).getActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }

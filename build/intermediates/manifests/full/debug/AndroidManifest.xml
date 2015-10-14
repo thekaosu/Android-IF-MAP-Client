@@ -23,8 +23,7 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name"
-        android:theme="@style/setupBackButtonStyle" >
+        android:label="@string/app_name" >
         <activity
             android:name="de.simu.decoit.android.decomap.activities.TabLayout"
             android:configChanges="keyboardHidden|orientation"

@@ -28,10 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.simu.decoit.android.decomap.activities.R;
@@ -50,29 +51,29 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     static final int HEADER_TYPE_SELECTION = 3;
 
     private LayoutInflater mInflater;
-    private SwitchPreferenceHandler mSoundEnabler;
 
     private final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings, R.id.basicAuthSettings};
-    private final long[] SELECTION_IDS = new long[] {R.id.applicationSettings};
+    private final long[] SELECTION_IDS = new long[]{R.id.monitoringModeSettings};
 
     private ArrayList<Long> switchIDS = new ArrayList<>();
     private ArrayList<Long> selectionIDS = new ArrayList<>();
 
+    private HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<Long, SwitchPreferenceHandler>();
+    private HashMap<Long, SwitchPreferenceHandler> selectionMap = new HashMap<Long, SwitchPreferenceHandler>();
+
     public SetupAdapter(Context context, List<PreferenceActivity.Header> objects) {
         super(context, 0, objects);
-
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        //putting inds into arrays
-        for(long id: SWITCH_IDS){
+        //putting ids into arrays
+        for (long id : SWITCH_IDS) {
             switchIDS.add(id);
+            switchMap.put(id, new SwitchPreferenceHandler(context, new ToggleButton(context), id + ""));
         }
-        for(long id: SELECTION_IDS){
+        for (long id : SELECTION_IDS) {
             selectionIDS.add(id);
+            selectionMap.put(id, new SwitchPreferenceHandler(context, new ToggleButton(context), id + ""));
         }
-
-
-        mSoundEnabler = new SwitchPreferenceHandler(context, new Switch(context), "la");
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -88,25 +89,36 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 break;
 
             case HEADER_TYPE_SWITCH:
-                view = mInflater.inflate(R.layout.preference_header_switch_item, parent, false);
+                if (header.getSummary(getContext().getResources()) == null || header.getSummary(getContext().getResources()).equals("")) {
+                    view = mInflater.inflate(R.layout.preference_header_switch_item, parent, false);
+                } else {
+                    view = mInflater.inflate(R.layout.preference_header_summary_switch_item, parent, false);
 
+                    ((TextView) view.findViewById(android.R.id.summary)).setText(header
+                            .getSummary(getContext().getResources()));
+                }
                 ((ImageView) view.findViewById(android.R.id.icon)).setImageResource(header.iconRes);
                 ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
                         .getResources()));
-                ((TextView) view.findViewById(android.R.id.summary)).setText(header
-                        .getSummary(getContext().getResources()));
 
-                mSoundEnabler.setSwitch((Switch) view.findViewById(R.id.switchWidget));
+                switchMap.get(header.id).setSwitch((ToggleButton) view.findViewById(R.id.switchWidget));
 
                 break;
-
+            case HEADER_TYPE_SELECTION:
+                view = mInflater.inflate(R.layout.preference_header_selection_item, parent, false);
+                break;
             case HEADER_TYPE_NORMAL:
-                view = mInflater.inflate(R.layout.preference_header_item, parent, false);
+                if (header.getSummary(getContext().getResources()) == null || header.getSummary(getContext().getResources()).equals("")) {
+                    view = mInflater.inflate(R.layout.preference_header_item, parent, false);
+                } else {
+                    view = mInflater.inflate(R.layout.preference_header_summary_item, parent, false);
+
+                    ((TextView) view.findViewById(android.R.id.summary)).setText(header
+                            .getSummary(getContext().getResources()));
+                }
                 ((ImageView) view.findViewById(android.R.id.icon)).setImageResource(header.iconRes);
                 ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
                         .getResources()));
-                ((TextView) view.findViewById(android.R.id.summary)).setText(header
-                        .getSummary(getContext().getResources()));
                 break;
         }
 
@@ -114,23 +126,33 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     }
 
     private int getHeaderType(PreferenceActivity.Header header) {
-        if ((header.fragment == null) && (header.intent == null)) {
+        if (selectionIDS.contains(header.id)) {
+            return HEADER_TYPE_SELECTION;
+        } else if ((header.fragment == null) && (header.intent == null)) {
             return HEADER_TYPE_CATEGORY;
         } else if (switchIDS.contains(header.id)) {
             return HEADER_TYPE_SWITCH;
-        } else if(selectionIDS.contains(header.id)){
-            return HEADER_TYPE_NORMAL;
         } else {
             return HEADER_TYPE_NORMAL;
         }
     }
 
     public void resume() {
-        mSoundEnabler.resume();
+        for (long handlerID : switchMap.keySet()) {
+            switchMap.get(handlerID).resume();
+        }
+        for (long handlerID : selectionMap.keySet()) {
+            selectionMap.get(handlerID).resume();
+        }
     }
 
     public void pause() {
-        mSoundEnabler.pause();
+        for (long handlerID : switchMap.keySet()) {
+            switchMap.get(handlerID).pause();
+        }
+        for (long handlerID : selectionMap.keySet()) {
+            selectionMap.get(handlerID).pause();
+        }
     }
 }
 

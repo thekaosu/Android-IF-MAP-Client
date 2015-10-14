@@ -21,22 +21,18 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
-
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
  * Fragment for basic auth setting Preferences
  *
- * @version 0.2
  * @author Leonid Schwenke, Decoit GmbH
+ * @version 0.2
  */
-public class BasicAuthSettingsFragment extends PreferenceFragment {
+public class BasicAuthSettingsFragment extends AbstractSwitchFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences_basicauth_fragment);
+    public BasicAuthSettingsFragment() {
+        fragmentID = R.xml.preferences_basicauth_fragment;
+        keyID=R.id.basicAuthSettings;
     }
 }

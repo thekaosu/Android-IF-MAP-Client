@@ -21,9 +21,6 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
-
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -32,11 +29,10 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.2
  * @author Leonid Schwenke, Decoit GmbH
  */
-public class EsukomMetadataSettingsFragment extends PreferenceFragment {
+public class EsukomMetadataSettingsFragment extends AbstractSwitchFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences_esukommetadata_fragment);
+    public EsukomMetadataSettingsFragment(){
+        fragmentID = R.xml.preferences_esukommetadata_fragment;
+        keyID = R.id.esukomMetadataSettings;
     }
 }

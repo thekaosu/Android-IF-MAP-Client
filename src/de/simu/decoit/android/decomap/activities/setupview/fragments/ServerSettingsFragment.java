@@ -21,6 +21,7 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -40,12 +41,17 @@ public class ServerSettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getContext());
+                .getDefaultSharedPreferences(getActivity());
         String mode = prefs.getString("monitoringModeSettings", "IF-MAP");
         if (mode.equals("IF-MAP")) {
             addPreferencesFromResource(R.xml.preferences_server_fragment_ifmap);
         } else if (mode.equals("iMonitor")) {
             addPreferencesFromResource(R.xml.preferences_server_fragment_imonitor);
+        }
+
+        ActionBar actionbar = (getActivity()).getActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
         }
     }
 }

@@ -64,7 +64,7 @@ ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:
 	android:name
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:17:19-75
 uses-sdk
-ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:18:2-69
+ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:18:2-70
 MERGED from [com.android.support:appcompat-v7:23.0.0] C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\AndroidManifest.xml:20:5-43
 MERGED from [com.android.support:support-v4:23.0.0] C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\AndroidManifest.xml:20:5-43
 	android:targetSdkVersion
@@ -72,7 +72,7 @@ MERGED from [com.android.support:support-v4:23.0.0] C:\Users\lschwenke\android\A
 		INJECTED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml
 		INJECTED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml
 	android:minSdkVersion
-		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:18:42-67
+		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:18:42-68
 		INJECTED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml
 		INJECTED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml
 application
@@ -83,8 +83,6 @@ MERGED from [com.android.support:support-v4:23.0.0] C:\Users\lschwenke\android\A
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:20:45-77
 	android:icon
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:20:15-44
-	android:theme
-		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:20:78-121
 activity#de.simu.decoit.android.decomap.activities.TabLayout
 ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:21:3-28:14
 	android:screenOrientation

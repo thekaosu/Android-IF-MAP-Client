@@ -1786,16 +1786,19 @@ containing a value of this type.
         public static final int notification_template_part_chronometer=0x7f030022;
         public static final int notification_template_part_time=0x7f030023;
         public static final int preference_header_item=0x7f030024;
-        public static final int preference_header_switch_item=0x7f030025;
-        public static final int select_dialog_item_material=0x7f030026;
-        public static final int select_dialog_multichoice_material=0x7f030027;
-        public static final int select_dialog_singlechoice_material=0x7f030028;
-        public static final int status_listview=0x7f030029;
-        public static final int support_simple_spinner_dropdown_item=0x7f03002a;
-        public static final int tab1=0x7f03002b;
-        public static final int tab2=0x7f03002c;
-        public static final int tab3=0x7f03002d;
-        public static final int tab4=0x7f03002e;
+        public static final int preference_header_selection_item=0x7f030025;
+        public static final int preference_header_summary_item=0x7f030026;
+        public static final int preference_header_summary_switch_item=0x7f030027;
+        public static final int preference_header_switch_item=0x7f030028;
+        public static final int select_dialog_item_material=0x7f030029;
+        public static final int select_dialog_multichoice_material=0x7f03002a;
+        public static final int select_dialog_singlechoice_material=0x7f03002b;
+        public static final int status_listview=0x7f03002c;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002d;
+        public static final int tab1=0x7f03002e;
+        public static final int tab2=0x7f03002f;
+        public static final int tab3=0x7f030030;
+        public static final int tab4=0x7f030031;
     }
     public static final class menu {
         public static final int mainmenu=0x7f0f0000;

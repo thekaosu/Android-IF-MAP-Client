@@ -21,9 +21,9 @@
 
 package de.simu.decoit.android.decomap.activities.setupview;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 import android.widget.ListAdapter;
 
 import java.util.ArrayList;
@@ -61,9 +61,9 @@ public class SetupActivity extends PreferenceActivity {
         Toolbox.logTxt(this.getClass().getName(), "SetupActivity.OnResume(...) called");
         super.onResume();
 
-//        if (getListAdapter() instanceof MyPrefsHeaderAdapter) {
-//            ((MyPrefsHeaderAdapter) getListAdapter()).resume();
-//        }
+        if (getListAdapter() instanceof SetupAdapter) {
+            ((SetupAdapter) getListAdapter()).resume();
+        }
     }
 
     public void onBuildHeaders(List<Header> target) {
@@ -87,18 +87,18 @@ public class SetupActivity extends PreferenceActivity {
     // BUTTON HANDLING
     // -------------------------------------------------------------------------
 
-    /**
-     * we override the behavior of the back-button so that the application runs
-     * in the background (instead of destroying it) when pressing back (similar
-     * to the home button)
-     */
-    @Override
-    public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
-    }
+//    /**
+//     * we override the behavior of the back-button so that the application runs
+//     * in the background (instead of destroying it) when pressing back (similar
+//     * to the home button)
+//     */
+//    @Override
+//    public void onBackPressed() {
+//        Intent setIntent = new Intent(Intent.ACTION_MAIN);
+//        setIntent.addCategory(Intent.CATEGORY_HOME);
+//        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(setIntent);
+//    }
 
     // -------------------------------------------------------------------------
     // ADAPTER HANDLING
@@ -128,5 +128,13 @@ public class SetupActivity extends PreferenceActivity {
     @Override
     protected boolean isValidFragment(String fragmentName) {
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

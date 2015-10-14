@@ -14,6 +14,7 @@
     <header
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.EsukomMetadataSettingsFragment"
         android:title="@string/preferences_header_esukomMetadataSettings"
+        android:summary="@string/preferences_summary_nonconformdata"
         android:id="@+id/esukomMetadataSettings"
         />
     <header
@@ -28,6 +29,7 @@
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.BasicAuthSettingsFragment"
         android:title="@string/preferences_header_basicAuthSettings"
         android:id="@+id/basicAuthSettings"
+        android:summary="@string/preferences_summary_basicauth"
         />
     <header
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ConnectionTypeSettingsFragment"

@@ -21,13 +21,9 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.support.annotation.NonNull;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
 
 import de.simu.decoit.android.decomap.activities.R;
 
@@ -43,17 +39,10 @@ public class AutomationSettingsFragment extends PreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_automation_fragment);
-    }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        //removing the padding
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-        if (v != null) {
-            ListView lv = (ListView) v.findViewById(android.R.id.list);
-            lv.setPadding(0, 0, 0, 0);
+        ActionBar actionbar = (getActivity()).getActionBar();
+        if (actionbar != null) {
+            actionbar.setDisplayHomeAsUpEnabled(true);
         }
-        return v;
     }
 }

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="nonConformDataPreferences"
-        android:summary="@string/preferences_summary_nonconformdata"
-        android:title="@string/preferences_title_nonconformdata" />
-    <SwitchPreference
         android:defaultValue="false"
         android:key="sendNoAppsPreferences"
         android:summary="@string/preferences_summary_sendesukomspecificapps"

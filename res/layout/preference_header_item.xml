@@ -35,11 +35,8 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="6dip"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="6dip"
-        android:layout_marginTop="6dip"
-        android:layout_weight="1" >
+        android:layout_gravity="center"
+        android:layout_weight="1">
 
         <TextView
             android:id="@+android:id/title"
@@ -49,16 +46,6 @@
             android:fadingEdge="horizontal"
             android:singleLine="true"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <TextView
-            android:id="@+android:id/summary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@android:id/title"
-            android:layout_below="@android:id/title"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
     </RelativeLayout>
 
 </LinearLayout>

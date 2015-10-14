@@ -25,7 +25,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.widget.CompoundButton;
-import android.widget.Switch;
+import android.widget.ToggleButton;
 
 /**
  * ChangeListener for Switch Preferences
@@ -35,16 +35,17 @@ import android.widget.Switch;
  */
 public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeListener {
     protected final Context context;
-    private final String preference;
-    private Switch mSwitch;
+    private final String key;
+    private ToggleButton mSwitch;
 
-    public SwitchPreferenceHandler(Context pContex, Switch pSwitch, String pPreference) {
+
+    public SwitchPreferenceHandler(Context pContex, ToggleButton pSwitch, String pKey) {
         context = pContex;
+        key = pKey;
         setSwitch(pSwitch);
-        preference = pPreference;
     }
 
-    public void setSwitch(Switch pSwitch) {
+    public void setSwitch(ToggleButton pSwitch) {
         if (mSwitch == pSwitch)
             return;
 
@@ -63,7 +64,7 @@ public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeLi
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
         editor = prefs.edit();
 
-        editor.putBoolean(preference, isChecked);
+        editor.putBoolean(key, isChecked);
         editor.commit();
 
     }
@@ -72,7 +73,7 @@ public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeLi
         SharedPreferences prefs;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
-        return prefs.getBoolean(preference, true);
+        return prefs.getBoolean(key, false);
     }
 
     public void resume() {
