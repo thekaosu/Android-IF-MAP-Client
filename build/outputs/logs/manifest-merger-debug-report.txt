@@ -91,8 +91,6 @@ ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:23:4-36
 	android:configChanges
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:22:40-90
-	android:theme
-		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:23:37-84
 	android:name
 		ADDED from C:\Users\lschwenke\android\Android-IF-MAP-Client\AndroidManifest.xml:21:13-79
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER

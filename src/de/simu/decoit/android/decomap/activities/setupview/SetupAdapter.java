@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -59,7 +60,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     private ArrayList<Long> selectionIDS = new ArrayList<>();
 
     private HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<Long, SwitchPreferenceHandler>();
-    private HashMap<Long, SwitchPreferenceHandler> selectionMap = new HashMap<Long, SwitchPreferenceHandler>();
+    private HashMap<Long, SpinnerPreferenceHandler> selectionMap = new HashMap<Long, SpinnerPreferenceHandler>();
 
     public SetupAdapter(Context context, List<PreferenceActivity.Header> objects) {
         super(context, 0, objects);
@@ -72,7 +73,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
         }
         for (long id : SELECTION_IDS) {
             selectionIDS.add(id);
-            selectionMap.put(id, new SwitchPreferenceHandler(context, new ToggleButton(context), id + ""));
+            selectionMap.put(id, new SpinnerPreferenceHandler(context, new Spinner(context), id + ""));
         }
     }
 
@@ -106,6 +107,10 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 break;
             case HEADER_TYPE_SELECTION:
                 view = mInflater.inflate(R.layout.preference_header_selection_item, parent, false);
+                ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
+                        .getResources()));
+
+                selectionMap.get(header.id).setSpinner((Spinner) view.findViewById(R.id.spinnerWidget));
                 break;
             case HEADER_TYPE_NORMAL:
                 if (header.getSummary(getContext().getResources()) == null || header.getSummary(getContext().getResources()).equals("")) {

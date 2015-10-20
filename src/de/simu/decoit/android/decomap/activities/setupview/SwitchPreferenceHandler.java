@@ -46,11 +46,13 @@ public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeLi
     }
 
     public void setSwitch(ToggleButton pSwitch) {
-        if (mSwitch == pSwitch)
+        if (mSwitch == pSwitch) {
             return;
+        }
 
-        if (mSwitch != null)
+        if (mSwitch != null) {
             mSwitch.setOnCheckedChangeListener(null);
+        }
         mSwitch = pSwitch;
         mSwitch.setOnCheckedChangeListener(this);
 

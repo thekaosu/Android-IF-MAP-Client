@@ -48,13 +48,16 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>
 
-    <ExpandableListView
-        android:id="@+id/switchWidget"
+
+    <Spinner
+        android:id="@+id/spinnerWidget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clickable="true"
-        android:focusable="false"
+        android:focusable="true"
         android:padding="10dip" />
+
+
 
 </LinearLayout>
