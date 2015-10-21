@@ -29,8 +29,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,7 +69,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
         //putting ids into arrays
         for (long id : SWITCH_IDS) {
             switchIDS.add(id);
-            switchMap.put(id, new SwitchPreferenceHandler(context, new ToggleButton(context), id + ""));
+            switchMap.put(id, new SwitchPreferenceHandler(context, new Switch(context), id + ""));
         }
         for (long id : SELECTION_IDS) {
             selectionIDS.add(id);
@@ -102,7 +102,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
                         .getResources()));
 
-                switchMap.get(header.id).setSwitch((ToggleButton) view.findViewById(R.id.switchWidget));
+                switchMap.get(header.id).setSwitch((Switch) view.findViewById(R.id.switchWidget));
 
                 break;
             case HEADER_TYPE_SELECTION:

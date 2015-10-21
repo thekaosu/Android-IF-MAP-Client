@@ -7,7 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
-import android.widget.ToggleButton;
+import android.widget.Switch;
 
 import de.simu.decoit.android.decomap.activities.setupview.SwitchPreferenceHandler;
 
@@ -32,7 +32,7 @@ public abstract class AbstractSwitchFragment extends PreferenceFragment implemen
 
         addPreferencesFromResource(fragmentID);
         ActionBar actionbar = (getActivity()).getActionBar();
-        ToggleButton actionBarSwitch = new ToggleButton(getActivity());
+        Switch actionBarSwitch = new Switch(getActivity());
 
         if (actionbar != null) {
             actionbar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM, ActionBar.DISPLAY_SHOW_CUSTOM);

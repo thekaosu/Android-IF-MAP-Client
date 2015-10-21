@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <resources>
 
+    <style name="Theme.MainAppTheme" parent="android:Theme.Holo.Light">
+    </style>
+
     <style name="btnStyleBeige" parent="@android:style/Widget.Button">
         <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>

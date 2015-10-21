@@ -52,16 +52,15 @@
 		
 		<EditText android:id="@+id/RequestStatus_EditText"
 			android:layout_width="fill_parent" android:layout_height="270dp"
-			android:textColor="@color/lblColor" 
 			android:cursorVisible="false" android:gravity="top"
 			android:scrollbars="vertical" android:layout_marginTop="10px"
 			android:layout_marginLeft="2px" android:layout_marginRight="2px"
 			android:inputType="textMultiLine|textNoSuggestions" android:clickable="false"
-			android:focusable="false">
+			android:focusable="false" android:background="@color/backgroundIceLight">
 		</EditText>
-		
-	
-		
+
+
+
 		<!-- "currently not used" buttons -->
 		<!--  Button android:id="@+id/Search_Button" android:layout_width="fill_parent" 
 			android:layout_height="wrap_content" android:textStyle="bold" android:text="@string/main_buttonlabel_search" 

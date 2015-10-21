@@ -17,6 +17,7 @@ dependencies {
     compile 'commons-lang:commons-lang:20030203.000129'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.1'
     compile 'org.apache.servicemix.bundles:org.apache.servicemix.bundles.jsendnsca-core:1.3.1_3'
+
 }
 
 android {

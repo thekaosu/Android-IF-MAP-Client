@@ -18,7 +18,6 @@
             android:layout_gravity="center_vertical"
             android:paddingLeft="5dip"
             android:paddingRight="5dip"
-            android:scrollHorizontally="true"
-            android:textColor="#ffffff" />
+            android:scrollHorizontally="true" />
     </HorizontalScrollView>
 </ScrollView>

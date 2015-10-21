@@ -275,9 +275,9 @@ public class MainActivity extends Activity {
                 mMessageType = MessageHandler.MSG_TYPE_REQUEST_NEWSESSION;
                 initIFMAPConnection();
                 startIFMAPConnectionService();
-            } else if(PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")){
+            } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
                 connectNSCA();
-            } else{
+            } else {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
@@ -444,14 +444,14 @@ public class MainActivity extends Activity {
         mPreferences.sApplicationFileLogging = prefs.getBoolean(
                 "applicatiologging", false);
         mPreferences.sMonitoringPreference = prefs.getString(
-                "monitoringModeSettings", "IF-MAP");
+                R.id.monitoringModeSettings + "", "IF-MAP");
         mPreferences.sLocationTrackingType = prefs.getString(
                 "locationPref", "GPS");
         mPreferences.sEnableLocationTracking = prefs.getBoolean(
                 "enableLocationTracking", false);
         mPreferences.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
         mPreferences.setUseNonConformMetadata(prefs.getBoolean(
-                "nonConformDataPreferences", true));
+                R.id.esukomMetadataSettings + "", true));
         mPreferences.setmSendApplicationsInfos(prefs.getBoolean(
                 "sendNoAppsPreferences", false));
         mPreferences.setmAutostart(prefs.getBoolean("autostartPreferences",
@@ -496,7 +496,7 @@ public class MainActivity extends Activity {
                 "imonitorPassPreference", "icinga"));
         mPreferences.setIsPermantConnection(prefs.getBoolean(
                 "permanantlyConectionPreferences", true));
-        mPreferences.setIsUseBasicAuth(prefs.getBoolean("basicAuth", true));
+        mPreferences.setIsUseBasicAuth(prefs.getBoolean(R.id.basicAuthSettings + "", true));
 
         // set update interval
         try {
@@ -668,7 +668,7 @@ public class MainActivity extends Activity {
             mainTabButtonHandlerIfmap(view);
         } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
             mainTabButtonHandlerIMonitor(view);
-        } else{
+        } else {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)

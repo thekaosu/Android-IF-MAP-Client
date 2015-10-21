@@ -24,7 +24,6 @@ package de.simu.decoit.android.decomap.activities;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -40,10 +39,10 @@ import de.simu.decoit.android.decomap.activities.setupview.SetupActivity;
 
 /**
  * Tab.-Activity for Setting the different Activities to Tab-Widget
- * 
- * @version 0.1.4.2
+ *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Marcel Jahnke, Decoit GmbH
+ * @version 0.1.4.2
  */
 @SuppressWarnings("deprecation")
 public class TabLayout extends TabActivity implements OnGestureListener {
@@ -108,9 +107,13 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         // set start tab
         mTabHost.setCurrentTab(0);
 
+        //remove tab text padding
+        for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
+            mTabHost.getTabWidget().getChildAt(i).setPadding(0, 0, 0, 0);
+        }
         // set tabs Colors
-        mTabHost.setBackgroundColor(Color.BLACK);
-        mTabHost.getTabWidget().setBackgroundColor(Color.BLACK);
+//        mTabHost.setBackgroundColor(Color.BLACK);
+//        mTabHost.getTabWidget().setBackgroundColor(Color.BLACK);
     }
 
     // -------------------------------------------------------------------------
@@ -169,29 +172,29 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
                 && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
             switch (currentTab) {
-            case 0:
-                // mTabHost.setAnimation(outToLeftAnimation());
-                mTabHost.setAnimation(inFromRightAnimation());
-                mTabHost.setCurrentTab(1);
+                case 0:
+                    // mTabHost.setAnimation(outToLeftAnimation());
+                    mTabHost.setAnimation(inFromRightAnimation());
+                    mTabHost.setCurrentTab(1);
 
-                break;
-            case 1:
-                // mTabHost.setAnimation(outToLeftAnimation());
-                mTabHost.setAnimation(inFromRightAnimation());
-                mTabHost.setCurrentTab(2);
-                break;
-            case 2:
-                // mTabHost.setAnimation(outToLeftAnimation());
-                mTabHost.setAnimation(inFromRightAnimation());
-                mTabHost.setCurrentTab(3);
-                break;
-            case 3:
-                // mTabHost.setAnimation(outToLeftAnimation());
-                mTabHost.setAnimation(inFromRightAnimation());
-                mTabHost.setCurrentTab(4);
-                break;
-            default:
-                break;
+                    break;
+                case 1:
+                    // mTabHost.setAnimation(outToLeftAnimation());
+                    mTabHost.setAnimation(inFromRightAnimation());
+                    mTabHost.setCurrentTab(2);
+                    break;
+                case 2:
+                    // mTabHost.setAnimation(outToLeftAnimation());
+                    mTabHost.setAnimation(inFromRightAnimation());
+                    mTabHost.setCurrentTab(3);
+                    break;
+                case 3:
+                    // mTabHost.setAnimation(outToLeftAnimation());
+                    mTabHost.setAnimation(inFromRightAnimation());
+                    mTabHost.setCurrentTab(4);
+                    break;
+                default:
+                    break;
             }
             return true;
         }
@@ -202,24 +205,24 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                 && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
             switch (currentTab) {
-            case 4:
-                mTabHost.setAnimation(inFromLeftAnimation());
-                mTabHost.setCurrentTab(3);
-                break;
-            case 3:
-                mTabHost.setAnimation(inFromLeftAnimation());
-                mTabHost.setCurrentTab(2);
-                break;
-            case 2:
-                mTabHost.setAnimation(inFromLeftAnimation());
-                mTabHost.setCurrentTab(1);
-                break;
-            case 1:
-                mTabHost.setAnimation(inFromLeftAnimation());
-                mTabHost.setCurrentTab(0);
-                break;
-            default:
-                break;
+                case 4:
+                    mTabHost.setAnimation(inFromLeftAnimation());
+                    mTabHost.setCurrentTab(3);
+                    break;
+                case 3:
+                    mTabHost.setAnimation(inFromLeftAnimation());
+                    mTabHost.setCurrentTab(2);
+                    break;
+                case 2:
+                    mTabHost.setAnimation(inFromLeftAnimation());
+                    mTabHost.setCurrentTab(1);
+                    break;
+                case 1:
+                    mTabHost.setAnimation(inFromLeftAnimation());
+                    mTabHost.setCurrentTab(0);
+                    break;
+                default:
+                    break;
             }
             return true;
         }
@@ -229,7 +232,7 @@ public class TabLayout extends TabActivity implements OnGestureListener {
 
     /**
      * get animation object for "tab in from right"-animation
-     * 
+     *
      * @return Animation
      */
     public Animation inFromRightAnimation() {
@@ -243,7 +246,7 @@ public class TabLayout extends TabActivity implements OnGestureListener {
 
     /**
      * get animation object for "tab in from left"-animation
-     * 
+     *
      * @return Animation
      */
     public Animation inFromLeftAnimation() {
@@ -258,7 +261,7 @@ public class TabLayout extends TabActivity implements OnGestureListener {
 
     /**
      * get animation object for "tab out to left"-animation
-     * 
+     *
      * @return Animation
      */
     public Animation outToLeftAnimation() {
@@ -272,9 +275,8 @@ public class TabLayout extends TabActivity implements OnGestureListener {
 
     /**
      * create options menu
-     * 
-     * @param menu
-     *            options-menu to be creates
+     *
+     * @param menu options-menu to be creates
      */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
@@ -284,17 +286,16 @@ public class TabLayout extends TabActivity implements OnGestureListener {
     /**
      * handler for actions performed when options-menu items is selected by the
      * user
-     * 
-     * @param item
-     *            options-item that has been selected
+     *
+     * @param item options-item that has been selected
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.opt_quit:
-            finish();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
+            case R.id.opt_quit:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 

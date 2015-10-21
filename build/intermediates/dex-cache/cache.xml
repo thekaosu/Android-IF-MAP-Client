@@ -2,81 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.6.1\45c37a03be19f3e0db825fd7814d0bbec40b9e0\jackson-databind-2.6.1.jar"
+        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="045c37a03be19f3e0db825fd7814d0bbec40b9e0">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\jackson-databind-2.6.1-69f7b92ac9250c555cb9f58d78f959dd800dd377.jar" />
+        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\classes-e7e865e621597c2070fa464e687f26ac00aba729.jar" />
     </item>
     <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.6.0\a0990e2e812ac6639b6ce955c91b13228500476e\jackson-annotations-2.6.0.jar"
+        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="a0990e2e812ac6639b6ce955c91b13228500476e">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\jackson-annotations-2.6.0-78949dc4e0ac6632b53ad7ec78d9e51d44326ad8.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.6.1\892d15011456ea3563319b27bdd612dbc89bb776\jackson-core-2.6.1.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="892d15011456ea3563319b27bdd612dbc89bb776">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\jackson-core-2.6.1-7dfc81a3bdbc7ee7966b5c7fd5b7ebf7dae4c39c.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\de.hshannover.f4.trust\ifmapj\2.3.0\34f87dfe7cce0c195c07c7ee099408be6cce037d\ifmapj-2.3.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="34f87dfe7cce0c195c07c7ee099408be6cce037d">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\ifmapj-2.3.0-7e56a75c0e4ba713536d99ec336a66f7d714ccb9.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\org.apache.servicemix.bundles\org.apache.servicemix.bundles.jsendnsca-core\1.3.1_3\ba88e854af311bd323340883226559a14b8d2427\org.apache.servicemix.bundles.jsendnsca-core-1.3.1_3.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="ba88e854af311bd323340883226559a14b8d2427">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\org.apache.servicemix.bundles.jsendnsca-core-1.3.1_3-e13d08471da0d8ed0325446a9bede6fdc43f8fff.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-2ffc942e37565f2c39b6c3b940a8c04cc482552d.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\classes-9c0a18485cb9f71921a1ef4b519db4706f77423d.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\classes-e3fa98f0ea8eb7e6bc7594ac3f820d0e62a48236.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\commons-lang\commons-lang\20030203.000129\57892c55a786ab9d407ba31c01906b61184933ed\commons-lang-20030203.000129.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="57892c55a786ab9d407ba31c01906b61184933ed">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\commons-lang-20030203.000129-6a908249fd8a74e3070159d48105bb3fcb2b3e4e.jar" />
-    </item>
-    <item
-        jar="I:\eclipse\android sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-90d34bf9f0548801ce93e6d221fcc2c7660bd44e.jar" />
-    </item>
-    <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.4.1\f5aa318bda4c6c8d688c9d00b90681dcd82ce636\httpcore-4.4.1.jar"
-        jumboMode="false"
-        revision="23.0.0"
-        sha1="f5aa318bda4c6c8d688c9d00b90681dcd82ce636">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\httpcore-4.4.1-cb3bf75c15dea6789f680d41461f0f064ab095f9.jar" />
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\classes-597de760d2347524a02c7300e04362d014b11cb5.jar" />
     </item>
 
 </items>

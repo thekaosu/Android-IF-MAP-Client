@@ -99,11 +99,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_btn_beige"
-            android:padding="6dp"
             android:layout_marginRight="1dp"
             android:textSize="10sp"
             android:text="DETAILS"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:minHeight="25dp" android:minWidth="75dp"
+            />
 
         <!-- remove button -->
         <Button
@@ -111,11 +112,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_btn_beige"
-            android:padding="6dp"
             android:layout_marginRight="1dp"
             android:textSize="10sp"
             android:text="REMOVE"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:minHeight="25dp" android:minWidth="75dp"/>
 
         <!-- remove button -->
         <Button
@@ -123,11 +124,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_btn_beige"
-            android:padding="6dp"
             android:layout_marginRight="1dp"
             android:textSize="10sp"
             android:text="REMOVE TYPE"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:minHeight="25dp" android:minWidth="75dp"/>
 
     </LinearLayout>
 </LinearLayout>
