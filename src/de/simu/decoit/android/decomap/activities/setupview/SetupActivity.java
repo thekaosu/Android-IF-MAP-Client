@@ -23,6 +23,7 @@ package de.simu.decoit.android.decomap.activities.setupview;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
 
@@ -42,6 +43,11 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 public class SetupActivity extends PreferenceActivity {
 
     private List<Header> headers;
+    private String setupMode;
+
+    private List<Header> mainHeader = new ArrayList<Header>();
+    private List<Header> iMonitorHeaderList = new ArrayList<Header>();
+    private List<Header> ifMapHeaderList = new ArrayList<Header>();
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -53,7 +59,7 @@ public class SetupActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 //        getFragmentManager().beginTransaction().replace(android.R.id.content, new SetupFragment()).commit();
 //        addPreferencesFromResource(R.xml.preferences);
-        getListView().setPadding(0,0,0,0);
+        getListView().setPadding(0, 0, 0, 0);
     }
 
     @Override
@@ -67,12 +73,34 @@ public class SetupActivity extends PreferenceActivity {
     }
 
     public void onBuildHeaders(List<Header> target) {
-        // Called when the settings screen is up for the first time
-        // we load the headers from our xml description
 
-        loadHeadersFromResource(R.xml.preferences_header, target);
+        loadHeadersFromResource(R.xml.preferences_header, mainHeader);
+
+        loadHeadersFromResource(R.xml.preferences_header_imonitor, iMonitorHeaderList);
+        loadHeadersFromResource(R.xml.preferences_header_ifmap, ifMapHeaderList);
+
+        target.addAll(mainHeader);
 
         headers = target;
+    }
+
+    public void refreshHeaders() {
+        if (headers.size() > 0) {
+            String mode = PreferenceManager.getDefaultSharedPreferences(this).getString(headers.get(0).id + "", "IF-MAP");
+            if (mode != null && !mode.equals(setupMode)) {
+                setupMode = mode;
+                headers.clear();
+                headers.addAll(mainHeader);
+                if (mode.equals("IF-MAP")) {
+                    headers.addAll(ifMapHeaderList);
+                } else if (mode.equals("iMonitor")) {
+                    headers.addAll(iMonitorHeaderList);
+                }
+                super.setListAdapter(new SetupAdapter(this, headers));
+            }
+        }
+
+
     }
 
     @Override
@@ -105,25 +133,25 @@ public class SetupActivity extends PreferenceActivity {
     // -------------------------------------------------------------------------
 
     /**
-     * we are setting our own list adapter to use a toggle switch button
+     * setting own list adapter to use custom headers
      */
     public void setListAdapter(ListAdapter adapter) {
         int i, count;
 
-        if (headers == null) {
+        if (headers == null && adapter != null) {
             headers = new ArrayList<Header>();
             // When the saved state provides the list of headers,
             // onBuildHeaders is not called
             // so we build it from the adapter given, then use our own adapter
 
             count = adapter.getCount();
-            for (i = 0; i < count; ++i)
+            for (i = 0; i < count; ++i) {
                 headers.add((Header) adapter.getItem(i));
+            }
         }
 
         super.setListAdapter(new SetupAdapter(this, headers));
     }
-
 
     @Override
     protected boolean isValidFragment(String fragmentName) {

@@ -2,7 +2,13 @@
 <resources>
 
     <style name="Theme.MainAppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowBackground">@color/backgroundIce</item>
+        <item name="android:textColorSecondary">@color/lblColor</item>
+        <item name="android:textColorTertiary">@color/tertiaryTextColor</item>
+        <item name="android:panelColorBackground">@color/bgrColor</item>
     </style>
+
+
 
     <style name="btnStyleBeige" parent="@android:style/Widget.Button">
         <item name="android:textSize">15sp</item>

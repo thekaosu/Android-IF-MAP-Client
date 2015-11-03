@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:id="@+id/applicationSettings"
+        android:title="@string/preferences_kategoryheader_applicationSettings" />
+    <header
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.AutomationSettingsFragment"
+        android:title="@string/preferences_header_automationSettings" />
+    <header
+        android:id="@+id/esukomMetadataSettings"
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.EsukomMetadataSettingsFragment"
+        android:summary="@string/preferences_summary_nonconformdata"
+        android:title="@string/preferences_header_esukomMetadataSettings" />
+    <header
+        android:id="@+id/connectionSettings"
+        android:title="@string/preferences_kategoryheader_connectionSettings" />
+    <header
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ServerSettingsFragment"
+        android:title="@string/preferences_header_serverSettings" />
+    <header
+        android:id="@+id/basicAuthSettings"
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.BasicAuthSettingsFragment"
+        android:summary="@string/preferences_summary_basicauth"
+        android:title="@string/preferences_header_basicAuthSettings" />
+    <header
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ConnectionTypeSettingsFragment"
+        android:title="@string/preferences_header_connectionTzpeSettings" />
+    <header android:title="@string/preferences_header_loggingSettings" />
+    <header
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.LoggingSettingsFragment"
+        android:title="@string/preferences_header_loggingSettings" />
+</preference-headers>

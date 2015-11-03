@@ -2317,10 +2317,12 @@ containing a value of this type.
         public static final int preferences_connectiontype_fragment=0x7f050005;
         public static final int preferences_esukommetadata_fragment=0x7f050006;
         public static final int preferences_header=0x7f050007;
-        public static final int preferences_imonitorencryption_fragment=0x7f050008;
-        public static final int preferences_logging_fragment=0x7f050009;
-        public static final int preferences_server_fragment_ifmap=0x7f05000a;
-        public static final int preferences_server_fragment_imonitor=0x7f05000b;
+        public static final int preferences_header_ifmap=0x7f050008;
+        public static final int preferences_header_imonitor=0x7f050009;
+        public static final int preferences_imonitorencryption_fragment=0x7f05000a;
+        public static final int preferences_logging_fragment=0x7f05000b;
+        public static final int preferences_server_fragment_ifmap=0x7f05000c;
+        public static final int preferences_server_fragment_imonitor=0x7f05000d;
     }
     public static final class styleable {
         /** Attributes that can be used with a ActionBar.

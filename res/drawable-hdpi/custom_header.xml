@@ -10,6 +10,7 @@
     </item>
 
     <item
+        android:top="3px"
         android:bottom="10px">
 
         <shape android:shape="rectangle">

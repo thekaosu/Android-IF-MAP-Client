@@ -42,7 +42,7 @@ public class ServerSettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        String mode = prefs.getString("monitoringModeSettings", "IF-MAP");
+        String mode = prefs.getString(R.id.monitoringModeSettings+"", "IF-MAP");
         if (mode.equals("IF-MAP")) {
             addPreferencesFromResource(R.xml.preferences_server_fragment_ifmap);
         } else if (mode.equals("iMonitor")) {

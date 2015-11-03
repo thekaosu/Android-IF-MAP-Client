@@ -30,6 +30,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -42,16 +43,23 @@ import de.simu.decoit.android.decomap.activities.setupview.SetupActivity;
  *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Marcel Jahnke, Decoit GmbH
- * @version 0.1.4.2
+ * @author Leonid Schwenke, Decoit GmbH
+ * @version 0.2.0.0
  */
 @SuppressWarnings("deprecation")
-public class TabLayout extends TabActivity implements OnGestureListener {
+public class TabLayout extends TabActivity {
 
     // gesture detection
     private static final int SWIPE_MIN_DISTANCE = 100;
     private static final int SWIPE_MAX_OFF_PATH = 200;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private static final int ANIMATIONTIME = 250;
+    private View oldView;
+    private View newView;
+    private int currentTab;
     private GestureDetector mGestureScanner;
+
+    private int maxTabs;
 
     private TabHost mTabHost;
 
@@ -64,8 +72,6 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // gesture-detection
-        mGestureScanner = new GestureDetector(this);
         Resources res = getResources(); // Resource object to get Drawables
         mTabHost = getTabHost(); // The activity TabHost
 
@@ -111,14 +117,34 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         for (int i = 0; i < mTabHost.getTabWidget().getChildCount(); i++) {
             mTabHost.getTabWidget().getChildAt(i).setPadding(0, 0, 0, 0);
         }
+
+        // gesture-detection
+        maxTabs = mTabHost.getTabWidget().getChildCount();
+        mGestureScanner = new GestureDetector(this, new MyGestureDetector());
+
+        // saving current tab for swipe animation
+        newView = mTabHost.getCurrentView();
+        currentTab = mTabHost.getCurrentTab();
+
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String tabId) {
+                oldView = newView;
+                newView = mTabHost.getCurrentView();
+                if (mTabHost.getCurrentTab() > currentTab) {
+                    oldView.setAnimation(outToLeftAnimation());
+                    newView.setAnimation(inFromRightAnimation());
+                } else {
+                    oldView.setAnimation(outToRightAnimation());
+                    newView.setAnimation(inFromLeftAnimation());
+                }
+                currentTab = mTabHost.getCurrentTab();
+            }
+        });
         // set tabs Colors
 //        mTabHost.setBackgroundColor(Color.BLACK);
 //        mTabHost.getTabWidget().setBackgroundColor(Color.BLACK);
     }
-
-    // -------------------------------------------------------------------------
-    // BUTTON AND GESTURES HANDLING
-    // -------------------------------------------------------------------------
 
     @Override
     public boolean onTouchEvent(MotionEvent me) {
@@ -134,102 +160,6 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         return super.dispatchTouchEvent(ev);
     }
 
-    @Override
-    public boolean onDown(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public void onLongPress(MotionEvent e) {
-    }
-
-    @Override
-    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-        return false;
-    }
-
-    @Override
-    public void onShowPress(MotionEvent e) {
-    }
-
-    @Override
-    public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        int currentTab = mTabHost.getCurrentTab();
-        // Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH,
-        // then dismiss the swipe.
-        if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
-            return false;
-        }
-
-        // Swipe from right to left.
-        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and
-        // a certain velocity (SWIPE_THRESHOLD_VELOCITY).
-        if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
-                && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            switch (currentTab) {
-                case 0:
-                    // mTabHost.setAnimation(outToLeftAnimation());
-                    mTabHost.setAnimation(inFromRightAnimation());
-                    mTabHost.setCurrentTab(1);
-
-                    break;
-                case 1:
-                    // mTabHost.setAnimation(outToLeftAnimation());
-                    mTabHost.setAnimation(inFromRightAnimation());
-                    mTabHost.setCurrentTab(2);
-                    break;
-                case 2:
-                    // mTabHost.setAnimation(outToLeftAnimation());
-                    mTabHost.setAnimation(inFromRightAnimation());
-                    mTabHost.setCurrentTab(3);
-                    break;
-                case 3:
-                    // mTabHost.setAnimation(outToLeftAnimation());
-                    mTabHost.setAnimation(inFromRightAnimation());
-                    mTabHost.setCurrentTab(4);
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        }
-
-        // Swipe from left to right.
-        // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and
-        // a certain velocity (SWIPE_THRESHOLD_VELOCITY).
-        if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
-                && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-            switch (currentTab) {
-                case 4:
-                    mTabHost.setAnimation(inFromLeftAnimation());
-                    mTabHost.setCurrentTab(3);
-                    break;
-                case 3:
-                    mTabHost.setAnimation(inFromLeftAnimation());
-                    mTabHost.setCurrentTab(2);
-                    break;
-                case 2:
-                    mTabHost.setAnimation(inFromLeftAnimation());
-                    mTabHost.setCurrentTab(1);
-                    break;
-                case 1:
-                    mTabHost.setAnimation(inFromLeftAnimation());
-                    mTabHost.setCurrentTab(0);
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * get animation object for "tab in from right"-animation
      *
@@ -239,7 +169,21 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        inFromRight.setDuration((long) 0);
+        inFromRight.setDuration((long) ANIMATIONTIME);
+        inFromRight.setInterpolator(new AccelerateInterpolator());
+        return inFromRight;
+    }
+
+    /**
+     * get animation object for "tab in from right"-animation
+     *
+     * @return Animation
+     */
+    public Animation outToRightAnimation() {
+        Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, +1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
+                Animation.RELATIVE_TO_PARENT, 0.0f);
+        inFromRight.setDuration((long) ANIMATIONTIME);
         inFromRight.setInterpolator(new AccelerateInterpolator());
         return inFromRight;
     }
@@ -254,7 +198,7 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        inFromRight.setDuration((long) 0);
+        inFromRight.setDuration((long) ANIMATIONTIME);
         inFromRight.setInterpolator(new AccelerateInterpolator());
         return inFromRight;
     }
@@ -265,12 +209,12 @@ public class TabLayout extends TabActivity implements OnGestureListener {
      * @return Animation
      */
     public Animation outToLeftAnimation() {
-        Animation outtoLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
+        Animation outToLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, -1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
-        outtoLeft.setDuration((long) 0);
-        outtoLeft.setInterpolator(new AccelerateInterpolator());
-        return outtoLeft;
+        outToLeft.setDuration((long) ANIMATIONTIME);
+        outToLeft.setInterpolator(new AccelerateInterpolator());
+        return outToLeft;
     }
 
     /**
@@ -310,5 +254,70 @@ public class TabLayout extends TabActivity implements OnGestureListener {
         setIntent.addCategory(Intent.CATEGORY_HOME);
         setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(setIntent);
+    }
+
+    private class MyGestureDetector implements OnGestureListener {
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            return false;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            int currentTab = mTabHost.getCurrentTab();
+            // Check movement along the Y-axis. If it exceeds SWIPE_MAX_OFF_PATH,
+            // then dismiss the swipe.
+            if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+                return false;
+            }
+
+            // Swipe from right to left.
+            // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and
+            // a certain velocity (SWIPE_THRESHOLD_VELOCITY).
+            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                if (currentTab < maxTabs) {
+//                    newView.setAnimation(outToLeftAnimation());
+
+                    mTabHost.setCurrentTab(currentTab + 1);
+//                    newView = mTabHost.getCurrentView();
+//                    newView.setAnimation(inFromRightAnimation());
+                }
+                return true;
+            }
+
+            // Swipe from left to right.
+            // The swipe needs to exceed a certain distance (SWIPE_MIN_DISTANCE) and
+            // a certain velocity (SWIPE_THRESHOLD_VELOCITY).
+            if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
+                    && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                if (currentTab > 0) {
+//                    mTabHost.setAnimation(outToLeftAnimation());
+//                    mTabHost.setAnimation(inFromRightAnimation());
+                    mTabHost.setCurrentTab(currentTab - 1);
+                }
+            }
+
+            return false;
+        }
     }
 }

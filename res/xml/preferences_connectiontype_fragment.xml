@@ -9,11 +9,13 @@
         android:defaultValue="true"
         android:key="permanantlyConectionPreferences"
         android:summary="@string/preferences_summary_permanentlyConnection"
-        android:title="@string/preferences_title_permanentlyConnection" />
+        android:title="@string/preferences_title_permanentlyConnection"
+        android:disableDependentsState="true"/>
     <EditTextPreference
         android:name="RenewInterval"
         android:defaultValue="12000"
         android:key="renewInterval"
         android:summary="@string/preferences_title_renewinterval"
-        android:title="@string/preferences_title_renewinterval" />
+        android:title="@string/preferences_title_renewinterval"
+        android:dependency="permanantlyConectionPreferences"/>
 </PreferenceScreen>

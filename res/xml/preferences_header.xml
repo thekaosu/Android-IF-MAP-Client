@@ -1,50 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
     <header
-        android:title="@string/preferences_title_serverPref"
         android:id="@+id/monitoringModeSettings"
         android:summary="@string/preferences_summary_serverForm"
-        />
-    <header android:title="@string/preferences_kategoryheader_applicationSettings"
-    android:id="@+id/applicationSettings"/>
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.AutomationSettingsFragment"
-        android:title="@string/preferences_header_automationSettings"
-        />
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.EsukomMetadataSettingsFragment"
-        android:title="@string/preferences_header_esukomMetadataSettings"
-        android:summary="@string/preferences_summary_nonconformdata"
-        android:id="@+id/esukomMetadataSettings"
-        />
-    <header
-        android:title="@string/preferences_kategoryheader_connectionSettings"
-        android:id="@+id/connectionSettings"
-        />
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ServerSettingsFragment"
-        android:title="@string/preferences_header_serverSettings"
-        />
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.BasicAuthSettingsFragment"
-        android:title="@string/preferences_header_basicAuthSettings"
-        android:id="@+id/basicAuthSettings"
-        android:summary="@string/preferences_summary_basicauth"
-        />
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ConnectionTypeSettingsFragment"
-        android:title="@string/preferences_header_connectionTzpeSettings"
-        />
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.IMonitorEncryptionSettingsFragment"
-        android:title="@string/preferences_header_iMonitorEncryption"
-        android:id="@+id/autostartPreferences"
-        />
-    <header
-        android:title="@string/preferences_header_loggingSettings"
-        />
-    <header
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.LoggingSettingsFragment"
-        android:title="@string/preferences_header_loggingSettings"
-        />
+        android:title="@string/preferences_title_serverPref" />
 </preference-headers>

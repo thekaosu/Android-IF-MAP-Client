@@ -1594,6 +1594,10 @@
     <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/styles.xml -->
     <eat-comment/>
     <style name="Theme.MainAppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:windowBackground">@color/backgroundIce</item>
+        <item name="android:textColorSecondary">@color/lblColor</item>
+        <item name="android:textColorTertiary">@color/tertiaryTextColor</item>
+        <item name="android:panelColorBackground">@color/bgrColor</item>
     </style>
     <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/res/values/values.xml -->
     <eat-comment/>

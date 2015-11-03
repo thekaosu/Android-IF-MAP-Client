@@ -1472,7 +1472,9 @@ int xml preferences_basicauth_fragment 0x7f050004
 int xml preferences_connectiontype_fragment 0x7f050005
 int xml preferences_esukommetadata_fragment 0x7f050006
 int xml preferences_header 0x7f050007
-int xml preferences_imonitorencryption_fragment 0x7f050008
-int xml preferences_logging_fragment 0x7f050009
-int xml preferences_server_fragment_ifmap 0x7f05000a
-int xml preferences_server_fragment_imonitor 0x7f05000b
+int xml preferences_header_ifmap 0x7f050008
+int xml preferences_header_imonitor 0x7f050009
+int xml preferences_imonitorencryption_fragment 0x7f05000a
+int xml preferences_logging_fragment 0x7f05000b
+int xml preferences_server_fragment_ifmap 0x7f05000c
+int xml preferences_server_fragment_imonitor 0x7f05000d

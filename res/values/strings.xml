@@ -50,7 +50,7 @@
     <string name="messagehandler_mainstatus_message_invalidresponse">invalid response from server</string>
 
     <!-- Preferences-Tab -->
-    <string name="preferences_summary_nonconformdata">Publish esukom-specific metadata. This Option currently does not work (and has no effect) on devices running android versions prior 4.0 </string>
+    <string name="preferences_summary_nonconformdata">Publish esukom-specific metadata </string>
     <string name="preferences_summary_sendesukomspecificapps">When publishing esukom-specific metadata, dont send informations about installed applications. Improves performance.</string>
     <string name="preferences_summary_dontsendgoogleapps">Exclude google/android applications from publishing application information</string>
     <string name="preferences_summary_autostart">Application will be automatically started after device finished booting.</string>
@@ -97,7 +97,7 @@
     <string name="preferences_title_renewinterval">Renew-Request Interval</string>
     <string name="preferences_title_permanentlyConnection">Connection-Type</string>
     <string name="preferences_title_locationTracking">Enable Location-Tracking</string>
-    <string name="preferences_title_updateinterval">Auto-Update Interval</string>
+    <string name="preferences_title_updateinterval">Auto-Update Interval (in ms)</string>
     <string name="preferences_title_locationPref">Location-Tracking-Mode</string>
     <string name="preferences_title_cell">Location-Tracking using cellbroadcast</string>
     <string name="preferences_title_disablelog">Disable logging</string>

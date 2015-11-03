@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
      Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +21,7 @@
     android:background="?android:attr/activatedBackgroundIndicator"
     android:gravity="center_vertical"
     android:minHeight="48dp"
-    android:paddingRight="?android:attr/scrollbarSize" >
+    android:paddingRight="?android:attr/scrollbarSize">
 
     <ImageView
         android:id="@+android:id/icon"
@@ -36,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <TextView
             android:id="@+android:id/title"
@@ -56,8 +55,7 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"
-        android:padding="10dip" />
-
+        android:padding="10dip"/>
 
 
 </LinearLayout>

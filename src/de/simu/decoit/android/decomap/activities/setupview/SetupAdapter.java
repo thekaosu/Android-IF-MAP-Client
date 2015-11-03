@@ -54,27 +54,26 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     private LayoutInflater mInflater;
 
     private final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings, R.id.basicAuthSettings};
-    private final long[] SELECTION_IDS = new long[]{R.id.monitoringModeSettings};
+    private final long SELECTION_ID = R.id.monitoringModeSettings;
 
     private ArrayList<Long> switchIDS = new ArrayList<>();
-    private ArrayList<Long> selectionIDS = new ArrayList<>();
 
     private HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<Long, SwitchPreferenceHandler>();
-    private HashMap<Long, SpinnerPreferenceHandler> selectionMap = new HashMap<Long, SpinnerPreferenceHandler>();
+    private SpinnerSetupModePreferenceHandler selectionHandler;
+    private View selectionView;
+
+    private String setupMode;
 
     public SetupAdapter(Context context, List<PreferenceActivity.Header> objects) {
         super(context, 0, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         //putting ids into arrays
         for (long id : SWITCH_IDS) {
             switchIDS.add(id);
             switchMap.put(id, new SwitchPreferenceHandler(context, new Switch(context), id + ""));
         }
-        for (long id : SELECTION_IDS) {
-            selectionIDS.add(id);
-            selectionMap.put(id, new SpinnerPreferenceHandler(context, new Spinner(context), id + ""));
-        }
+
+        selectionHandler = new SpinnerSetupModePreferenceHandler(context, new Spinner(context), SELECTION_ID + "");
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -101,16 +100,17 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 ((ImageView) view.findViewById(android.R.id.icon)).setImageResource(header.iconRes);
                 ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
                         .getResources()));
-
                 switchMap.get(header.id).setSwitch((Switch) view.findViewById(R.id.switchWidget));
 
                 break;
             case HEADER_TYPE_SELECTION:
-                view = mInflater.inflate(R.layout.preference_header_selection_item, parent, false);
-                ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
-                        .getResources()));
-
-                selectionMap.get(header.id).setSpinner((Spinner) view.findViewById(R.id.spinnerWidget));
+                if (selectionView == null) {
+                    selectionView = mInflater.inflate(R.layout.preference_header_selection_item, parent, false);
+                    ((TextView) selectionView.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
+                            .getResources()));
+                    selectionHandler.setSpinner((Spinner) selectionView.findViewById(R.id.spinnerWidget));
+                }
+                view = selectionView;
                 break;
             case HEADER_TYPE_NORMAL:
                 if (header.getSummary(getContext().getResources()) == null || header.getSummary(getContext().getResources()).equals("")) {
@@ -131,7 +131,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     }
 
     private int getHeaderType(PreferenceActivity.Header header) {
-        if (selectionIDS.contains(header.id)) {
+        if (SELECTION_ID == header.id) {
             return HEADER_TYPE_SELECTION;
         } else if ((header.fragment == null) && (header.intent == null)) {
             return HEADER_TYPE_CATEGORY;
@@ -146,18 +146,14 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
         for (long handlerID : switchMap.keySet()) {
             switchMap.get(handlerID).resume();
         }
-        for (long handlerID : selectionMap.keySet()) {
-            selectionMap.get(handlerID).resume();
-        }
+        selectionHandler.resume();
     }
 
     public void pause() {
         for (long handlerID : switchMap.keySet()) {
             switchMap.get(handlerID).pause();
         }
-        for (long handlerID : selectionMap.keySet()) {
-            selectionMap.get(handlerID).pause();
-        }
+        selectionHandler.pause();
     }
 }
 
