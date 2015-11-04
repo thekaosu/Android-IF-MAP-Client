@@ -28,6 +28,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import de.simu.decoit.android.decomap.activities.R;
+import de.simu.decoit.android.decomap.activities.setupview.SetupAdapter;
 
 /**
  * Fragment for server setting Preferences
@@ -42,7 +43,7 @@ public class ServerSettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        String mode = prefs.getString(R.id.monitoringModeSettings+"", "IF-MAP");
+        String mode = prefs.getString(SetupAdapter.MONITORINGMODE_VIEW_ID+"", "IF-MAP");
         if (mode.equals("IF-MAP")) {
             addPreferencesFromResource(R.xml.preferences_server_fragment_ifmap);
         } else if (mode.equals("iMonitor")) {

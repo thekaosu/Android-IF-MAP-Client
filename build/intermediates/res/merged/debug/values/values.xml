@@ -74,6 +74,11 @@
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
+    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/strings.xml -->
+    <eat-comment/>
+    <color name="disabledText">#777777</color>
+    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/res/values/values.xml -->
+    <eat-comment/>
     <color name="foreground_material_dark">@android:color/white</color>
     <color name="foreground_material_light">@android:color/black</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
@@ -364,7 +369,7 @@
     <string name="preferences_summary_logpublishcharacteristics">Enable logging of publish-characteristics messages</string>
     <string name="preferences_summary_logrenewrequest">Enable logging of renew-request messages</string>
     <string name="preferences_summary_logsubscribe">Enable logging of subscription messages</string>
-    <string name="preferences_summary_nonconformdata">Publish esukom-specific metadata. This Option currently does not work (and has no effect) on devices running android versions prior 4.0 </string>
+    <string name="preferences_summary_nonconformdata">Publish esukom-specific metadata </string>
     <string name="preferences_summary_password">Password for basic authentication</string>
     <string name="preferences_summary_permanentlyConnection">Enables a permanent connection with the MAP-Server. If disabled, the client will periodically send "renew" requests to keep the session alive.</string>
     <string name="preferences_summary_renewinterval">Interval for sending renew-session request to MAP-Server (in milliseconds)</string>
@@ -404,7 +409,7 @@
     <string name="preferences_title_serverPref">Monitoring-Mode</string>
     <string name="preferences_title_serverip">Server IP-Address</string>
     <string name="preferences_title_serverport">Server Port-Number</string>
-    <string name="preferences_title_updateinterval">Auto-Update Interval</string>
+    <string name="preferences_title_updateinterval">Auto-Update Interval (in ms)</string>
     <string name="preferences_title_username">Username</string>
     <string name="quit_app">Quit</string>
     <string name="serialized_response_errormsg_Unauthorized">client is not authorized</string>

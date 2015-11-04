@@ -32,12 +32,10 @@ public class PreferencesValues {
     // "lock" parts of the preferences menu after a new session
     // has been established and "unlock" it when a session has ended.
     // declared static so it can be passed to SetupActivity.
-    // connection type is a special case: it can only be changed
-    // once. after a session has been established it cannot be
-    // changed until the client is restarted!
-    public static boolean sLockConnectionPreferences = false;
+
+//    public static boolean sLockConnectionPreferences = false;
     public static boolean sLockPreferences = false;
-    public static boolean sLockLocationTrackingOptions = false;
+//    public static boolean sLockLocationTrackingOptions = false;
 
     // monitoring mode
     public static String sMonitoringPreference = null;

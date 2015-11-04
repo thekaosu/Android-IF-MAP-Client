@@ -89,6 +89,10 @@ public class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSele
         spinner.setOnItemSelectedListener(this);
     }
 
+    public Spinner getSpinner(){
+        return spinner;
+    }
+
     public String getSelectedItem() {
         SharedPreferences prefs;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);

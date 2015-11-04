@@ -15,6 +15,7 @@
     <color name="backgroundIce">#b8cce4</color>
     <color name="backgroundIceLight">#dbe5f1</color>
     <color name="tertiaryTextColor">#3d3d3d</color>
+    <color name="disabledText">#777777</color>
 
     <!--  Tab Layout -->
     <string name="tablayout_tabname_mainactivty">Main</string>

@@ -25,8 +25,10 @@
     <header
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ConnectionTypeSettingsFragment"
         android:title="@string/preferences_header_connectionTzpeSettings" />
-    <header android:title="@string/preferences_header_loggingSettings" />
     <header
+        android:title="@string/preferences_header_loggingSettings" />
+    <header
+        android:id="@+id/loggingPreferences"
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.LoggingSettingsFragment"
         android:title="@string/preferences_header_loggingSettings" />
 </preference-headers>

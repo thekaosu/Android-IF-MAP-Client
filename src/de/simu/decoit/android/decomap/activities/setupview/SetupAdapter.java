@@ -23,6 +23,7 @@ package de.simu.decoit.android.decomap.activities.setupview;
 
 import android.content.Context;
 import android.preference.PreferenceActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.simu.decoit.android.decomap.activities.R;
+import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 
 /**
  * Adapter for Preferences activity
@@ -53,10 +55,16 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
     private LayoutInflater mInflater;
 
+    //Contains all views, which get a SwitchPreferenceHandler
     private final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings, R.id.basicAuthSettings};
-    private final long SELECTION_ID = R.id.monitoringModeSettings;
 
-    private ArrayList<Long> switchIDS = new ArrayList<>();
+    //View id for the monitoring mode selection
+    public static final long MONITORINGMODE_VIEW_ID = R.id.monitoringModeSettings;
+
+    //Contains all view ids, which should not be disabled, while a connection is established
+    private final long[] VIEW_WHILE_CONNECTION_WHITELIST = new long[]{R.id.loggingPreferences, R.id.esukomMetadataSettings};
+
+    private ArrayList<Long> switchIDS = new ArrayList<Long>();
 
     private HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<Long, SwitchPreferenceHandler>();
     private SpinnerSetupModePreferenceHandler selectionHandler;
@@ -73,7 +81,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
             switchMap.put(id, new SwitchPreferenceHandler(context, new Switch(context), id + ""));
         }
 
-        selectionHandler = new SpinnerSetupModePreferenceHandler(context, new Spinner(context), SELECTION_ID + "");
+        selectionHandler = new SpinnerSetupModePreferenceHandler(context, new Spinner(context), MONITORINGMODE_VIEW_ID + "");
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -81,57 +89,88 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
         int headerType = getHeaderType(header);
         View view = null;
 
+        TextView title = null;
+        TextView summary = null;
+        View mecha = null;
+
+        boolean enabled = isEnabled(position);
+
         switch (headerType) {
             case HEADER_TYPE_CATEGORY:
                 view = mInflater.inflate(android.R.layout.preference_category, parent, false);
-                ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
+                title = ((TextView) view.findViewById(android.R.id.title));
+                title.setText(header.getTitle(getContext()
                         .getResources()));
                 break;
 
             case HEADER_TYPE_SWITCH:
+                view = mInflater.inflate(R.layout.preference_header_switch_item, parent, false);
+                summary = ((TextView) view.findViewById(android.R.id.summary));
                 if (header.getSummary(getContext().getResources()) == null || header.getSummary(getContext().getResources()).equals("")) {
-                    view = mInflater.inflate(R.layout.preference_header_switch_item, parent, false);
+                    summary.setVisibility(View.GONE);
                 } else {
-                    view = mInflater.inflate(R.layout.preference_header_summary_switch_item, parent, false);
-
-                    ((TextView) view.findViewById(android.R.id.summary)).setText(header
+                    summary.setText(header
                             .getSummary(getContext().getResources()));
                 }
                 ((ImageView) view.findViewById(android.R.id.icon)).setImageResource(header.iconRes);
-                ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
+                title = ((TextView) view.findViewById(android.R.id.title));
+                title.setText(header.getTitle(getContext()
                         .getResources()));
                 switchMap.get(header.id).setSwitch((Switch) view.findViewById(R.id.switchWidget));
-
+                mecha = switchMap.get(header.id).getSwitch();
                 break;
             case HEADER_TYPE_SELECTION:
                 if (selectionView == null) {
                     selectionView = mInflater.inflate(R.layout.preference_header_selection_item, parent, false);
-                    ((TextView) selectionView.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
+                    title = ((TextView) selectionView.findViewById(android.R.id.title));
+                    title.setText(header.getTitle(getContext()
                             .getResources()));
                     selectionHandler.setSpinner((Spinner) selectionView.findViewById(R.id.spinnerWidget));
                 }
+                if (title == null) {
+                    title = ((TextView) selectionView.findViewById(android.R.id.title));
+                }
+                title.setTextColor(ContextCompat.getColor(getContext(), R.color.lblColor));
                 view = selectionView;
+                mecha = selectionHandler.getSpinner();
+                mecha.setEnabled(true);
                 break;
             case HEADER_TYPE_NORMAL:
+                view = mInflater.inflate(R.layout.preference_header_item, parent, false);
+                summary = ((TextView) view.findViewById(android.R.id.summary));
                 if (header.getSummary(getContext().getResources()) == null || header.getSummary(getContext().getResources()).equals("")) {
-                    view = mInflater.inflate(R.layout.preference_header_item, parent, false);
+                    summary.setVisibility(View.GONE);
                 } else {
-                    view = mInflater.inflate(R.layout.preference_header_summary_item, parent, false);
-
-                    ((TextView) view.findViewById(android.R.id.summary)).setText(header
+                    summary.setText(header
                             .getSummary(getContext().getResources()));
                 }
                 ((ImageView) view.findViewById(android.R.id.icon)).setImageResource(header.iconRes);
-                ((TextView) view.findViewById(android.R.id.title)).setText(header.getTitle(getContext()
+                title = ((TextView) view.findViewById(android.R.id.title));
+                title.setText(header.getTitle(getContext()
                         .getResources()));
+
                 break;
         }
+
+        if (!enabled && headerType != HEADER_TYPE_CATEGORY) {
+            if (summary != null) {
+
+                summary.setTextColor(ContextCompat.getColor(getContext(), R.color.disabledText));
+            }
+            if (title != null) {
+                title.setTextColor(ContextCompat.getColor(getContext(), R.color.disabledText));
+            }
+            if (mecha != null) {
+                mecha.setEnabled(false);
+            }
+        }
+
 
         return view;
     }
 
     private int getHeaderType(PreferenceActivity.Header header) {
-        if (SELECTION_ID == header.id) {
+        if (MONITORINGMODE_VIEW_ID == header.id) {
             return HEADER_TYPE_SELECTION;
         } else if ((header.fragment == null) && (header.intent == null)) {
             return HEADER_TYPE_CATEGORY;
@@ -147,6 +186,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
             switchMap.get(handlerID).resume();
         }
         selectionHandler.resume();
+        notifyDataSetChanged();
     }
 
     public void pause() {
@@ -154,6 +194,19 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
             switchMap.get(handlerID).pause();
         }
         selectionHandler.pause();
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        if (PreferencesValues.sLockPreferences) {
+            for (long id : VIEW_WHILE_CONNECTION_WHITELIST) {
+                if (getItem(position).id == id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return true;
     }
 }
 

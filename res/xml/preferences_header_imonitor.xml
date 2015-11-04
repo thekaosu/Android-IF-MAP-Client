@@ -16,8 +16,10 @@
         android:id="@+id/autostartPreferences"
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.IMonitorEncryptionSettingsFragment"
         android:title="@string/preferences_header_iMonitorEncryption" />
-    <header android:title="@string/preferences_header_loggingSettings" />
     <header
+        android:title="@string/preferences_header_loggingSettings" />
+    <header
+        android:id="@+id/loggingPreferences"
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.LoggingSettingsFragment"
         android:title="@string/preferences_header_loggingSettings" />
 </preference-headers>

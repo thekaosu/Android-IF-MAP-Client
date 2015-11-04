@@ -85,19 +85,17 @@ public class SetupActivity extends PreferenceActivity {
     }
 
     public void refreshHeaders() {
-        if (headers.size() > 0) {
-            String mode = PreferenceManager.getDefaultSharedPreferences(this).getString(headers.get(0).id + "", "IF-MAP");
-            if (mode != null && !mode.equals(setupMode)) {
-                setupMode = mode;
-                headers.clear();
-                headers.addAll(mainHeader);
-                if (mode.equals("IF-MAP")) {
-                    headers.addAll(ifMapHeaderList);
-                } else if (mode.equals("iMonitor")) {
-                    headers.addAll(iMonitorHeaderList);
-                }
-                super.setListAdapter(new SetupAdapter(this, headers));
+        String mode = PreferenceManager.getDefaultSharedPreferences(this).getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", "IF-MAP");
+        if (mode != null && !mode.equals(setupMode)) {
+            setupMode = mode;
+            headers.clear();
+            headers.addAll(mainHeader);
+            if (mode.equals("IF-MAP")) {
+                headers.addAll(ifMapHeaderList);
+            } else if (mode.equals("iMonitor")) {
+                headers.addAll(iMonitorHeaderList);
             }
+            super.setListAdapter(new SetupAdapter(this, headers));
         }
 
 
@@ -140,9 +138,6 @@ public class SetupActivity extends PreferenceActivity {
 
         if (headers == null && adapter != null) {
             headers = new ArrayList<Header>();
-            // When the saved state provides the list of headers,
-            // onBuildHeaders is not called
-            // so we build it from the adapter given, then use our own adapter
 
             count = adapter.getCount();
             for (i = 0; i < count; ++i) {

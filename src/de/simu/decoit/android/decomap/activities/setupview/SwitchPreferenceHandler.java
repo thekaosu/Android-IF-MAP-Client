@@ -59,6 +59,10 @@ public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeLi
         mSwitch.setChecked(isSwitchOn());
     }
 
+    public Switch getSwitch(){
+        return mSwitch;
+    }
+
     public void onCheckedChanged(CompoundButton view, boolean isChecked) {
         SharedPreferences prefs;
         SharedPreferences.Editor editor;

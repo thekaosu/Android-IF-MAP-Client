@@ -347,8 +347,8 @@ public class MainActivity extends Activity {
 
         // "unlock locked" preferences
         PreferencesValues.sLockPreferences = false;
-        PreferencesValues.sLockConnectionPreferences = false;
-        PreferencesValues.sLockLocationTrackingOptions = false;
+//        PreferencesValues.sLockConnectionPreferences = false;
+//        PreferencesValues.sLockLocationTrackingOptions = false;
 
         // remove updates from location manager
         if (mLocManager != null) {
@@ -719,7 +719,7 @@ public class MainActivity extends Activity {
                     mNscaConnection);
 
             PreferencesValues.sLockPreferences = true;
-            PreferencesValues.sLockConnectionPreferences = true;
+//            PreferencesValues.sLockConnectionPreferences = true;
 
             mIsConnected = true;
             mConnectButton.setEnabled(false);
@@ -747,7 +747,7 @@ public class MainActivity extends Activity {
                 getApplicationContext());
 
         PreferencesValues.sLockPreferences = false;
-        PreferencesValues.sLockConnectionPreferences = false;
+//        PreferencesValues.sLockConnectionPreferences = false;
     }
 
     private void mainTabButtonHandlerIfmap(View view) {
@@ -936,7 +936,7 @@ public class MainActivity extends Activity {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)
-                    + " Running mode is unknown!");
+                    + " Monitoring-mode is unknown!");
             return false;
         }
 
@@ -1008,7 +1008,7 @@ public class MainActivity extends Activity {
                         R.string.main_progressbar_message_srcrequest_1),
                 getResources().getString(
                         R.string.main_progressbar_message_srcrequest_2), true,
-                false);
+                true);
     }
 
     // -------------------------------------------------------------------------
@@ -1095,8 +1095,8 @@ public class MainActivity extends Activity {
                 // lock parts of preferences-tab that cannot be changed as
                 // long as a connection is established
                 PreferencesValues.sLockPreferences = true;
-                PreferencesValues.sLockConnectionPreferences = true;
-                PreferencesValues.sLockLocationTrackingOptions = true;
+//                PreferencesValues.sLockConnectionPreferences = true;
+//                PreferencesValues.sLockLocationTrackingOptions = true;
 
                 mCurrentSessionId = msg
                         .getParameter(ResponseParameters.RESPONSE_PARAMS_SESSIONID);
@@ -1130,8 +1130,8 @@ public class MainActivity extends Activity {
 
                 // "unlock" some parts of preferences
                 PreferencesValues.sLockPreferences = false;
-                PreferencesValues.sLockConnectionPreferences = false;
-                PreferencesValues.sLockLocationTrackingOptions = false;
+//                PreferencesValues.sLockConnectionPreferences = false;
+//                PreferencesValues.sLockLocationTrackingOptions = false;
                 mCurrentSessionId = null; // session has ended!
 
                 // deactivate handler for sending metadata and renew-messages to
@@ -1151,7 +1151,7 @@ public class MainActivity extends Activity {
                 // error-response, reset all messaging-related values
                 mIsConnected = false;
                 PreferencesValues.sLockPreferences = false;
-                PreferencesValues.sLockLocationTrackingOptions = false;
+//                PreferencesValues.sLockLocationTrackingOptions = false;
                 mCurrentSessionId = null;
                 MessageParametersGenerator.sInitialDevCharWasSend = false;
 
