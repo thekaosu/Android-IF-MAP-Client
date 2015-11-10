@@ -26,6 +26,7 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -729,10 +730,12 @@ public class MainActivity extends Activity {
 
     private void disconnectNSCA() {
         mNscaServiceBind.stopMonitor();
-        if (mIsBound)
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mMonitorEventReceiver);
+        if (mIsBound) {
             mIsBound = UnbinderClass.doUnbindConnectionService(
                     getApplicationContext(), mNscaConnection, myProgressDialog,
                     mIsBound);
+        }
         mConnectButton.setEnabled(true);
         mDisconnectButton.setEnabled(false);
         mIsConnected = false;
@@ -1008,7 +1011,12 @@ public class MainActivity extends Activity {
                         R.string.main_progressbar_message_srcrequest_1),
                 getResources().getString(
                         R.string.main_progressbar_message_srcrequest_2), true,
-                true);
+                true, new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+
+                    }
+                });
     }
 
     // -------------------------------------------------------------------------
@@ -1349,7 +1357,6 @@ public class MainActivity extends Activity {
             mNscaServiceBind.setupConnection(mPreferences.getIMonitorServerIpPreference(), mPreferences.getIMonitorServerPortPreference(), mPreferences.getNscaPassPreference(), mNscaEncryption);
 
             LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMonitorEventReceiver, new IntentFilter("iMonitor-Event"));
-
             EventParameters eP = new EventParameters(mDeviceProperties);
             mNscaServiceBind.publish(eP.genInfoEvent());
             mNscaServiceBind.publish(eP.genAppEvents());
