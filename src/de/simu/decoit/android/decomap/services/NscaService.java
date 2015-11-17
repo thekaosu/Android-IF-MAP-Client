@@ -40,6 +40,8 @@ import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
 import java.io.IOException;
 import java.util.List;
 
+import de.simu.decoit.android.decomap.util.Toolbox;
+
 /**
  * Service to manage communication with NSCA/iMonitor
  * 
@@ -163,6 +165,7 @@ public class NscaService extends Service {
 			} catch (NagiosException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
+				Toolbox.logTxt("dasdsa",e.getMessage());
 				generateIntent("ConnectionError");
 				readyToSend = false;
 			}

@@ -4,8 +4,6 @@ import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.widget.Switch;
 
@@ -17,20 +15,15 @@ import de.simu.decoit.android.decomap.activities.setupview.SwitchPreferenceHandl
  * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
-public abstract class AbstractSwitchFragment extends PreferenceFragment implements
-        SharedPreferences.OnSharedPreferenceChangeListener {
+public abstract class AbstractSwitchFragment extends AbstractPreferenceFragment {
 
-    protected int fragmentID;
     protected long keyID;
+
     private SwitchPreferenceHandler switchPreferenceHandler;
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        PreferenceManager.getDefaultSharedPreferences(getActivity())
-                .registerOnSharedPreferenceChangeListener(this);
-
-        addPreferencesFromResource(fragmentID);
         ActionBar actionbar = (getActivity()).getActionBar();
         Switch actionBarSwitch = new Switch(getActivity());
 
@@ -42,10 +35,9 @@ public abstract class AbstractSwitchFragment extends PreferenceFragment implemen
                     | Gravity.RIGHT));
 
             actionbar.setDisplayHomeAsUpEnabled(true);
-
         }
 
-        switchPreferenceHandler = new SwitchPreferenceHandler(getActivity(), actionBarSwitch, keyID+"");
+        switchPreferenceHandler = new SwitchPreferenceHandler(getActivity(), actionBarSwitch, keyID + "");
         updateSettings();
     }
 
@@ -70,10 +62,12 @@ public abstract class AbstractSwitchFragment extends PreferenceFragment implemen
         }
     }
 
+    @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
                                           String key) {
-        if (key.equals(key)) {
-            updateSettings();
-        }
+        super.onSharedPreferenceChanged(sharedPreferences, key);
+        updateSettings();
     }
+
+
 }

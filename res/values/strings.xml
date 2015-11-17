@@ -95,7 +95,7 @@
     <string name="preferences_title_imonitorauth">iMonitor-Authentication</string>
     <string name="preferences_title_cryptPref">Encryption mode</string>
     <string name="preferences_title_basicauth">Basic Authentication</string>
-    <string name="preferences_title_renewinterval">Renew-Request Interval</string>
+    <string name="preferences_title_renewinterval">Renew-Request Interval (in ms)</string>
     <string name="preferences_title_permanentlyConnection">Connection-Type</string>
     <string name="preferences_title_locationTracking">Enable Location-Tracking</string>
     <string name="preferences_title_updateinterval">Auto-Update Interval (in ms)</string>

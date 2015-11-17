@@ -21,10 +21,6 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
-import android.app.ActionBar;
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
-
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -33,17 +29,12 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.2
  * @author Leonid Schwenke, Decoit GmbH
  */
-public class IMonitorEncryptionSettingsFragment extends PreferenceFragment {
+public class IMonitorEncryptionSettingsFragment extends AbstractPreferenceFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences_basicauth_fragment);
-
-        ActionBar actionbar = (getActivity()).getActionBar();
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-        }
+    public IMonitorEncryptionSettingsFragment(){
+        fragmentID = R.xml.preferences_imonitorencryption_fragment;
+        dynamicSummaryKeys.add("nscaPassPreference");
+        dynamicSummaryKeys.add("nscaEncPref");
     }
 }
 

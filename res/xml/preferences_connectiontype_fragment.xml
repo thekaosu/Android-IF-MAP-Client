@@ -14,6 +14,7 @@
     <EditTextPreference
         android:name="RenewInterval"
         android:defaultValue="12000"
+        android:inputType="number"
         android:key="renewInterval"
         android:summary="@string/preferences_title_renewinterval"
         android:title="@string/preferences_title_renewinterval"

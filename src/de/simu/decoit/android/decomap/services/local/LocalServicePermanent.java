@@ -62,6 +62,7 @@ public class LocalServicePermanent {
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
+                MainActivity.sBoundPermConnService.setRunnable(null);
 				MainActivity.sBoundPermConnService = null;
 			}
 		};

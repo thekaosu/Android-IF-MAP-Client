@@ -26,7 +26,6 @@ import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -87,6 +86,7 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Marcel Jahnke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
+ * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
 public class MainActivity extends Activity {
@@ -182,6 +182,8 @@ public class MainActivity extends Activity {
     // local services
     private ServiceConnection mConnection;
     private ServiceConnection mPermConnection;
+
+    private final int timeout = 12000;
 
     // local services states
     private boolean mIsBound;
@@ -490,7 +492,7 @@ public class MainActivity extends Activity {
         mPreferences.setIMonitorServerIpPreference(prefs.getString(
                 "iMonitorServeripPreference", ""));
         mPreferences.setIMonitorServerPortPreference(prefs.getString(
-                "iMonitorServerportPreference", "5443"));
+                "iMonitorServerportPreference", "5667"));
         mPreferences.setNscaEncPreference(prefs.getString(
                 "nscaEncPref", "1"));
         mPreferences.setNscaPassPreference(prefs.getString(
@@ -575,7 +577,7 @@ public class MainActivity extends Activity {
                             "https://"
                                     + mPreferences.getIFMAPServerIpPreference() + ":"
                                     + mPreferences.getIFMAPServerPortPreference(), mPreferences.getUsernamePreference(), mPreferences
-                            .getPasswordPreference(), trustManagers, 120000);
+                            .getPasswordPreference(), trustManagers, timeout);
                 } else {
                     // create ssrc-connection using certificates
                     Toolbox.logTxt(this.getLocalClassName(),
@@ -584,7 +586,7 @@ public class MainActivity extends Activity {
                             "androidmap");
                     sSsrcConnection = new SsrcImpl("https://"
                             + mPreferences.getIFMAPServerIpPreference() + ":"
-                            + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, 120000);
+                            + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, timeout);
                 }
 
                 mResponseType = 0;
@@ -708,6 +710,7 @@ public class MainActivity extends Activity {
                     + getResources().getString(
                     R.string.main_default_wrongconfig_message));
         } else {
+
             // set status message to-text-output-field
             mStatusMessageField.append("\n"
                     + getResources().getString(
@@ -722,9 +725,26 @@ public class MainActivity extends Activity {
             PreferencesValues.sLockPreferences = true;
 //            PreferencesValues.sLockConnectionPreferences = true;
 
+//                    true, new DialogInterface.OnCancelListener() {
+//                        @Override
+//                        public void onCancel(DialogInterface dialog) {
+//                            if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
+//                                disconnectNSCA();
+//                            }
+//                        }
+//                    });
+
             mIsConnected = true;
             mConnectButton.setEnabled(false);
             mDisconnectButton.setEnabled(true);
+
+            myProgressDialog = ProgressDialog.show(
+                    MainActivity.this,
+                    getResources().getString(
+                            R.string.main_progressbar_message_srcrequest_1),
+                    getResources().getString(
+                            R.string.main_progressbar_message_srcrequest_2), true, false);
+
         }
     }
 
@@ -1011,12 +1031,7 @@ public class MainActivity extends Activity {
                         R.string.main_progressbar_message_srcrequest_1),
                 getResources().getString(
                         R.string.main_progressbar_message_srcrequest_2), true,
-                true, new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialog) {
-
-                    }
-                });
+                false);
     }
 
     // -------------------------------------------------------------------------
@@ -1362,6 +1377,10 @@ public class MainActivity extends Activity {
             mNscaServiceBind.publish(eP.genAppEvents());
 
             mNscaServiceBind.startMonitor(mPreferences.getmUpdateInterval());
+            myProgressDialog.dismiss();
+            mStatusMessageField.append("\n"
+                    + getResources().getString(R.string.main_status_message_prefix)
+                    + " " + "Connection established");
         }
 
         public void onServiceDisconnected(ComponentName arg0) {

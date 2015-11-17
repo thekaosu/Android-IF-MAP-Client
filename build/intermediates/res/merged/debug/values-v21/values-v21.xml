@@ -257,10 +257,10 @@
 
         <!--<item name="android:textColor">@color/lblColor</item>-->
         <!--<item name="android:titleTextColor">@color/lblColor</item>-->
-        <!--<item name="android:textColorPrimary">@color/lblColor</item>-->
+        <item name="android:textColorPrimary">@color/primary_text_color</item>
         <!--<item name="android:textColorPrimaryNoDisable">@color/stsColor</item>-->
-        <item name="android:textColorSecondary">@color/lblColor</item>
-        <item name="android:textColorTertiary">@color/tertiaryTextColor</item>
-        <item name="android:panelColorBackground">@color/bgrColor</item>
+        <item name="android:textColorSecondary">@color/sec_text_color</item>
+
+        <item name="android:textColorTertiary">@color/sec_text_color</item>
     </style>
 </resources>

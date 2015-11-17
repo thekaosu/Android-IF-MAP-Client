@@ -3,6 +3,7 @@
     <EditTextPreference
         android:name="Username"
         android:defaultValue="user"
+        android:inputType="text"
         android:key="usernamePreference"
         android:summary="@string/preferences_summary_username"
         android:title="@string/preferences_title_username" />

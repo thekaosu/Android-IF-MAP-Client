@@ -8,8 +8,9 @@
         android:title="@string/preferences_title_serverip" />
     <EditTextPreference
         android:name="EditText Preference"
-        android:defaultValue="5443"
+        android:defaultValue="5667"
+        android:inputType="number"
         android:key="iMonitorServerportPreference"
         android:summary="@string/preferences_summary_serverport"
-        android:title="@string/preferences_title_serverport" />
+        android:title="@string/preferences_title_serverport"/>
 </PreferenceScreen>

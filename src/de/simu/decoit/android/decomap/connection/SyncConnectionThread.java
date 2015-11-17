@@ -99,6 +99,7 @@ public class SyncConnectionThread implements Runnable {
         mMessagePublish = msg;
     }
 
+
     /**
      * thread run-method
      */

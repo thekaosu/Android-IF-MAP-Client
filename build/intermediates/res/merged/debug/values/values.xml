@@ -404,7 +404,7 @@
     <string name="preferences_title_nonconformdata">Use ESUKOM-Metadata</string>
     <string name="preferences_title_password">Password</string>
     <string name="preferences_title_permanentlyConnection">Connection-Type</string>
-    <string name="preferences_title_renewinterval">Renew-Request Interval</string>
+    <string name="preferences_title_renewinterval">Renew-Request Interval (in ms)</string>
     <string name="preferences_title_sendesukomspecificapps">Dont send app infos</string>
     <string name="preferences_title_serverPref">Monitoring-Mode</string>
     <string name="preferences_title_serverip">Server IP-Address</string>
@@ -1600,9 +1600,9 @@
     <eat-comment/>
     <style name="Theme.MainAppTheme" parent="android:Theme.Holo.Light">
         <item name="android:windowBackground">@color/backgroundIce</item>
-        <item name="android:textColorSecondary">@color/lblColor</item>
-        <item name="android:textColorTertiary">@color/tertiaryTextColor</item>
-        <item name="android:panelColorBackground">@color/bgrColor</item>
+        <item name="android:textColorPrimary">@color/primary_text_color</item>
+        <item name="android:textColorSecondary">@color/sec_text_color</item>
+        <item name="android:textColorTertiary">@color/sec_text_color</item>
     </style>
     <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/res/values/values.xml -->
     <eat-comment/>
@@ -1702,20 +1702,6 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
-    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/styles.xml -->
-    <eat-comment/>
-    <style name="btnStyleBeige" parent="@android:style/Widget.Button">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#5d6153</item>
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">0.6</item>
-        <item name="android:background">@drawable/custom_btn_beige</item>
-        <item name="android:padding">10dip</item>
-    </style>
     <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/setupBackButtonStyle.xml -->
     <eat-comment/>
     <style name="setupBackButtonStyle" parent="@android:style/Theme.Holo">

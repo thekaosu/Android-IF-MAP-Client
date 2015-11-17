@@ -21,10 +21,6 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
-import android.app.ActionBar;
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
-
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -33,16 +29,10 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.2
  * @author Leonid Schwenke, Decoit GmbH
  */
-public class ConnectionTypeSettingsFragment extends PreferenceFragment {
+public class ConnectionTypeSettingsFragment extends AbstractPreferenceFragment {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preferences_connectiontype_fragment);
-
-        ActionBar actionbar = (getActivity()).getActionBar();
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-        }
+    public ConnectionTypeSettingsFragment(){
+        fragmentID = R.xml.preferences_connectiontype_fragment;
+        dynamicSummaryKeys.add("renewInterval");
     }
 }

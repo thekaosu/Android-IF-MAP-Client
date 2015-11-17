@@ -1424,12 +1424,14 @@ containing a value of this type.
         public static final int primary_dark_material_light=0x7f0d0032;
         public static final int primary_material_dark=0x7f0d0033;
         public static final int primary_material_light=0x7f0d0034;
+        public static final int primary_text_color=0x7f0d004f;
         public static final int primary_text_default_material_dark=0x7f0d0035;
         public static final int primary_text_default_material_light=0x7f0d0036;
         public static final int primary_text_disabled_material_dark=0x7f0d0037;
         public static final int primary_text_disabled_material_light=0x7f0d0038;
         public static final int ripple_material_dark=0x7f0d0039;
         public static final int ripple_material_light=0x7f0d003a;
+        public static final int sec_text_color=0x7f0d0050;
         public static final int secondary_text_default_material_dark=0x7f0d003b;
         public static final int secondary_text_default_material_light=0x7f0d003c;
         public static final int secondary_text_disabled_material_dark=0x7f0d003d;
@@ -1437,8 +1439,8 @@ containing a value of this type.
         public static final int stsColor=0x7f0d003f;
         public static final int switch_thumb_disabled_material_dark=0x7f0d0040;
         public static final int switch_thumb_disabled_material_light=0x7f0d0041;
-        public static final int switch_thumb_material_dark=0x7f0d004f;
-        public static final int switch_thumb_material_light=0x7f0d0050;
+        public static final int switch_thumb_material_dark=0x7f0d0051;
+        public static final int switch_thumb_material_light=0x7f0d0052;
         public static final int switch_thumb_normal_material_dark=0x7f0d0042;
         public static final int switch_thumb_normal_material_light=0x7f0d0043;
         public static final int tertiaryTextColor=0x7f0d0044;
@@ -1796,18 +1798,19 @@ containing a value of this type.
         public static final int notification_template_media=0x7f030021;
         public static final int notification_template_part_chronometer=0x7f030022;
         public static final int notification_template_part_time=0x7f030023;
-        public static final int preference_header_item=0x7f030024;
-        public static final int preference_header_selection_item=0x7f030025;
-        public static final int preference_header_switch_item=0x7f030026;
-        public static final int select_dialog_item_material=0x7f030027;
-        public static final int select_dialog_multichoice_material=0x7f030028;
-        public static final int select_dialog_singlechoice_material=0x7f030029;
-        public static final int status_listview=0x7f03002a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03002b;
-        public static final int tab1=0x7f03002c;
-        public static final int tab2=0x7f03002d;
-        public static final int tab3=0x7f03002e;
-        public static final int tab4=0x7f03002f;
+        public static final int preference_category=0x7f030024;
+        public static final int preference_header_item=0x7f030025;
+        public static final int preference_header_selection_item=0x7f030026;
+        public static final int preference_header_switch_item=0x7f030027;
+        public static final int select_dialog_item_material=0x7f030028;
+        public static final int select_dialog_multichoice_material=0x7f030029;
+        public static final int select_dialog_singlechoice_material=0x7f03002a;
+        public static final int status_listview=0x7f03002b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002c;
+        public static final int tab1=0x7f03002d;
+        public static final int tab2=0x7f03002e;
+        public static final int tab3=0x7f03002f;
+        public static final int tab4=0x7f030030;
     }
     public static final class menu {
         public static final int mainmenu=0x7f0f0000;
@@ -2305,24 +2308,21 @@ containing a value of this type.
         public static final int Widget_AppCompat_TextView_SpinnerItem=0x7f09012d;
         public static final int Widget_AppCompat_Toolbar=0x7f09012e;
         public static final int Widget_AppCompat_Toolbar_Button_Navigation=0x7f09012f;
-        public static final int btnStyleBeige=0x7f090130;
-        public static final int setupBackButtonStyle=0x7f090131;
+        public static final int setupBackButtonStyle=0x7f090130;
     }
     public static final class xml {
-        public static final int ifmap_preferences=0x7f050000;
-        public static final int imonitor_preferences=0x7f050001;
-        public static final int preferences=0x7f050002;
-        public static final int preferences_automation_fragment=0x7f050003;
-        public static final int preferences_basicauth_fragment=0x7f050004;
-        public static final int preferences_connectiontype_fragment=0x7f050005;
-        public static final int preferences_esukommetadata_fragment=0x7f050006;
-        public static final int preferences_header=0x7f050007;
-        public static final int preferences_header_ifmap=0x7f050008;
-        public static final int preferences_header_imonitor=0x7f050009;
-        public static final int preferences_imonitorencryption_fragment=0x7f05000a;
-        public static final int preferences_logging_fragment=0x7f05000b;
-        public static final int preferences_server_fragment_ifmap=0x7f05000c;
-        public static final int preferences_server_fragment_imonitor=0x7f05000d;
+        public static final int preferences=0x7f050000;
+        public static final int preferences_automation_fragment=0x7f050001;
+        public static final int preferences_basicauth_fragment=0x7f050002;
+        public static final int preferences_connectiontype_fragment=0x7f050003;
+        public static final int preferences_esukommetadata_fragment=0x7f050004;
+        public static final int preferences_header=0x7f050005;
+        public static final int preferences_header_ifmap=0x7f050006;
+        public static final int preferences_header_imonitor=0x7f050007;
+        public static final int preferences_imonitorencryption_fragment=0x7f050008;
+        public static final int preferences_logging_fragment=0x7f050009;
+        public static final int preferences_server_fragment_ifmap=0x7f05000a;
+        public static final int preferences_server_fragment_imonitor=0x7f05000b;
     }
     public static final class styleable {
         /** Attributes that can be used with a ActionBar.

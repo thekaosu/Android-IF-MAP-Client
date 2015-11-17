@@ -4,11 +4,13 @@
         android:name="Server IP-Address"
         android:defaultValue="127.0.0.1"
         android:key="IF-MAPServeripPreference"
+        android:inputType="text"
         android:summary="@string/preferences_summary_serverip"
         android:title="@string/preferences_title_serverip" />
     <EditTextPreference
         android:name="EditText Preference"
         android:defaultValue="8443"
+        android:inputType="number"
         android:key="IF-MAPServerportPreference"
         android:summary="@string/preferences_summary_serverport"
         android:title="@string/preferences_title_serverport" />

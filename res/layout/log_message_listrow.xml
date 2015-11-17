@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:typeface="sans"></TextView>
+        android:typeface="sans"
+        android:textColor="?android:attr/textColorSecondary"></TextView>
 
     <LinearLayout
         android:id="@+id/LinearLayout02"
@@ -30,7 +31,8 @@
             android:layout_height="wrap_content"
             android:text="Type:   "
             android:textSize="13sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorSecondary"></TextView>
 
         <!-- message type value -->
         <TextView
@@ -38,7 +40,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Number"
-            android:textSize="13sp"></TextView>
+            android:textSize="13sp"
+            android:textColor="?android:attr/textColorSecondary"></TextView>
     </LinearLayout>
 
     <LinearLayout
@@ -53,7 +56,8 @@
             android:layout_height="wrap_content"
             android:text="Target: "
             android:textSize="13sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorSecondary"></TextView>
 
         <!-- target address value -->
         <TextView
@@ -62,7 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Mail"
-            android:textSize="13sp"></TextView>
+            android:textSize="13sp"
+            android:textColor="?android:attr/textColorSecondary"></TextView>
     </LinearLayout>
 
     <LinearLayout
@@ -76,7 +81,8 @@
             android:layout_height="wrap_content"
             android:text="Status: "
             android:textSize="13sp"
-            android:textStyle="bold"></TextView>
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorSecondary"></TextView>
 
         <!-- status value -->
         <TextView
@@ -85,7 +91,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Mail"
-            android:textSize="13sp"></TextView>
+            android:textSize="13sp"
+            android:textColor="?android:attr/textColorSecondary"></TextView>
     </LinearLayout>
 
     <LinearLayout

@@ -21,6 +21,12 @@
 
 package de.simu.decoit.android.decomap.messaging;
 
+import android.util.Log;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,12 +36,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
-
-import android.os.Build;
-import android.util.Log;
 import de.hshannover.f4.trust.ifmapj.IfmapJ;
 import de.hshannover.f4.trust.ifmapj.binding.IfmapStrings;
 import de.hshannover.f4.trust.ifmapj.identifier.Device;
@@ -68,12 +68,12 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * A generic class that generates message-parameters for the IfmapJ-lib
- * 
+ *
+ * @param <T>
  * @author Marcel Jahnke, DECOIT GmbH
  * @author Dennis Dunekacke, DECOIT GmbH
  * @author Markus Schölzel, Decoit GmbH
  * @version 0.2
- * @param <T>
  */
 public class MessageParametersGenerator<T> {
 
@@ -151,23 +151,20 @@ public class MessageParametersGenerator<T> {
 
     /**
      * generate request-parameters for use with ssrc-connection
-     * 
-     * @param messageType
-     *            type of message to generate
-     * @param deviceProperties
-     *            DeviceProperties object that contains the properties of the device
-     * 
+     *
+     * @param messageType      type of message to generate
+     * @param deviceProperties DeviceProperties object that contains the properties of the device
      * @return A PublishRequest or SubscribeRequest object message
      */
     @SuppressWarnings("unchecked")
     public T generateSRCRequestParamteres(byte messageType, DeviceProperties deviceProperties, boolean useNonConformMetadata,
-            boolean dontSendAppInfos, boolean dontSendGoogleApps) {
-        
-    	// this hack is needed in order to match this data to our training data
+                                          boolean dontSendAppInfos, boolean dontSendGoogleApps) {
+
+        // this hack is needed in order to match this data to our training data
         // initialize device identifier, no real salt useful for us
-    	//String imei = deviceProperties.getPhoneProperties().getIMEI();
+        //String imei = deviceProperties.getPhoneProperties().getIMEI();
         //deviceIdentifier = Identifiers.createDev(anonymize(imei));
-        
+
         // changed value of device-identifier to mac-address as value
         // (changes due to demonstrator - usecase3)
         if (deviceProperties.getSystemProperties().getMAC() == null) {
@@ -193,91 +190,88 @@ public class MessageParametersGenerator<T> {
         switch (messageType) {
 
         /* no parameters needed for new session request */
-        case MessageHandler.MSG_TYPE_REQUEST_NEWSESSION:
-            break;
+            case MessageHandler.MSG_TYPE_REQUEST_NEWSESSION:
+                break;
 
         /* no parameters needed for renew session */
-        case MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION:
-            break;
+            case MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION:
+                break;
 
         /* end session request */
-        case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
-            sInitialDevCharWasSend = false;
-            sInitialLocationWasSend = false;
-            restLastValues();
-            break;
+            case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
+                sInitialDevCharWasSend = false;
+                sInitialLocationWasSend = false;
+                restLastValues();
+                break;
 
         /* send location data request */
-        case MessageHandler.MSG_TYPE_METADATA_UPDATE:
-            PublishRequest publishRequest = Requests.createPublishReq();
-            PublishUpdate publishLocationUpdate = Requests.createPublishUpdate();
+            case MessageHandler.MSG_TYPE_METADATA_UPDATE:
+                PublishRequest publishRequest = Requests.createPublishReq();
+                PublishUpdate publishLocationUpdate = Requests.createPublishUpdate();
 
-            
-            // append device-characteristics-metadata
-            createDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, deviceProperties, simpledateformat, nowTime,
-                   ipAddress);
 
-            // also append esukom-specific data if related option is set
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                // append device-characteristics-metadata
+                createDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, deviceProperties, simpledateformat, nowTime,
+                        ipAddress);
+
+                // also append esukom-specific data if related option is set
                 if (useNonConformMetadata) {
                     createEsukomSpecificDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, simpledateformat, nowTime,
                             deviceProperties, dontSendAppInfos, dontSendGoogleApps);
                 }
-            }
 
-            if (PreferencesValues.sEnableLocationTracking &&(MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
-                // if a previous location has been send, add publish-delete
-                if (sInitialLocationWasSend) {
-                    PublishDelete deleteLastLocation = Requests.createPublishDelete();
-                    deleteLastLocation.addNamespaceDeclaration(IfmapStrings.STD_METADATA_PREFIX, IfmapStrings.STD_METADATA_NS_URI);
-                    String string_filter = "meta:location[" + "@ifmap-publisher-id=\'" + MainActivity.sCurrentPublisherId + "\']";
-                    deleteLastLocation.setFilter(string_filter);
-                    deleteLastLocation.setIdentifier1(ipAddress);
-                    publishRequest.addPublishElement(deleteLastLocation);
+                if (PreferencesValues.sEnableLocationTracking && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
+                    // if a previous location has been send, add publish-delete
+                    if (sInitialLocationWasSend) {
+                        PublishDelete deleteLastLocation = Requests.createPublishDelete();
+                        deleteLastLocation.addNamespaceDeclaration(IfmapStrings.STD_METADATA_PREFIX, IfmapStrings.STD_METADATA_NS_URI);
+                        String string_filter = "meta:location[" + "@ifmap-publisher-id=\'" + MainActivity.sCurrentPublisherId + "\']";
+                        deleteLastLocation.setFilter(string_filter);
+                        deleteLastLocation.setIdentifier1(ipAddress);
+                        publishRequest.addPublishElement(deleteLastLocation);
+                    }
+
+                    // build publish-location-update-request
+                    publishLocationUpdate.setIdentifier1(ipAddress);
+                    List<LocationInformation> locationInfoList = new ArrayList<LocationInformation>();
+                    LocationInformation locationInformation = new LocationInformation(PreferencesValues.sLocationTrackingType,
+                            MainActivity.sLatitude + " " + MainActivity.sLongitude);
+                    locationInfoList.add(locationInformation);
+                    Document location = metadataFactory.createLocation(locationInfoList, simpledateformat.format(nowTime),
+                            MainActivity.sCurrentPublisherId);
+                    publishLocationUpdate.addMetadata(location);
+                    publishRequest.addPublishElement(publishLocationUpdate);
                 }
-    
-                // build publish-location-update-request
-               publishLocationUpdate.setIdentifier1(ipAddress);
-                List<LocationInformation> locationInfoList = new ArrayList<LocationInformation>();
-                LocationInformation locationInformation = new LocationInformation(PreferencesValues.sLocationTrackingType,
-                        MainActivity.sLatitude + " " + MainActivity.sLongitude);
-                locationInfoList.add(locationInformation);
-                Document location = metadataFactory.createLocation(locationInfoList, simpledateformat.format(nowTime),
-                        MainActivity.sCurrentPublisherId);
-                publishLocationUpdate.addMetadata(location);
-                publishRequest.addPublishElement(publishLocationUpdate);
-            }
-            
-            sInitialDevCharWasSend = true;
-            sInitialLocationWasSend = true;
-            mRequest = (T) publishRequest;
-            break;
+
+                sInitialDevCharWasSend = true;
+                sInitialLocationWasSend = true;
+                mRequest = (T) publishRequest;
+                break;
 
         /* send device characteristics data request */
-        case MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS:
-            publishRequest = Requests.createPublishReq();
+            case MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS:
+                publishRequest = Requests.createPublishReq();
 
-            // append device-characteristics-metadata
-            createDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, deviceProperties, simpledateformat, nowTime,
-                   ipAddress);
+                // append device-characteristics-metadata
+                createDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, deviceProperties, simpledateformat, nowTime,
+                        ipAddress);
 
-            // also append esukom-specific data if related option is set
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                // also append esukom-specific data if related option is set
                 if (useNonConformMetadata) {
                     createEsukomSpecificDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, simpledateformat, nowTime,
                             deviceProperties, dontSendAppInfos, dontSendGoogleApps);
                 }
-            }
 
-            sInitialDevCharWasSend = true;
-            mRequest = (T) publishRequest;
-            break;
+
+                sInitialDevCharWasSend = true;
+                mRequest = (T) publishRequest;
+                break;
 
         /* if all fails */
-        default:
-            Toolbox.logTxt(this.getClass().getName(),
-                    "Error while building publish request...Messagetype for publish-request could not be found!");
-            break;
+            default:
+                Toolbox.logTxt(this.getClass().getName(),
+                        "Error while building publish request...Messagetype for publish-request could not be found!");
+                break;
         }
 
         return mRequest;
@@ -287,40 +281,34 @@ public class MessageParametersGenerator<T> {
      * reset all mLast* values
      */
     private void restLastValues() {
-    	mLastLatitude = null;
-    	mLastAppList = null;
-    	mLastBatStat = null;
-    	mLastCpuLoad = null;
-    	mLastFreeRam = null;
-    	mLastIpAddress = null;
-    	mLastLongitude = null;
-    	mLastProcCount = null;
-    	mLastRxBytesTotal = null;
-    	mLastRxBytesTotal = null;
-    	mLastSmsRecCount = null;
-    	mLastSmsSentCount = null;
-    	mLastSmsSentDate = null;
-    	mLastTxBytesTotal = null;
-	}
+        mLastLatitude = null;
+        mLastAppList = null;
+        mLastBatStat = null;
+        mLastCpuLoad = null;
+        mLastFreeRam = null;
+        mLastIpAddress = null;
+        mLastLongitude = null;
+        mLastProcCount = null;
+        mLastRxBytesTotal = null;
+        mLastRxBytesTotal = null;
+        mLastSmsRecCount = null;
+        mLastSmsSentCount = null;
+        mLastSmsSentDate = null;
+        mLastTxBytesTotal = null;
+    }
 
-	/**
+    /**
      * create device-characteristics-metadata and append it to passes in publish-request-object
-     * 
-     * @param publishRequest
-     *            publish-request to send
-     * @param deviceIdentifier
-     *            root-identifier for the device
-     * @param deviceProperties
-     *            device-properties object containing device-related informations to be appended to the metadata-graph
-     * @param simpledateformat
-     *            date-formatter
-     * @param nowTime
-     *            current time
-     * @param ipAddress
-     *            IP-Identifier
+     *
+     * @param publishRequest   publish-request to send
+     * @param deviceIdentifier root-identifier for the device
+     * @param deviceProperties device-properties object containing device-related informations to be appended to the metadata-graph
+     * @param simpledateformat date-formatter
+     * @param nowTime          current time
+     * @param ipAddress        IP-Identifier
      */
     public void createDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdentifier,
-            DeviceProperties deviceProperties, SimpleDateFormat simpledateformat, Date nowTime, IpAddress ipAddress) {
+                                                         DeviceProperties deviceProperties, SimpleDateFormat simpledateformat, Date nowTime, IpAddress ipAddress) {
         Document document = createStdSingleElementDocument("device-characteristic", Cardinality.multiValue);
         Element root = (Element) document.getFirstChild();
 
@@ -341,20 +329,15 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create metadata-graph for esukom-specific metadata
-     * 
-     * @param publishRequest
-     *            publish-request to send
-     * @param deviceIdent
-     *            root-identifier for the device
-     * @param simpledateformat
-     *            date-formatter
-     * @param nowTime
-     *            current time
-     * @param devProps
-     *            device-properties object containing device-related informations to be appended to the metadata-graph
+     *
+     * @param publishRequest   publish-request to send
+     * @param deviceIdent      root-identifier for the device
+     * @param simpledateformat date-formatter
+     * @param nowTime          current time
+     * @param devProps         device-properties object containing device-related informations to be appended to the metadata-graph
      */
     public void createEsukomSpecificDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdent,
-            SimpleDateFormat simpledateformat, Date nowTime, DeviceProperties devProps, boolean dontSendAppInfos, boolean dontSendGoogleApps) {
+                                                                       SimpleDateFormat simpledateformat, Date nowTime, DeviceProperties devProps, boolean dontSendAppInfos, boolean dontSendGoogleApps) {
 
         // feature-document and current time
         Document fe = null;
@@ -426,7 +409,7 @@ public class MessageParametersGenerator<T> {
         }
 
         // features that can change during runtime
-        
+
         // Battery
         String mCurBatStat = BatteryReceiver.sCurrentBatteryLevel;
         if (!mCurBatStat.equals(mLastBatStat) || locationChanged) {
@@ -434,18 +417,17 @@ public class MessageParametersGenerator<T> {
             addToUpdateRequest(publishRequest, mPhoneBatteryCat, null, fe, MetadataLifetime.session, true);
             mLastBatStat = mCurBatStat;
         }
-        
+
         // IP
         String currentIpAddress = devProps.getSystemProperties().getLocalIpAddress();
         if (!currentIpAddress.equals(mLastIpAddress) || locationChanged) {
-        	fe = createFeature("IpAddress", time, currentIpAddress, QUALI);
-        	addToUpdateRequest(publishRequest, mPhoneDeviceCat, null, fe, MetadataLifetime.session, true);
-        	mLastIpAddress = currentIpAddress;
+            fe = createFeature("IpAddress", time, currentIpAddress, QUALI);
+            addToUpdateRequest(publishRequest, mPhoneDeviceCat, null, fe, MetadataLifetime.session, true);
+            mLastIpAddress = currentIpAddress;
         } else {
-        	Log.i("MessageParametersGenerator", "IpAddress unchanged.");
+            Log.i("MessageParametersGenerator", "IpAddress unchanged.");
         }
-        
-        
+
 
         String mCurCpuLoad = String.valueOf(devProps.getSystemProperties().getCurCpuLoadPercent());
         if (!mCurCpuLoad.equals(mLastCpuLoad) || locationChanged) {
@@ -472,9 +454,9 @@ public class MessageParametersGenerator<T> {
         String currentTxBytesTotal = String.valueOf(SystemProperties.getTotalTxBytes());
         String currentRxBytesTotal = String.valueOf(SystemProperties.getTotalRxBytes());
         if (!currentTxBytesTotal.equals(mLastTxBytesTotal) ||
-        	!currentRxBytesTotal.equals(mLastRxBytesTotal) ||
-        	locationChanged) {
-        	// we need to sent new features
+                !currentRxBytesTotal.equals(mLastRxBytesTotal) ||
+                locationChanged) {
+            // we need to sent new features
             fe = createFeature("Rx3g", time, String.valueOf(SystemProperties.getRxBytes3G()), QUANT);
             addToUpdateRequest(publishRequest, mPhoneIpCat, null, fe, MetadataLifetime.session, true);
             fe = createFeature("Tx3g", time, String.valueOf(SystemProperties.getTxBytes3G()), QUANT);
@@ -483,23 +465,23 @@ public class MessageParametersGenerator<T> {
             addToUpdateRequest(publishRequest, mPhoneIpCat, null, fe, MetadataLifetime.session, true);
             fe = createFeature("TxOther", time, String.valueOf(SystemProperties.getTxBytesOther()), QUANT);
             addToUpdateRequest(publishRequest, mPhoneIpCat, null, fe, MetadataLifetime.session, true);
-            
+
             // remember last state
             mLastRxBytesTotal = currentRxBytesTotal;
             mLastTxBytesTotal = currentTxBytesTotal;
         }
-        
+
         // added outgoing_sms and incoming_sms
         for (SmsInfos smsInfo : SMSObserver.incomingSms) {
-        	fe = createFeature("IncomingSms", DateUtil.getTimestampXsd(smsInfo.getDate().getTime()), "Incoming SMS to " + smsInfo.getAddress(), ARBIT);
-        	addToUpdateRequest(publishRequest, mPhoneSMSCat, null, fe, MetadataLifetime.session, true);			
-		}
+            fe = createFeature("IncomingSms", DateUtil.getTimestampXsd(smsInfo.getDate().getTime()), "Incoming SMS to " + smsInfo.getAddress(), ARBIT);
+            addToUpdateRequest(publishRequest, mPhoneSMSCat, null, fe, MetadataLifetime.session, true);
+        }
         for (SmsInfos smsInfo : SMSObserver.outgoingSms) {
-        	fe = createFeature("OutgoingSms", DateUtil.getTimestampXsd(smsInfo.getDate().getTime()), "Outgoing SMS to " + smsInfo.getAddress(), ARBIT);
-        	addToUpdateRequest(publishRequest, mPhoneSMSCat, null, fe, MetadataLifetime.session, true);			
-        }        
+            fe = createFeature("OutgoingSms", DateUtil.getTimestampXsd(smsInfo.getDate().getTime()), "Outgoing SMS to " + smsInfo.getAddress(), ARBIT);
+            addToUpdateRequest(publishRequest, mPhoneSMSCat, null, fe, MetadataLifetime.session, true);
+        }
         SMSObserver.resetSmsInfos();
-        
+
         String mCurSmsRecCount = String.valueOf(SMSObserver.sSmsInCount);
         if (!mCurSmsRecCount.equals(mLastSmsRecCount) || locationChanged) {
             fe = createFeature("ReceivedCount", time, mCurSmsRecCount, QUANT);
@@ -533,20 +515,19 @@ public class MessageParametersGenerator<T> {
             fe = createFeature("NewPicture", time, "true", QUALI);
             addToUpdateRequest(publishRequest, mPhoneSensorCat, null, fe, MetadataLifetime.session, true);
         }
-        
+
         // back camera used?
         MainActivity.checkCameraActive();
         boolean isUsed = (MainActivity.mBackCamActive || MainActivity.mFrontCamActive);
         String isUsedStr = isUsed ? "true" : "false";
         Log.i("MessageParametersGenerator", "CameraIsUsed = " + isUsed);
         if (isUsed != mLastCameraIsUsed || !sInitialLocationWasSend) {
-        	Log.i("###", "MUST PUBLISH HERE");
-        	fe = createFeature("CameraIsUsed", time, isUsedStr, QUALI);
-        	addToUpdateRequest(publishRequest, mPhoneSensorCat, null, fe, MetadataLifetime.session, true);
-        	mLastCameraIsUsed = isUsed;
-		}
-        
-        
+            Log.i("###", "MUST PUBLISH HERE");
+            fe = createFeature("CameraIsUsed", time, isUsedStr, QUALI);
+            addToUpdateRequest(publishRequest, mPhoneSensorCat, null, fe, MetadataLifetime.session, true);
+            mLastCameraIsUsed = isUsed;
+        }
+
 
         // send application information?
         if (!dontSendAppInfos) {
@@ -573,14 +554,14 @@ public class MessageParametersGenerator<T> {
                     fe = createFeature("Name", time, currentAppList.get(i).getName(), ARBIT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
                 }
-                
+
                 // smartphone.android.app.Installer
                 if (!sInitialDevCharWasSend || entryNameChanged || locationChanged
                         || (appEntryExists && !mLastAppList.get(i).getInstallerPackageName().equals(currentAppList.get(i).getInstallerPackageName()))) {
                     fe = createFeature("Installer", time, currentAppList.get(i).getInstallerPackageName(), ARBIT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
                 }
-                
+
                 // smartphone.android.app.VersionName and VersionCode
                 if (!sInitialDevCharWasSend || entryNameChanged || locationChanged
                         || (appEntryExists && !mLastAppList.get(i).getVersionName().equals(currentAppList.get(i).getVersionName()))) {
@@ -635,22 +616,16 @@ public class MessageParametersGenerator<T> {
     /**
      * create new publish-update and add it to passed in publish-request if the data has already been send, append a publish-delete to erase
      * the previously published data
-     * 
-     * @param request
-     *            publish-request-object to add updates to
-     * @param ident1
-     *            first identifier for update-request
-     * @param ident2
-     *            second identifier for update-request
-     * @param metadata
-     *            metadata to append to identifier(s)
-     * @param metadataLifeTime
-     *            lifetime of metadata
-     * @param doDelete
-     *            flag to decide if an automatic delete request is appended
+     *
+     * @param request          publish-request-object to add updates to
+     * @param ident1           first identifier for update-request
+     * @param ident2           second identifier for update-request
+     * @param metadata         metadata to append to identifier(s)
+     * @param metadataLifeTime lifetime of metadata
+     * @param doDelete         flag to decide if an automatic delete request is appended
      */
     public void addToUpdateRequest(PublishRequest request, Identifier ident1, Identifier ident2, Document metadata,
-            MetadataLifetime metadataLifeTime, boolean doDelete) {
+                                   MetadataLifetime metadataLifeTime, boolean doDelete) {
         // add publish-update to request
         PublishUpdate publishUpdate = Requests.createPublishUpdate();
         publishUpdate = Requests.createPublishUpdate();
@@ -690,12 +665,9 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create a standard single element document
-     * 
-     * @param name
-     *            name of the element
-     * @param card
-     *            cardinality of the element
-     * 
+     *
+     * @param name name of the element
+     * @param card cardinality of the element
      * @return single element document
      */
     private Document createStdSingleElementDocument(String name, Cardinality card) {
@@ -704,14 +676,10 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create a single element document
-     * 
-     * @param qualifiedName
-     *            qualified name of element
-     * @param uri
-     *            namespace uri
-     * @param cardinality
-     *            cardinality of element
-     * 
+     *
+     * @param qualifiedName qualified name of element
+     * @param uri           namespace uri
+     * @param cardinality   cardinality of element
      * @return single element document
      */
     private Document createSingleElementDocument(String qualifiedName, String uri, Cardinality cardinality) {
@@ -724,16 +692,11 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create and append a text element
-     * 
-     * @param doc
-     *            document
-     * @param parent
-     *            parent element
-     * @param elName
-     *            name of element
-     * @param value
-     *            value for element
-     * 
+     *
+     * @param doc    document
+     * @param parent parent element
+     * @param elName name of element
+     * @param value  value for element
      * @return element
      */
     private Element createAndAppendTextElementCheckNull(Document doc, Element parent, String elName, Object value) {
@@ -758,10 +721,9 @@ public class MessageParametersGenerator<T> {
 
     /**
      * Helper to create an {@link Element} without a namespace in {@link Document} doc and append it to the {@link Element} given by parent.
-     * 
+     *
      * @param doc
      * @param elName
-     * 
      * @return element
      */
     private Element createAndAppendElement(Document doc, Element parent, String elName) {
@@ -773,15 +735,11 @@ public class MessageParametersGenerator<T> {
     /**
      * Helper to create a new element with name elName and append it to the {@link Element} given by parent if the given value is non-null.
      * The new {@link Element} will have {@link Text} node containing value.
-     * 
-     * @param doc
-     *            {@link Document} where parent is located in
-     * @param parent
-     *            where to append the new element
-     * @param elName
-     *            the name of the new element.
-     * @param value
-     *            the value of the {@link Text} node appended to the new element, using toString() on the object.
+     *
+     * @param doc    {@link Document} where parent is located in
+     * @param parent where to append the new element
+     * @param elName the name of the new element.
+     * @param value  the value of the {@link Text} node appended to the new element, using toString() on the object.
      */
     private void appendTextElementIfNotNull(Document doc, Element parent, String elName, Object value) {
         if (value == null) {
@@ -792,16 +750,11 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create feature-metadata
-     * 
-     * @param id
-     *            content for id-element
-     * @param timestamp
-     *            timestamp-string
-     * @param value
-     *            content for value-element
-     * @param contentType
-     *            type of content
-     * 
+     *
+     * @param id          content for id-element
+     * @param timestamp   timestamp-string
+     * @param value       content for value-element
+     * @param contentType type of content
      * @return feature-metadata-document
      */
     private Document createFeature(String id, String timestamp, String value, String contentType) {
@@ -832,10 +785,8 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create new category-link
-     * 
-     * @param name
-     *            category-link-name
-     * 
+     *
+     * @param name category-link-name
      * @return category-link-metadata-document
      */
     private Document createCategoryLink(String name) {
@@ -849,30 +800,27 @@ public class MessageParametersGenerator<T> {
 
     /**
      * create a new category
-     * 
-     * @param name
-     *            category-name
-     * @param admDomain
-     *            administrative-domain-string
-     * 
+     *
+     * @param name      category-name
+     * @param admDomain administrative-domain-string
      * @return category-identifer
      */
     private Identity createCategory(String name, String admDomain) {
         return Identifiers.createIdentity(IdentityType.other, name, admDomain, OTHER_TYPE_DEFINITION);
     }
-    
+
     /**
      * Anonymize the given input String by using a cryptographic hash.
-     * 
+     *
      * @param input
      * @return
      */
-    private String anonymize(String input){
-		String salt = CryptoUtil.sha256(input);
-		// 10-times sha-256 hashing
-		for (int i = 0; i < 10; i++) {
-			input = CryptoUtil.sha256(input + salt);
-		}
-		return input;
+    private String anonymize(String input) {
+        String salt = CryptoUtil.sha256(input);
+        // 10-times sha-256 hashing
+        for (int i = 0; i < 10; i++) {
+            input = CryptoUtil.sha256(input + salt);
+        }
+        return input;
     }
 }

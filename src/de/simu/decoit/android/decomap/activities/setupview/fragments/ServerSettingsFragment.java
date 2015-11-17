@@ -21,10 +21,8 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
-import android.app.ActionBar;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 import de.simu.decoit.android.decomap.activities.R;
@@ -36,23 +34,22 @@ import de.simu.decoit.android.decomap.activities.setupview.SetupAdapter;
  * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
-public class ServerSettingsFragment extends PreferenceFragment {
+public class ServerSettingsFragment extends AbstractPreferenceFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        String mode = prefs.getString(SetupAdapter.MONITORINGMODE_VIEW_ID+"", "IF-MAP");
+        String mode = prefs.getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", "IF-MAP");
         if (mode.equals("IF-MAP")) {
-            addPreferencesFromResource(R.xml.preferences_server_fragment_ifmap);
+            fragmentID = R.xml.preferences_server_fragment_ifmap;
+            dynamicSummaryKeys.add("IF-MAPServeripPreference");
+            dynamicSummaryKeys.add("IF-MAPServerportPreference");
         } else if (mode.equals("iMonitor")) {
-            addPreferencesFromResource(R.xml.preferences_server_fragment_imonitor);
+            fragmentID = R.xml.preferences_server_fragment_imonitor;
+            dynamicSummaryKeys.add("iMonitorServeripPreference");
+            dynamicSummaryKeys.add("iMonitorServerportPreference");
         }
-
-        ActionBar actionbar = (getActivity()).getActionBar();
-        if (actionbar != null) {
-            actionbar.setDisplayHomeAsUpEnabled(true);
-        }
+        super.onCreate(savedInstanceState);
     }
 }

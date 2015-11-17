@@ -3,23 +3,8 @@
 
     <style name="Theme.MainAppTheme" parent="android:Theme.Holo.Light">
         <item name="android:windowBackground">@color/backgroundIce</item>
-        <item name="android:textColorSecondary">@color/lblColor</item>
-        <item name="android:textColorTertiary">@color/tertiaryTextColor</item>
-        <item name="android:panelColorBackground">@color/bgrColor</item>
-    </style>
-
-
-
-    <style name="btnStyleBeige" parent="@android:style/Widget.Button">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#5d6153</item>
-        <item name="android:gravity">center</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDx">1</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">0.6</item>
-        <item name="android:background">@drawable/custom_btn_beige</item>
-        <item name="android:padding">10dip</item>
+        <item name="android:textColorPrimary">@color/primary_text_color</item>
+        <item name="android:textColorSecondary">@color/sec_text_color</item>
+        <item name="android:textColorTertiary">@color/sec_text_color</item>
     </style>
 </resources>

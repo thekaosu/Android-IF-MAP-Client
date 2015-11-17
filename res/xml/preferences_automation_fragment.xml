@@ -19,6 +19,7 @@
         android:name="Update Interval"
         android:defaultValue="60000"
         android:key="updateInterval"
+        android:inputType="number"
         android:summary="@string/preferences_summary_updateinterval"
         android:title="@string/preferences_title_updateinterval"
         android:dependency="autoUpdate"/>

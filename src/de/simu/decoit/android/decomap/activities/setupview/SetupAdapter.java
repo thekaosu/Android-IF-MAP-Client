@@ -62,7 +62,8 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     public static final long MONITORINGMODE_VIEW_ID = R.id.monitoringModeSettings;
 
     //Contains all view ids, which should not be disabled, while a connection is established
-    private final long[] VIEW_WHILE_CONNECTION_WHITELIST = new long[]{R.id.loggingPreferences, R.id.esukomMetadataSettings};
+    // R.id.esukomMetadataSettings could be whitelisted too, but Problems with sInitialDevCharWasSend
+    private final long[] VIEW_WHILE_CONNECTION_WHITELIST = new long[]{R.id.loggingPreferences};
 
     private ArrayList<Long> switchIDS = new ArrayList<Long>();
 
@@ -97,7 +98,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
         switch (headerType) {
             case HEADER_TYPE_CATEGORY:
-                view = mInflater.inflate(android.R.layout.preference_category, parent, false);
+                view = mInflater.inflate(R.layout.preference_category, parent, false);
                 title = ((TextView) view.findViewById(android.R.id.title));
                 title.setText(header.getTitle(getContext()
                         .getResources()));

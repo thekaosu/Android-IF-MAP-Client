@@ -33,6 +33,8 @@ public class BasicAuthSettingsFragment extends AbstractSwitchFragment {
 
     public BasicAuthSettingsFragment() {
         fragmentID = R.xml.preferences_basicauth_fragment;
-        keyID=R.id.basicAuthSettings;
+        keyID = R.id.basicAuthSettings;
+        dynamicSummaryKeys.add("passwordPreference");
+        dynamicSummaryKeys.add("usernamePreference");
     }
 }
