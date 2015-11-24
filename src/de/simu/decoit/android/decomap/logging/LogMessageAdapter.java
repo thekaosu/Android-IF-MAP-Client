@@ -38,7 +38,8 @@ import de.simu.decoit.android.decomap.activities.R;
 /**
  * Adapter-Class for handling the Log-Message List View
  *
- * @author Dennis Dunekacke, DECOIT GmbH
+ * @author Dennis Dunekacke, Decoit GmbH
+ * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
 public class LogMessageAdapter extends BaseAdapter implements OnClickListener {

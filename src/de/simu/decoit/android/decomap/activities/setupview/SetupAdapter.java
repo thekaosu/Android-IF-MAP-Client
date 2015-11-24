@@ -56,7 +56,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     private LayoutInflater mInflater;
 
     //Contains all views, which get a SwitchPreferenceHandler
-    private final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings, R.id.basicAuthSettings};
+    private final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings};
 
     //View id for the monitoring mode selection
     public static final long MONITORINGMODE_VIEW_ID = R.id.monitoringModeSettings;

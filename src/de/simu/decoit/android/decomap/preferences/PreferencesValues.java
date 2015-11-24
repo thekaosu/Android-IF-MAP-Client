@@ -23,8 +23,8 @@ package de.simu.decoit.android.decomap.preferences;
 
 /**
  * Object for holding Preferences
- * 
- * @author  Dennis Dunekacke, Decoit GmbH
+ *
+ * @author Dennis Dunekacke, Decoit GmbH
  * @version 0.2
  */
 public class PreferencesValues {
@@ -33,7 +33,7 @@ public class PreferencesValues {
     // has been established and "unlock" it when a session has ended.
     // declared static so it can be passed to SetupActivity.
 
-//    public static boolean sLockConnectionPreferences = false;
+    //    public static boolean sLockConnectionPreferences = false;
     public static boolean sLockPreferences = false;
 //    public static boolean sLockLocationTrackingOptions = false;
 
@@ -43,11 +43,15 @@ public class PreferencesValues {
     // location tracking
     public static String sLocationTrackingType = null;
     public static boolean sEnableLocationTracking = false;
-    
+
     // auto update
-    public static boolean sAutoUpdate =  false;
+    public static boolean sAutoUpdate = false;
     private long mUpdateInterval = 60000;
-    
+
+
+    // path for files
+    public static String sLogPath;
+    public static String sKeystorePath;
 
     // application-settings
     private boolean mUseNonConformMetadata;
@@ -97,8 +101,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mUseNonConformMetadata
-     *            the mUseNonConformMetadata to set
+     * @param mUseNonConformMetadata the mUseNonConformMetadata to set
      */
     public void setUseNonConformMetadata(boolean mUseNonConformMetadata) {
         this.mUseNonConformMetadata = mUseNonConformMetadata;
@@ -112,8 +115,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mAutostart
-     *            the mAutostart to set
+     * @param mAutostart the mAutostart to set
      */
     public void setmAutostart(boolean mAutostart) {
         this.mAutostart = mAutostart;
@@ -134,16 +136,14 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mIFMAPServerIpPreference
-     *            the mIFMAPServerIpPreference to set
+     * @param mIFMAPServerIpPreference the mIFMAPServerIpPreference to set
      */
     public void setIFMAPServerIpPreference(String mIFMAPServerIpPreference) {
         this.mIFMAPServerIpPreference = mIFMAPServerIpPreference;
     }
 
     /**
-     * @param mIMonitorServerIpPreference
-     *            the mIMonitorServerIpPreference to set
+     * @param mIMonitorServerIpPreference the mIMonitorServerIpPreference to set
      */
     public void setIMonitorServerIpPreference(String mIMonitorServerIpPreference) {
         this.mIMonitorServerIpPreference = mIMonitorServerIpPreference;
@@ -164,16 +164,14 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mIFMAPServerPortPreference
-     *            the mIFMAPServerPortPreference to set
+     * @param mIFMAPServerPortPreference the mIFMAPServerPortPreference to set
      */
     public void setIFMAPServerPortPreference(String mIFMAPServerPortPreference) {
         this.mIFMAPServerPortPreference = mIFMAPServerPortPreference;
     }
 
     /**
-     * @param mIMonitorServerPortPreference
-     *            the mIMonitorServerPortPreference to set
+     * @param mIMonitorServerPortPreference the mIMonitorServerPortPreference to set
      */
     public void setIMonitorServerPortPreference(String mIMonitorServerPortPreference) {
         this.mIMonitorServerPortPreference = mIMonitorServerPortPreference;
@@ -187,8 +185,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mNscaPassPreference
-     *            the mNscaPassPreference to set
+     * @param mNscaPassPreference the mNscaPassPreference to set
      */
     public void setNscaPassPreference(String mNscaPassPreference) {
         this.mNscaPassPreference = mNscaPassPreference;
@@ -202,8 +199,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mNscaEncPreference
-     *            the mNscaEncPreference to set
+     * @param mNscaEncPreference the mNscaEncPreference to set
      */
     public void setNscaEncPreference(String mNscaEncPreference) {
         this.mNscaEncPreference = mNscaEncPreference;
@@ -217,8 +213,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mUsernamePreference
-     *            the mUsernamePreference to set
+     * @param mUsernamePreference the mUsernamePreference to set
      */
     public void setUsernamePreference(String mUsernamePreference) {
         this.mUsernamePreference = mUsernamePreference;
@@ -232,8 +227,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mPasswordPreference
-     *            the mPasswordPreference to set
+     * @param mPasswordPreference the mPasswordPreference to set
      */
     public void setPasswordPreference(String mPasswordPreference) {
         this.mPasswordPreference = mPasswordPreference;
@@ -247,8 +241,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mAllowUnsafeSSLPreference
-     *            the mAllowUnsafeSSLPreference to set
+     * @param mAllowUnsafeSSLPreference the mAllowUnsafeSSLPreference to set
      */
     public void setAllowUnsafeSSLPreference(boolean mAllowUnsafeSSLPreference) {
         this.mAllowUnsafeSSLPreference = mAllowUnsafeSSLPreference;
@@ -262,8 +255,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mIsPermantConnection
-     *            the mIsPermantConnection to set
+     * @param mIsPermantConnection the mIsPermantConnection to set
      */
     public void setIsPermantConnection(boolean mIsPermantConnection) {
         this.mIsPermantConnection = mIsPermantConnection;
@@ -277,8 +269,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mRenewIntervalPreference
-     *            the mRenewIntervalPreference to set
+     * @param mRenewIntervalPreference the mRenewIntervalPreference to set
      */
     public void setRenewIntervalPreference(Long mRenewIntervalPreference) {
         this.mRenewIntervalPreference = mRenewIntervalPreference;
@@ -292,8 +283,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnableNewAndEndSessionLog
-     *            the mEnableNewAndEndSessionLog to set
+     * @param mEnableNewAndEndSessionLog the mEnableNewAndEndSessionLog to set
      */
     public void setEnableNewAndEndSessionLog(boolean mEnableNewAndEndSessionLog) {
         this.mEnableNewAndEndSessionLog = mEnableNewAndEndSessionLog;
@@ -307,8 +297,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnableSubscribe
-     *            the mEnableSubscribe to set
+     * @param mEnableSubscribe the mEnableSubscribe to set
      */
     public void setEnableSubscribe(boolean mEnableSubscribe) {
         this.mEnableSubscribe = mEnableSubscribe;
@@ -322,8 +311,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnablePollLog
-     *            the mEnablePollLog to set
+     * @param mEnablePollLog the mEnablePollLog to set
      */
     public void setEnablePollLog(boolean mEnablePollLog) {
         this.mEnablePollLog = mEnablePollLog;
@@ -337,8 +325,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnableLocationTrackingLog
-     *            the mEnableLocationTrackingLog to set
+     * @param mEnableLocationTrackingLog the mEnableLocationTrackingLog to set
      */
     public void setEnableLocationTrackingLog(boolean mEnableLocationTrackingLog) {
         this.mEnableLocationTrackingLog = mEnableLocationTrackingLog;
@@ -352,8 +339,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnablePublishCharacteristicsLog
-     *            the mEnablePublishCharacteristicsLog to set
+     * @param mEnablePublishCharacteristicsLog the mEnablePublishCharacteristicsLog to set
      */
     public void setEnablePublishCharacteristicsLog(boolean mEnablePublishCharacteristicsLog) {
         this.mEnablePublishCharacteristicsLog = mEnablePublishCharacteristicsLog;
@@ -367,8 +353,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnableErrorMessageLog
-     *            the mEnableErrorMessageLog to set
+     * @param mEnableErrorMessageLog the mEnableErrorMessageLog to set
      */
     public void setEnableErrorMessageLog(boolean mEnableErrorMessageLog) {
         this.mEnableErrorMessageLog = mEnableErrorMessageLog;
@@ -382,8 +367,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnableInvalideResponseLog
-     *            the mEnableInvalideResponseLog to set
+     * @param mEnableInvalideResponseLog the mEnableInvalideResponseLog to set
      */
     public void setEnableInvalideResponseLog(boolean mEnableInvalideResponseLog) {
         this.mEnableInvalideResponseLog = mEnableInvalideResponseLog;
@@ -397,8 +381,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mEnableRenewRequestLog
-     *            the mEnableRenewRequestLog to set
+     * @param mEnableRenewRequestLog the mEnableRenewRequestLog to set
      */
     public void setEnableRenewRequestLog(boolean mEnableRenewRequestLog) {
         this.mEnableRenewRequestLog = mEnableRenewRequestLog;
@@ -419,8 +402,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mUpdateInterval
-     *            the mUpdateInterval to set
+     * @param mUpdateInterval the mUpdateInterval to set
      */
     public void setmUpdateInterval(long mLocationTrackingInterval) {
         this.mUpdateInterval = mLocationTrackingInterval;
@@ -434,8 +416,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mUseBasicAuth
-     *            the mUseBasicAuth to set
+     * @param mUseBasicAuth the mUseBasicAuth to set
      */
     public void setIsUseBasicAuth(boolean mUseBasicAuth) {
         this.mUseBasicAuth = mUseBasicAuth;
@@ -449,8 +430,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mAutoconnect
-     *            the mAutoconnect to set
+     * @param mAutoconnect the mAutoconnect to set
      */
     public void setmAutoconnect(boolean mAutoconnect) {
         this.mAutoconnect = mAutoconnect;
@@ -464,8 +444,7 @@ public class PreferencesValues {
     }
 
     /**
-     * @param mSendApplicationsInfos
-     *            the mSendApplicationsInfos to set
+     * @param mSendApplicationsInfos the mSendApplicationsInfos to set
      */
     public void setmSendApplicationsInfos(boolean mSendApplicationsInfos) {
         this.mDontSendApplicationsInfos = mSendApplicationsInfos;

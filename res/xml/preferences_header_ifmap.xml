@@ -18,9 +18,8 @@
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ServerSettingsFragment"
         android:title="@string/preferences_header_serverSettings" />
     <header
-        android:id="@+id/basicAuthSettings"
-        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.BasicAuthSettingsFragment"
-        android:summary="@string/preferences_summary_basicauth"
+        android:id="@+id/authSettings"
+        android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.AuthSettingsFragment"
         android:title="@string/preferences_header_basicAuthSettings" />
     <header
         android:fragment="de.simu.decoit.android.decomap.activities.setupview.fragments.ConnectionTypeSettingsFragment"

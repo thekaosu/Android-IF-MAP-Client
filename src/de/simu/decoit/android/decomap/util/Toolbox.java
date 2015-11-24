@@ -65,9 +65,6 @@ public class Toolbox {
     public static final int SIMPLE_NOTFICATION_ID = 1;
     public static boolean sLogFolderExists = false;
     public static final String CONTENT_SMS = "content://sms";
-
-    // path for saving log file
-    public static String sLogPath = "/ifmap-client-logs/";
     
     /**
      * return IPv4 Regex.-pattern

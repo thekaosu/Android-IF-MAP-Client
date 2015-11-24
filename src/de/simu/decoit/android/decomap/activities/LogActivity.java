@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.View;
 import android.widget.ListView;
 
@@ -34,10 +33,12 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.simu.decoit.android.decomap.activities.setupview.FileChooserPreferenceDialog;
 import de.simu.decoit.android.decomap.database.LoggingDatabase;
 import de.simu.decoit.android.decomap.logging.LogMessage;
 import de.simu.decoit.android.decomap.logging.LogMessageAdapter;
 import de.simu.decoit.android.decomap.logging.LogMessageDialog;
+import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
@@ -45,6 +46,7 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
+ * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
 public class LogActivity extends Activity {
@@ -64,9 +66,6 @@ public class LogActivity extends Activity {
 
         // create new database connection
         mLogDB = new LoggingDatabase(this);
-
-        // create log message list
-        createListAdapter();
     }
 
     @Override
@@ -181,11 +180,15 @@ public class LogActivity extends Activity {
      * @param view element that originated the call
      */
     public void removeAllLogEntrys(View view) {
-        //Deleting all log-messages from the Database
-        deleteLog();
 
-        //updating view, by recreating the ListAdapter
-        createListAdapter();
+        FileChooserPreferenceDialog fileDialog = new FileChooserPreferenceDialog(this, ".txt", "logPath");
+        fileDialog.show();
+
+        //Deleting all log-messages from the Database
+//        deleteLog();
+//
+//        //updating view, by recreating the ListAdapter
+//        createListAdapter();
     }
 
     /**
@@ -196,19 +199,23 @@ public class LogActivity extends Activity {
      */
     public void exportLogEntrys(View view) {
 // name for export file
+
         String exportFileName = "message_export_" + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT) + ".txt";
 
         // prepare export
-        BufferedWriter bw = null;
-        ArrayList<LogMessage> exportList = new ArrayList<LogMessage>();
+        BufferedWriter bw;
+        ArrayList<LogMessage> exportList;
+        LogMessageDialog dialog;
+
 
         try {
             if (!Toolbox.sLogFolderExists) {
-                Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(Toolbox.sLogPath);
+                Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(PreferencesValues.sLogPath);
             }
+
             try {
                 // write log-message to file
-                bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + Toolbox.sLogPath + exportFileName, true));
+                bw = new BufferedWriter(new FileWriter(PreferencesValues.sLogPath + exportFileName, true));
                 exportList = getAllEntrys();
                 // write entries to file
                 for (int i = 0; i < exportList.size(); i++) {
@@ -227,17 +234,19 @@ public class LogActivity extends Activity {
                     bw.newLine();
                 }
                 bw.close();
+
+                // show quick success-message
+                dialog = new LogMessageDialog(this,
+                        "Messages have been exported");
             } catch (Exception e) {
-                e.printStackTrace();
+                dialog = new LogMessageDialog(this, "Export failed! \nReason: " + e.getMessage(), LogMessageDialog.WARNING_MESSAGE);
             }
 
-            // show quick success-message
-            LogMessageDialog dialog = new LogMessageDialog(this,
-                    "messages have been exported");
-            dialog.show();
+
         } catch (Exception e) {
-            e.printStackTrace();
+            dialog = new LogMessageDialog(this, "Failed to create missing directory! \nReason: " + e.getMessage(), LogMessageDialog.WARNING_MESSAGE);
         }
+        dialog.show();
     }
 
 }

@@ -34,6 +34,7 @@ import android.content.res.Resources.NotFoundException;
 import android.hardware.Camera;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -453,6 +454,9 @@ public class MainActivity extends Activity {
         mPreferences.sEnableLocationTracking = prefs.getBoolean(
                 "enableLocationTracking", false);
         mPreferences.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
+        mPreferences.sLogPath = prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
+        mPreferences.sKeystorePath = prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/");
+
         mPreferences.setUseNonConformMetadata(prefs.getBoolean(
                 R.id.esukomMetadataSettings + "", true));
         mPreferences.setmSendApplicationsInfos(prefs.getBoolean(
@@ -499,12 +503,15 @@ public class MainActivity extends Activity {
                 "imonitorPassPreference", "icinga"));
         mPreferences.setIsPermantConnection(prefs.getBoolean(
                 "permanantlyConectionPreferences", true));
-        mPreferences.setIsUseBasicAuth(prefs.getBoolean(R.id.basicAuthSettings + "", true));
+
+        //TODO
+        //mPreferences.setIsUseBasicAuth(prefs.getString("auth", "Basic-Authentication"));
+        mPreferences.setIsUseBasicAuth(prefs.getBoolean("basicauth", true));
 
         // set update interval
         try {
             mPreferences.setmUpdateInterval(Long.parseLong(prefs.getString(
-                    "updateInterval", "60000l")));
+                    "updateInterval", "600000")));
         } catch (NumberFormatException e) {
             // should not happen! just in case of...
             Toolbox.logTxt(

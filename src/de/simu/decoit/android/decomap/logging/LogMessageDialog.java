@@ -24,61 +24,104 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
  * class representing a log-message dialog view-element
- * 
- * @author 	Dennis Dunekacke, DECOIT GmbH
+ *
+ * @author Dennis Dunekacke, DECOIT GmbH
  * @author Markus Schölzel, DECOIT GmbH
  * @version 0.2
  */
 public class LogMessageDialog extends Dialog {
-	private String mMessage;
-	
-	/**
-	 * constructor
-	 * 
-	 * @param context	current context
-	 * @param msg		message to display
-	 */
-	public LogMessageDialog(Context context, String msg) {
-		super(context);
-		mMessage = msg;
-	}
 
-	/**
-	 * Called when the activity is first created
-	 * 
-	 * @param	savedInstanceState	state-bundle
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.log_message_dialog);
-		setTitle(R.string.log_msgDialogBox_label);
-		TextView twMsg = (TextView)findViewById (R.id.msgView);
-		
-		twMsg.setHorizontallyScrolling(true);
-		twMsg.setVerticalScrollBarEnabled(true);
-		twMsg.setVerticalFadingEdgeEnabled(true);
-		twMsg.setText(mMessage);
-		Button buttonOK = (Button) findViewById(R.id.buttonOK);
-		buttonOK.setWidth((int)100);
-		buttonOK.setOnClickListener(new OKListener());
-	}
-	
-	/**
-	 * on-click listener class
-	 */
-	private class OKListener implements android.view.View.OnClickListener {
-		
-		@Override
-		public void onClick(View v) {
-			// close dialog-box
-			LogMessageDialog.this.dismiss();
-		}
-	}
+    private String mMessage;
+    private String mTitle;
+    private int mDialogType;
+
+    public static int WARNING_MESSAGE = 0;
+    public static int INFO_MESSAGE = 1;
+
+    /**
+     * constructor
+     *
+     * @param context current context
+     * @param msg     message to display
+     */
+    public LogMessageDialog(Context context, String msg) {
+        this(context, msg, INFO_MESSAGE);
+    }
+
+    /**
+     * constructor
+     *
+     * @param context    current context
+     * @param msg        message to display
+     * @param dialogType typ of dialog
+     */
+    public LogMessageDialog(Context context, String msg, int dialogType) {
+        super(context);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mMessage = msg;
+        mDialogType = dialogType;
+
+        if (dialogType == WARNING_MESSAGE) {
+            mTitle = (String) context.getText(R.string.log_msgDialogBox_label_warn);
+        } else if (dialogType == INFO_MESSAGE) {
+            mTitle = (String) context.getText(R.string.log_msgDialogBox_label_info);
+        } else {
+            mTitle = (String) context.getText(R.string.log_msgDialogBox_label_info);
+        }
+    }
+
+    /**
+     * constructor
+     *
+     * @param context    current context
+     * @param msg        message to display
+     * @param dialogType typ of dialog
+     * @param title      title of dialog
+     */
+    public LogMessageDialog(Context context, String msg, int dialogType, String title) {
+        super(context);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        mMessage = msg;
+        mDialogType = dialogType;
+        mTitle = title;
+    }
+
+    /**
+     * Called when the activity is first created
+     *
+     * @param savedInstanceState state-bundle
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.log_message_dialog);
+        TextView title = ((TextView) findViewById(R.id.title));
+        title.setText(mTitle);
+
+        TextView twMsg = (TextView) findViewById(R.id.msgView);
+        twMsg.setText(mMessage);
+        Button buttonOK = (Button) findViewById(R.id.buttonOK);
+        buttonOK.setOnClickListener(new OKListener());
+    }
+
+    /**
+     * on-click listener class
+     */
+    private class OKListener implements android.view.View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            // close dialog-box
+            LogMessageDialog.this.dismiss();
+        }
+    }
 }

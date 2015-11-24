@@ -12,6 +12,7 @@
     <color name="logoColorDarker">#4774aa</color>
     <color name="logoColorLighter">#608dc3</color>
     <color name="highlighting">#00cc00</color>
+    <color name="defaultSelected">#FFFF00</color>
     <color name="backgroundIce">#b8cce4</color>
     <color name="backgroundIceLight">#dbe5f1</color>
     <color name="tertiaryTextColor">#3d3d3d</color>
@@ -156,7 +157,8 @@
 
 
     <!-- Log-Message-Dialog -->
-    <string name="log_msgDialogBox_label">Message Content</string>
+    <string name="log_msgDialogBox_label_info">Info Message</string>
+    <string name="log_msgDialogBox_label_warn">Warning Message</string>
 
     <!-- About-Info-Tab -->
     <string name="info_name">DECOmap for Android</string>
@@ -205,7 +207,7 @@
     <string name="preferences_header_esukomMetadataSettings">ESUKOM-Metadata Settings</string>
     <string name="preferences_kategoryheader_connectionSettings">Connection Settings</string>
     <string name="preferences_header_serverSettings">Server Settings</string>
-    <string name="preferences_header_basicAuthSettings">Basic-Authentication</string>
+    <string name="preferences_header_basicAuthSettings">Authentication</string>
     <string name="preferences_header_connectionTzpeSettings">Connection-Type Settings</string>
     <string name="preferences_header_iMonitorEncryption">iMonitor-Encryption</string>
     <string name="preferences_header_loggingSettings">Logging Settings</string>

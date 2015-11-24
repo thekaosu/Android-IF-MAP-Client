@@ -21,10 +21,12 @@
 
 package de.simu.decoit.android.decomap.util;
 
+import android.os.Environment;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-import android.os.Environment;
+import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 
 /**
  * class for logging messages to file (and outputting 
@@ -50,7 +52,7 @@ public class CustomLogger {
         if (Toolbox.sLogFolderExists) {
             try {
                 // write log-message to file
-                BufferedWriter bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + Toolbox.sLogPath + sLogFile, true));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + PreferencesValues.sLogPath + sLogFile, true));
                 bw.write("[" + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT) + "] " + "(" + tag + ") " + message);
                 bw.newLine();
                 bw.close();
@@ -58,7 +60,7 @@ public class CustomLogger {
                 e.printStackTrace();
             }
         } else {
-            Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(Toolbox.sLogPath);
+            Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(PreferencesValues.sLogPath);
         }
     }
 }
