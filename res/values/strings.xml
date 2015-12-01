@@ -65,7 +65,9 @@
     <string name="preferences_summary_imonitorpassword">Password for NSCA</string>
     <string name="preferences_summary_cryptPref">Encryption mode of NSCA communication</string>
     <string name="preferences_summary_allowunsafe">Allow "unsafe" SSL-Connection. When activated, the peer-certificate-check will be skipped. Recommended for testing and debugging.</string>
-    <string name="preferences_summary_basicauth">Use basic-authentication mode. Requires username and password. If disabled, make sure that your peer knows about your certificate!</string>
+    <string name="preferences_summary_auth">Basic auth requires username and password. If keystore is selected, make sure that your peer knows about your certificate!</string>
+    <string name="preferences_summary_keystore">Keystore certificate for authentication </string>
+    <string name="preferences_summary_keystorepw">Password of the selected Keystore</string>
     <string name="preferences_summary_logpublishcharacteristics">Enable logging of publish-characteristics messages</string>
     <string name="preferences_summary_renewinterval">Interval for sending renew-session request to MAP-Server (in milliseconds)</string>
     <string name="preferences_summary_updateinterval">Interval for sending updated metadata to Server. This includes publishing of Device-Characteristics and Location-Data. Minimum (and default) is 60000 ms (1 minute)</string>

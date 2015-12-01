@@ -33,7 +33,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.simu.decoit.android.decomap.activities.setupview.FileChooserPreferenceDialog;
 import de.simu.decoit.android.decomap.database.LoggingDatabase;
 import de.simu.decoit.android.decomap.logging.LogMessage;
 import de.simu.decoit.android.decomap.logging.LogMessageAdapter;
@@ -180,15 +179,11 @@ public class LogActivity extends Activity {
      * @param view element that originated the call
      */
     public void removeAllLogEntrys(View view) {
-
-        FileChooserPreferenceDialog fileDialog = new FileChooserPreferenceDialog(this, ".txt", "logPath");
-        fileDialog.show();
-
         //Deleting all log-messages from the Database
-//        deleteLog();
-//
-//        //updating view, by recreating the ListAdapter
-//        createListAdapter();
+        deleteLog();
+
+        //updating view, by recreating the ListAdapter
+        createListAdapter();
     }
 
     /**

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <Preference
-        android:key="authentication"
-        android:summary="@string/preferences_summary_basicauth"
-        android:title="Authentication"></Preference>
     <EditTextPreference
         android:name="Username"
         android:defaultValue="user"

@@ -2,6 +2,10 @@
 <resources>
     <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/array.xml -->
     <eat-comment/>
+    <string-array name="preferences_auth_types">
+		<item>Basic-Auth</item>
+		<item>Keystore</item>
+	</string-array>
     <string-array name="preferences_display_cryptForm">
 		<item>None</item>
 		<item>Simple XOR (default)</item>
@@ -357,14 +361,16 @@
     <string name="preferences_kategoryheader_connectionSettings">Connection Settings</string>
     <string name="preferences_summary_allowunsafe">Allow "unsafe" SSL-Connection. When activated, the peer-certificate-check will be skipped. Recommended for testing and debugging.</string>
     <string name="preferences_summary_applicationlogging">Write logging-messages to file</string>
+    <string name="preferences_summary_auth">Basic auth requires username and password. If keystore is selected, make sure that your peer knows about your certificate!</string>
     <string name="preferences_summary_autoconnect">Automatically connect to MAP-Server at startup</string>
     <string name="preferences_summary_autostart">Application will be automatically started after device finished booting.</string>
     <string name="preferences_summary_autoupdate">Enable autmatic publish of updated metadata</string>
-    <string name="preferences_summary_basicauth">Use basic-authentication mode. Requires username and password. If disabled, make sure that your peer knows about your certificate!</string>
     <string name="preferences_summary_cryptPref">Encryption mode of NSCA communication</string>
     <string name="preferences_summary_disablelog">Disable logging of messages send to MAP-Server</string>
     <string name="preferences_summary_dontsendgoogleapps">Exclude google/android applications from publishing application information</string>
     <string name="preferences_summary_imonitorpassword">Password for NSCA</string>
+    <string name="preferences_summary_keystore">Keystore certificate for authentication </string>
+    <string name="preferences_summary_keystorepw">Password of the selected Keystore</string>
     <string name="preferences_summary_locationForm">Switch between Cell-Based or GPS-Based Location-Tracking</string>
     <string name="preferences_summary_locationTracking">Enables location-tracking</string>
     <string name="preferences_summary_logerrormessage">Enable logging of error-message messages</string>

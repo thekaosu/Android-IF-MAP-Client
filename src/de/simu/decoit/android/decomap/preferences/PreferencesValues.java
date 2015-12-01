@@ -51,7 +51,8 @@ public class PreferencesValues {
 
     // path for files
     public static String sLogPath;
-    public static String sKeystorePath;
+    private String keystorePath;
+    private String keystorePassword;
 
     // application-settings
     private boolean mUseNonConformMetadata;
@@ -462,5 +463,21 @@ public class PreferencesValues {
      */
     public void setmDontSendGoogleApps(boolean mDontSendGoogleApps) {
         this.mDontSendGoogleApps = mDontSendGoogleApps;
+    }
+
+    public void setKeystorePath(String keystorePath) {
+        this.keystorePath = keystorePath;
+    }
+
+    public String getKeystorePath() {
+        return keystorePath;
+    }
+
+    public void setKeystorePassword(String keystorePassword) {
+        this.keystorePassword = keystorePassword;
+    }
+
+    public String getKeyStorePassword() {
+        return keystorePassword;
     }
 }

@@ -24,8 +24,10 @@ package de.simu.decoit.android.decomap.activities.setupview.fragments;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
+import android.widget.BaseAdapter;
 
 import de.simu.decoit.android.decomap.activities.R;
 import de.simu.decoit.android.decomap.activities.setupview.FileChooserPreferenceDialog;
@@ -38,30 +40,63 @@ import de.simu.decoit.android.decomap.activities.setupview.FileChooserPreference
  */
 public class AuthSettingsFragment extends AbstractPreferenceFragment {
 
+    ListPreference authType;
+
     public AuthSettingsFragment() {
-        fragmentID = R.xml.preferences_basicauth_fragment;
+        fragmentID = R.xml.preferences_auth_fragment;
+
+        dynamicSummaryKeys.add("authType");
+        dynamicSummaryKeys.add("keystorepw");
         dynamicSummaryKeys.add("passwordPreference");
         dynamicSummaryKeys.add("usernamePreference");
-
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        updateSettings();
+    }
 
-        Preference auth = findPreference("authentication");
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        auth.setSummary(prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/"));
-        auth.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                new FileChooserPreferenceDialog(getActivity(), "", "keystorePath").show();
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                preference.setSummary(prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/"));
-                return false;
-            }
-        });
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals("keystorePath")) {
+            findPreference("Keystore").setSummary(sharedPreferences.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
+        } else if (authType.getKey().equals(key)) {
+            updateSettings();
+        } else {
+            super.onSharedPreferenceChanged(sharedPreferences, key);
+        }
+    }
+
+    private void updateSettings() {
+        getPreferenceScreen().removeAll();
+        addPreferencesFromResource(fragmentID);
+
+        authType = (ListPreference) findPreference("authType");
+        if (authType.getValue() == null) {
+            authType.setValueIndex(0);
+        }
+
+        if (authType.getValue().equals("Basic-Auth")) {
+            addPreferencesFromResource(R.xml.preferences_basicauth_fragment);
+        } else if (authType.getValue().equals("Keystore")) {
+            addPreferencesFromResource(R.xml.preferences_keystoreauth_fragment);
+
+            Preference auth = findPreference("Keystore");
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            findPreference("Keystore").setSummary(prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
+            auth.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    new FileChooserPreferenceDialog(getActivity(), "", "keystorePath").show();
+                    return false;
+                }
+            });
+        }
+
+        ((BaseAdapter) getPreferenceScreen().getRootAdapter()).notifyDataSetChanged();
+        updateAllSummarys();
+
     }
 }

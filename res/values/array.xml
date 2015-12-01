@@ -12,6 +12,10 @@
 		<item>iMonitor</item>
 		<item>IF-MAP</item>
 	</string-array>
+	<string-array name="preferences_auth_types">
+		<item>Basic-Auth</item>
+		<item>Keystore</item>
+	</string-array>
 	<string-array name="preferences_value_serverForm">
 		<item>iMonitor</item>
 		<item>IF-MAP</item>

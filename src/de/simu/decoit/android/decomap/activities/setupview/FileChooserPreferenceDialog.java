@@ -74,8 +74,8 @@ public class FileChooserPreferenceDialog extends Dialog {
         }
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (!path.isDirectory()) {
-            path = Environment.getExternalStorageDirectory();
+        if (!path.isDirectory() && path != null) {
+            path = path.getParentFile();
         }
         if (!path.exists()) {
             if (!path.mkdirs()) {

@@ -277,8 +277,9 @@ public class MainActivity extends Activity {
 
                 // start new session
                 mMessageType = MessageHandler.MSG_TYPE_REQUEST_NEWSESSION;
-                initIFMAPConnection();
-                startIFMAPConnectionService();
+                if (initIFMAPConnection()) {
+                    startIFMAPConnectionService();
+                }
             } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
                 connectNSCA();
             } else {
@@ -453,9 +454,12 @@ public class MainActivity extends Activity {
                 "locationPref", "GPS");
         mPreferences.sEnableLocationTracking = prefs.getBoolean(
                 "enableLocationTracking", false);
-        mPreferences.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
+
         mPreferences.sLogPath = prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
-        mPreferences.sKeystorePath = prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/");
+
+        mPreferences.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
+        mPreferences.setKeystorePath(prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
+        mPreferences.setKeystorePassword(prefs.getString("keystorepw", ""));
 
         mPreferences.setUseNonConformMetadata(prefs.getBoolean(
                 R.id.esukomMetadataSettings + "", true));
@@ -504,9 +508,8 @@ public class MainActivity extends Activity {
         mPreferences.setIsPermantConnection(prefs.getBoolean(
                 "permanantlyConectionPreferences", true));
 
-        //TODO
         //mPreferences.setIsUseBasicAuth(prefs.getString("auth", "Basic-Authentication"));
-        mPreferences.setIsUseBasicAuth(prefs.getBoolean("basicauth", true));
+        mPreferences.setIsUseBasicAuth(prefs.getString("authType", "Basic-Auth").equals("Basic-Auth"));
 
         // set update interval
         try {
@@ -552,7 +555,7 @@ public class MainActivity extends Activity {
      * Initialize the connection object if not already initialized, else assign
      * already existing connection object
      */
-    private void initIFMAPConnection() {
+    private boolean initIFMAPConnection() {
         Toolbox.logTxt(this.getLocalClassName(), "initIFMAPConnection(...) called");
         if (ConnectionObjects.getSsrcConnection() == null
                 || (mResponseType == MessageHandler.MSG_TYPE_ERRORMSG)) {
@@ -589,8 +592,8 @@ public class MainActivity extends Activity {
                     // create ssrc-connection using certificates
                     Toolbox.logTxt(this.getLocalClassName(),
                             "initializing ssrc-connecion using certificate-based-auth");
-                    KeyManager[] keyManagers = IfmapJHelper.getKeyManagers(getResources().openRawResource(R.raw.keystore),
-                            "androidmap");
+                    KeyManager[] keyManagers = IfmapJHelper.getKeyManagers(mPreferences.getKeystorePath(),
+                            mPreferences.getKeyStorePassword());
                     sSsrcConnection = new SsrcImpl("https://"
                             + mPreferences.getIFMAPServerIpPreference() + ":"
                             + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, timeout);
@@ -598,14 +601,21 @@ public class MainActivity extends Activity {
 
                 mResponseType = 0;
             } catch (InitializationException e) {
-                e.printStackTrace();
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix) + " " + e.getMessage());
+                return false;
             } catch (NotFoundException e) {
-                e.printStackTrace();
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix) + " " + e.getMessage());
+                return false;
             }
             ConnectionObjects.setSsrcConnection(sSsrcConnection);
         } else {
             sSsrcConnection = ConnectionObjects.getSsrcConnection();
         }
+        return true;
     }
 
     /**
@@ -826,8 +836,9 @@ public class MainActivity extends Activity {
                     + "Sending Request to "
                     + mPreferences.getIFMAPServerIpPreference() + ":"
                     + mPreferences.getIFMAPServerPortPreference());
-            initIFMAPConnection();
-            startIFMAPConnectionService();
+            if (initIFMAPConnection()) {
+                startIFMAPConnectionService();
+            }
         }
     }
 
@@ -922,6 +933,8 @@ public class MainActivity extends Activity {
                             + " basic auth password is null or empty!");
                     return false;
                 }
+            } else {
+
             }
 
             // validate ip-setting from preferences

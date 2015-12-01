@@ -18,16 +18,17 @@ import java.util.ArrayList;
  * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
-public abstract class AbstractPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener{
+public abstract class AbstractPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     protected int fragmentID;
     protected ArrayList<String> dynamicSummaryKeys = new ArrayList<String>();
+    protected final String DEFAULTSUMMARY = "<no value>";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(fragmentID == 0){
+        if (fragmentID == 0) {
             throw new IllegalArgumentException("fragmentID need to be initialized with a valid fragment id!");
         }
         addPreferencesFromResource(fragmentID);
@@ -37,9 +38,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
             actionbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        for (String key : dynamicSummaryKeys) {
-            updateSummary(findPreference(key));
-        }
+        updateAllSummarys();
     }
 
     public void onResume() {
@@ -54,7 +53,15 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        updateSummary(findPreference(key));
+        if (dynamicSummaryKeys.contains(key)) {
+            updateSummary(findPreference(key));
+        }
+    }
+
+    protected void updateAllSummarys() {
+        for (String key : dynamicSummaryKeys) {
+            updateSummary(findPreference(key));
+        }
     }
 
     private void updateSummary(Preference p) {
@@ -63,7 +70,9 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
             p.setSummary(listPref.getEntry());
         } else if (p instanceof EditTextPreference) {
             EditTextPreference editTextPref = (EditTextPreference) p;
-            if (editTextPref.getEditText().getInputType() == (InputType.TYPE_CLASS_TEXT |
+            if (editTextPref.getText() == null || editTextPref.getText().trim().length() == 0) {
+                p.setSummary(DEFAULTSUMMARY);
+            } else if (editTextPref.getEditText().getInputType() == (InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
                 StringBuilder stars = new StringBuilder();
                 for (int i = 0; i < editTextPref.getText().length(); i++) {
