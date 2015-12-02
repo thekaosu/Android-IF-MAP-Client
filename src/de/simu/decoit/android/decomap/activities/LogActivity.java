@@ -209,8 +209,16 @@ public class LogActivity extends Activity {
             }
 
             try {
+                String path;
+                if (PreferencesValues.sLogPath.endsWith("/")) {
+                    path = PreferencesValues.sLogPath + exportFileName;
+                } else {
+                    path = PreferencesValues.sLogPath + "/" + exportFileName;
+                }
+
+
                 // write log-message to file
-                bw = new BufferedWriter(new FileWriter(PreferencesValues.sLogPath + exportFileName, true));
+                bw = new BufferedWriter(new FileWriter(path, true));
                 exportList = getAllEntrys();
                 // write entries to file
                 for (int i = 0; i < exportList.size(); i++) {
@@ -232,7 +240,7 @@ public class LogActivity extends Activity {
 
                 // show quick success-message
                 dialog = new LogMessageDialog(this,
-                        "Messages have been exported");
+                        "Messages have been successfully exported as \"" + exportFileName + "\" to the log directory " + PreferencesValues.sLogPath);
             } catch (Exception e) {
                 dialog = new LogMessageDialog(this, "Export failed! \nReason: " + e.getMessage(), LogMessageDialog.WARNING_MESSAGE);
             }

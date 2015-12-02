@@ -35,8 +35,18 @@
     <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
+    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/attrs.xml -->
+    <eat-comment/>
+    <attr format="string" name="fileEnding"/>
+    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/res/values/values.xml -->
+    <eat-comment/>
     <attr format="dimension" name="height"/>
     <attr format="boolean" name="isLightTheme"/>
+    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/values/attrs.xml -->
+    <eat-comment/>
+    <attr format="boolean" name="onlyDirectory"/>
+    <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.0/res/values/values.xml -->
+    <eat-comment/>
     <attr format="string" name="title"/>
     <bool name="abc_action_bar_embed_tabs">true</bool>
     <bool name="abc_action_bar_embed_tabs_pre_jb">false</bool>
@@ -369,7 +379,7 @@
     <string name="preferences_summary_disablelog">Disable logging of messages send to MAP-Server</string>
     <string name="preferences_summary_dontsendgoogleapps">Exclude google/android applications from publishing application information</string>
     <string name="preferences_summary_imonitorpassword">Password for NSCA</string>
-    <string name="preferences_summary_keystore">Keystore certificate for authentication </string>
+    <string name="preferences_summary_keystorepath">Path to keystore certificate for authentication </string>
     <string name="preferences_summary_keystorepw">Password of the selected Keystore</string>
     <string name="preferences_summary_locationForm">Switch between Cell-Based or GPS-Based Location-Tracking</string>
     <string name="preferences_summary_locationTracking">Enables location-tracking</string>
@@ -377,6 +387,7 @@
     <string name="preferences_summary_loginvalidresponse">Enable logging of invalid-response messages</string>
     <string name="preferences_summary_loglocationtracking">Enable logging of metadata-update messages</string>
     <string name="preferences_summary_lognewsessionrequest">Enable logging of new-session-/end-session messages</string>
+    <string name="preferences_summary_logpath">Path to logging folder</string>
     <string name="preferences_summary_logpollrequest">Enable logging of poll-request messages</string>
     <string name="preferences_summary_logpublishcharacteristics">Enable logging of publish-characteristics messages</string>
     <string name="preferences_summary_logrenewrequest">Enable logging of renew-request messages</string>

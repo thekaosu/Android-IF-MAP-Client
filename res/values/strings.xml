@@ -66,11 +66,12 @@
     <string name="preferences_summary_cryptPref">Encryption mode of NSCA communication</string>
     <string name="preferences_summary_allowunsafe">Allow "unsafe" SSL-Connection. When activated, the peer-certificate-check will be skipped. Recommended for testing and debugging.</string>
     <string name="preferences_summary_auth">Basic auth requires username and password. If keystore is selected, make sure that your peer knows about your certificate!</string>
-    <string name="preferences_summary_keystore">Keystore certificate for authentication </string>
+    <string name="preferences_summary_keystorepath">Path to keystore certificate for authentication </string>
     <string name="preferences_summary_keystorepw">Password of the selected Keystore</string>
     <string name="preferences_summary_logpublishcharacteristics">Enable logging of publish-characteristics messages</string>
     <string name="preferences_summary_renewinterval">Interval for sending renew-session request to MAP-Server (in milliseconds)</string>
     <string name="preferences_summary_updateinterval">Interval for sending updated metadata to Server. This includes publishing of Device-Characteristics and Location-Data. Minimum (and default) is 60000 ms (1 minute)</string>
+    <string name="preferences_summary_logpath">Path to logging folder</string>
     <string name="preferences_summary_disablelog">Disable logging of messages send to MAP-Server</string>
     <string name="preferences_summary_permanentlyConnection">Enables a permanent connection with the MAP-Server. If disabled, the client will periodically send "renew" requests to keep the session alive.</string>
     <string name="preferences_summary_locationTracking">Enables location-tracking</string>

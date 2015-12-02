@@ -24,14 +24,15 @@ package de.simu.decoit.android.decomap.activities.setupview.fragments;
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
- * Fragment for basic auth setting Preferences
+ * Fragment logging Preferences
  *
- * @version 0.2
  * @author Leonid Schwenke, Decoit GmbH
+ * @version 0.2
  */
 public class LoggingSettingsFragment extends AbstractPreferenceFragment {
 
-    public LoggingSettingsFragment(){
+    public LoggingSettingsFragment() {
         fragmentID = R.xml.preferences_logging_fragment;
+        dynamicSummaryKeys.add("logPath");
     }
 }

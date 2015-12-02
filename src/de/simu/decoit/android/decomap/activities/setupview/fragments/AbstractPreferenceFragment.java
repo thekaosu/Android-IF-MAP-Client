@@ -12,6 +12,8 @@ import android.text.InputType;
 
 import java.util.ArrayList;
 
+import de.simu.decoit.android.decomap.activities.setupview.PreferenceFileChooserDialogPreference;
+
 /**
  * Abstract Fragment with backbutton and summary changer
  *
@@ -82,6 +84,9 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
             } else {
                 p.setSummary(editTextPref.getText());
             }
+        } else if (p instanceof PreferenceFileChooserDialogPreference) {
+            PreferenceFileChooserDialogPreference fileChooser = (PreferenceFileChooserDialogPreference) p;
+            fileChooser.setSummary(fileChooser.getPath());
         }
     }
 

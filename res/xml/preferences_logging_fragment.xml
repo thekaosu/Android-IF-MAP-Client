@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:attr="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
         android:defaultValue="false"
         android:key="applicatiologging"
         android:summary="@string/preferences_summary_applicationlogging"
         android:title="@string/preferences_title_applicationlogging" />
+
+    <de.simu.decoit.android.decomap.activities.setupview.PreferenceFileChooserDialogPreference
+        android:defaultValue="/ifmap-client/keystore/keystore"
+        android:key="logPath"
+        android:summary="@string/preferences_summary_logpath"
+        android:title="Log Directory"
+        attr:onlyDirectory="true"></de.simu.decoit.android.decomap.activities.setupview.PreferenceFileChooserDialogPreference>
 
     <SwitchPreference
         android:defaultValue="true"

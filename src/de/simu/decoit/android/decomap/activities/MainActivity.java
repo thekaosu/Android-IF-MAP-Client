@@ -446,19 +446,20 @@ public class MainActivity extends Activity {
                 .getDefaultSharedPreferences(getBaseContext());
 
         // set preferences
-        mPreferences.sApplicationFileLogging = prefs.getBoolean(
+        PreferencesValues.sApplicationFileLogging = prefs.getBoolean(
                 "applicatiologging", false);
-        mPreferences.sMonitoringPreference = prefs.getString(
+        PreferencesValues.sMonitoringPreference = prefs.getString(
                 R.id.monitoringModeSettings + "", "IF-MAP");
-        mPreferences.sLocationTrackingType = prefs.getString(
+        PreferencesValues.sLocationTrackingType = prefs.getString(
                 "locationPref", "GPS");
-        mPreferences.sEnableLocationTracking = prefs.getBoolean(
+        PreferencesValues.sEnableLocationTracking = prefs.getBoolean(
                 "enableLocationTracking", false);
 
-        mPreferences.sLogPath = prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
+        PreferencesValues.sLogPath = prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
 
-        mPreferences.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
-        mPreferences.setKeystorePath(prefs.getString("keystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
+        PreferencesValues.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
+
+        mPreferences.setKeystorePath(prefs.getString("KeystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
         mPreferences.setKeystorePassword(prefs.getString("keystorepw", ""));
 
         mPreferences.setUseNonConformMetadata(prefs.getBoolean(
