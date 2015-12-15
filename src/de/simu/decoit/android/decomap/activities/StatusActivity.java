@@ -22,7 +22,6 @@
 package de.simu.decoit.android.decomap.activities;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -404,18 +403,6 @@ public class StatusActivity extends Activity implements OnItemClickListener {
             DevicePropertiesDialog dialog = new DevicePropertiesDialog(this, title, msgToShow);
             dialog.show();
         }
-    }
-
-    /**
-     * we override the behavior of the back-button so that the application runs in the background (instead of destroying it) when pressing
-     * back (similar to the home button)
-     */
-    @Override
-    public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
     }
 
     // -------------------------------------------------------------------------

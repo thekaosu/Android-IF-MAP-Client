@@ -29,9 +29,9 @@ import java.io.FileWriter;
 import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 
 /**
- * class for logging messages to file (and outputting 
+ * class for logging messages to file (and outputting
  * log-messages on console)
- * 
+ *
  * @author Dennis Dunekacke, Decoit GmbH
  * @version 0.2
  */
@@ -42,17 +42,15 @@ public class CustomLogger {
 
     /**
      * output log message to log-file and use the android-logger for showing message on debug-console
-     * 
-     * @param tag
-     *            tag of log message
-     * @param message
-     *            message to output
+     *
+     * @param tag     tag of log message
+     * @param message message to output
      */
     public static void logTxt(String tag, String message) {
         if (Toolbox.sLogFolderExists) {
             try {
                 // write log-message to file
-                BufferedWriter bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + PreferencesValues.sLogPath + sLogFile, true));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + PreferencesValues.getInstance().getLogPath() + sLogFile, true));
                 bw.write("[" + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT) + "] " + "(" + tag + ") " + message);
                 bw.newLine();
                 bw.close();
@@ -60,7 +58,7 @@ public class CustomLogger {
                 e.printStackTrace();
             }
         } else {
-            Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(PreferencesValues.sLogPath);
+            Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(PreferencesValues.getInstance().getLogPath());
         }
     }
 }

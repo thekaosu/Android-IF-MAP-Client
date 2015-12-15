@@ -21,7 +21,8 @@
 
 package de.simu.decoit.android.decomap.messaging;
 
-import android.util.Log;
+import android.hardware.Camera;
+import android.os.Build;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -135,10 +136,16 @@ public class MessageParametersGenerator<T> {
     private String mLastIpAddress;
     private boolean mLastCameraIsUsed;
 
+    private PreferencesValues mPreferences = PreferencesValues.getInstance();
+
+    private final MainActivity mainActivity;
+
     /**
      * constructor
      */
-    public MessageParametersGenerator() {
+    public MessageParametersGenerator(MainActivity mainActivity) {
+        this.mainActivity = mainActivity;
+
         // create document-builder from factory
         mDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
         try {
@@ -220,7 +227,7 @@ public class MessageParametersGenerator<T> {
                             deviceProperties, dontSendAppInfos, dontSendGoogleApps);
                 }
 
-                if (PreferencesValues.sEnableLocationTracking && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
+                if (mPreferences.isEnableLocationTracking() && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
                     // if a previous location has been send, add publish-delete
                     if (sInitialLocationWasSend) {
                         PublishDelete deleteLastLocation = Requests.createPublishDelete();
@@ -234,7 +241,7 @@ public class MessageParametersGenerator<T> {
                     // build publish-location-update-request
                     publishLocationUpdate.setIdentifier1(ipAddress);
                     List<LocationInformation> locationInfoList = new ArrayList<LocationInformation>();
-                    LocationInformation locationInformation = new LocationInformation(PreferencesValues.sLocationTrackingType,
+                    LocationInformation locationInformation = new LocationInformation(mPreferences.getLocationTrackingType(),
                             MainActivity.sLatitude + " " + MainActivity.sLongitude);
                     locationInfoList.add(locationInformation);
                     Document location = metadataFactory.createLocation(locationInfoList, simpledateformat.format(nowTime),
@@ -347,7 +354,7 @@ public class MessageParametersGenerator<T> {
 
         // republish informations-flag
         boolean locationChanged = false;
-        if (PreferencesValues.sEnableLocationTracking && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
+        if (mPreferences.isEnableLocationTracking() && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
             if (mLastLatitude != MainActivity.sLatitude || mLastLongitude != MainActivity.sLongitude) {
                 mLastLatitude = MainActivity.sLatitude;
                 mLastLongitude = MainActivity.sLongitude;
@@ -425,7 +432,7 @@ public class MessageParametersGenerator<T> {
             addToUpdateRequest(publishRequest, mPhoneDeviceCat, null, fe, MetadataLifetime.session, true);
             mLastIpAddress = currentIpAddress;
         } else {
-            Log.i("MessageParametersGenerator", "IpAddress unchanged.");
+            Toolbox.logTxt("MessageParametersGenerator", "IpAddress unchanged.");
         }
 
 
@@ -517,12 +524,12 @@ public class MessageParametersGenerator<T> {
         }
 
         // back camera used?
-        MainActivity.checkCameraActive();
-        boolean isUsed = (MainActivity.mBackCamActive || MainActivity.mFrontCamActive);
+//        MainActivity.checkCameraActive();
+        boolean isUsed = isCameraUsed();
         String isUsedStr = isUsed ? "true" : "false";
-        Log.i("MessageParametersGenerator", "CameraIsUsed = " + isUsed);
+        Toolbox.logTxt("MessageParametersGenerator", "CameraIsUsed = " + isUsed);
         if (isUsed != mLastCameraIsUsed || !sInitialLocationWasSend) {
-            Log.i("###", "MUST PUBLISH HERE");
+            //Log.i("###", "MUST PUBLISH HERE");
             fe = createFeature("CameraIsUsed", time, isUsedStr, QUALI);
             addToUpdateRequest(publishRequest, mPhoneSensorCat, null, fe, MetadataLifetime.session, true);
             mLastCameraIsUsed = isUsed;
@@ -611,6 +618,51 @@ public class MessageParametersGenerator<T> {
             }
             mLastAppList = currentAppList;
         }
+    }
+
+    /**
+     * Is the Camera at the moment in use
+     * <p/>
+     * If Buildversion is lower than Lollipop, then the camera status need to be get manually!
+     *
+     * @return Is the Camera at the moment in use
+     */
+    @SuppressWarnings("deprecation")
+    private boolean isCameraUsed() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Camera cam;
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            int cameraCount = Camera.getNumberOfCameras();
+            for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
+                Camera.getCameraInfo(camIdx, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                    try {
+                        cam = Camera.open(camIdx);
+                        mPreferences.setCamActiv(false);
+                        cam.release();
+                    } catch (RuntimeException e) {
+                        Toolbox.logTxt("SystemProperties",
+                                "Camera failed to open: "
+                                        + e.getLocalizedMessage());
+                        mPreferences.setCamActiv(true);
+                    }
+                }
+                Camera.getCameraInfo(camIdx, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                    try {
+                        cam = Camera.open(camIdx);
+                        mPreferences.setCamActiv(false);
+                        cam.release();
+                    } catch (RuntimeException e) {
+                        Toolbox.logTxt("SystemProperties",
+                                "Camera failed to open: "
+                                        + e.getLocalizedMessage());
+                        mPreferences.setCamActiv(true);
+                    }
+                }
+            }
+        }
+        return mPreferences.getCamActiv();
     }
 
     /**
@@ -763,7 +815,7 @@ public class MessageParametersGenerator<T> {
 
         feature.setAttributeNS(null, "ifmap-cardinality", "multiValue");
         feature.setAttribute("ctxp-timestamp", timestamp);
-        if (PreferencesValues.sEnableLocationTracking && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
+        if (mPreferences.isEnableLocationTracking() && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
             feature.setAttribute("ctxp-position", MainActivity.sLatitude + "-" + MainActivity.sLongitude);
         }
 

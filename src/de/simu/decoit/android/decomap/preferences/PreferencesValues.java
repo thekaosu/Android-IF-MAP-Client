@@ -29,455 +29,378 @@ package de.simu.decoit.android.decomap.preferences;
  */
 public class PreferencesValues {
 
-    // "lock" parts of the preferences menu after a new session
-    // has been established and "unlock" it when a session has ended.
-    // declared static so it can be passed to SetupActivity.
-
-    //    public static boolean sLockConnectionPreferences = false;
-    public static boolean sLockPreferences = false;
-//    public static boolean sLockLocationTrackingOptions = false;
+    private boolean lockPreferences = false;
 
     // monitoring mode
-    public static String sMonitoringPreference = null;
+    private String monitoringPreference = null;
 
     // location tracking
-    public static String sLocationTrackingType = null;
-    public static boolean sEnableLocationTracking = false;
+    private String locationTrackingType = null;
+    private boolean enableLocationTracking = false;
 
     // auto update
-    public static boolean sAutoUpdate = false;
-    private long mUpdateInterval = 60000;
+    private boolean autoUpdate = false;
+    private long updateInterval = 60000;
 
 
     // path for files
-    public static String sLogPath;
+    private String logPath;
     private String keystorePath;
     private String keystorePassword;
 
     // application-settings
-    private boolean mUseNonConformMetadata;
-    private boolean mDontSendApplicationsInfos;
-    private boolean mDontSendGoogleApps;
-    private boolean mAutostart;
-    private boolean mAutoconnect;
+    private boolean useNonConformMetadata;
+    private boolean dontSendApplicationsInfos;
+    private boolean dontSendGoogleApps;
+    private boolean autostart;
+    private boolean autoconnect;
 
     // server-settings
-    private String mIFMAPServerIpPreference;
-    private String mIFMAPServerPortPreference;
+    private String iFMAPServerIpPreference;
+    private String iFMAPServerPortPreference;
 
-    private String mIMonitorServerIpPreference;
-    private String mIMonitorServerPortPreference;
+    private String iMonitorServerIpPreference;
+    private String iMonitorServerPortPreference;
 
     // imonitor-settings
-    private String mNscaPassPreference;
-    private String mNscaEncPreference;
+    private String nscaPassPreference;
+    private String nscaEncPreference;
 
     // user-settings
-    private boolean mUseBasicAuth;
-    private String mUsernamePreference;
-    private String mPasswordPreference;
+    private boolean useBasicAuth;
+    private String usernamePreference;
+    private String passwordPreference;
 
     // connection-settings
-    private boolean mAllowUnsafeSSLPreference;
-    private boolean mIsPermantConnection;
-    private Long mRenewIntervalPreference;
-    private long mRenewRequestMinInterval = 10000; // default minimum
+    private boolean allowUnsafeSSLPreference;
+    private boolean isPermantConnection;
+    private Long renewIntervalPreference;
+    private long renewRequestMinInterval = 10000; // default minimum
 
     // logging-settings
-    public static boolean sApplicationFileLogging = false;
-    private boolean mEnableNewAndEndSessionLog;
-    private boolean mEnableSubscribe;
-    private boolean mEnablePollLog;
-    private boolean mEnableLocationTrackingLog;
-    private boolean mEnablePublishCharacteristicsLog;
-    private boolean mEnableErrorMessageLog;
-    private boolean mEnableInvalideResponseLog;
-    private boolean mEnableRenewRequestLog;
+    private boolean applicationFileLogging = false;
+    private boolean enableNewAndEndSessionLog;
+    private boolean enableSubscribe;
+    private boolean enablePollLog;
+
+    private boolean enableLocationTrackingLog;
+    private boolean enablePublishCharacteristicsLog;
+    private boolean enableErrorMessageLog;
+    private boolean enableInvalideResponseLog;
+    private boolean enableRenewRequestLog;
+
+    //Session values
+    private boolean camActiv = false;
+
+    private static PreferencesValues instance;
 
     /**
-     * @return the mUseNonConformMetadata
+     * Private singelton constructor
      */
-    public boolean isUseNonConformMetadata() {
-        return mUseNonConformMetadata;
+    private PreferencesValues() {
     }
 
-    /**
-     * @param mUseNonConformMetadata the mUseNonConformMetadata to set
-     */
-    public void setUseNonConformMetadata(boolean mUseNonConformMetadata) {
-        this.mUseNonConformMetadata = mUseNonConformMetadata;
+
+    public static synchronized PreferencesValues getInstance() {
+        if (instance == null) {
+            instance = new PreferencesValues();
+        }
+        return instance;
     }
 
-    /**
-     * @return the mAutostart
-     */
-    public boolean ismAutostart() {
-        return mAutostart;
+    public boolean isLockPreferences() {
+        return lockPreferences;
     }
 
-    /**
-     * @param mAutostart the mAutostart to set
-     */
-    public void setmAutostart(boolean mAutostart) {
-        this.mAutostart = mAutostart;
+    public void setLockPreferences(boolean lockPreferences) {
+        this.lockPreferences = lockPreferences;
     }
 
-    /**
-     * @return the mIMonitorServerIpPreference
-     */
-    public String getIMonitorServerIpPreference() {
-        return mIMonitorServerIpPreference;
+    public String getMonitoringPreference() {
+        return monitoringPreference;
     }
 
-    /**
-     * @return the mIFMAPServerIpPreference
-     */
-    public String getIFMAPServerIpPreference() {
-        return mIFMAPServerIpPreference;
+    public void setMonitoringPreference(String monitoringPreference) {
+        this.monitoringPreference = monitoringPreference;
     }
 
-    /**
-     * @param mIFMAPServerIpPreference the mIFMAPServerIpPreference to set
-     */
-    public void setIFMAPServerIpPreference(String mIFMAPServerIpPreference) {
-        this.mIFMAPServerIpPreference = mIFMAPServerIpPreference;
+    public String getLocationTrackingType() {
+        return locationTrackingType;
     }
 
-    /**
-     * @param mIMonitorServerIpPreference the mIMonitorServerIpPreference to set
-     */
-    public void setIMonitorServerIpPreference(String mIMonitorServerIpPreference) {
-        this.mIMonitorServerIpPreference = mIMonitorServerIpPreference;
+    public void setLocationTrackingType(String locationTrackingType) {
+        this.locationTrackingType = locationTrackingType;
     }
 
-    /**
-     * @return the mIFMAPServerPortPreference
-     */
-    public String getIFMAPServerPortPreference() {
-        return mIFMAPServerPortPreference;
+    public boolean isEnableLocationTracking() {
+        return enableLocationTracking;
     }
 
-    /**
-     * @return the mIMonitorServerPortPreference
-     */
-    public String getIMonitorServerPortPreference() {
-        return mIMonitorServerPortPreference;
+    public void setEnableLocationTracking(boolean enableLocationTracking) {
+        this.enableLocationTracking = enableLocationTracking;
     }
 
-    /**
-     * @param mIFMAPServerPortPreference the mIFMAPServerPortPreference to set
-     */
-    public void setIFMAPServerPortPreference(String mIFMAPServerPortPreference) {
-        this.mIFMAPServerPortPreference = mIFMAPServerPortPreference;
+    public boolean isAutoUpdate() {
+        return autoUpdate;
     }
 
-    /**
-     * @param mIMonitorServerPortPreference the mIMonitorServerPortPreference to set
-     */
-    public void setIMonitorServerPortPreference(String mIMonitorServerPortPreference) {
-        this.mIMonitorServerPortPreference = mIMonitorServerPortPreference;
+    public void setAutoUpdate(boolean autoUpdate) {
+        this.autoUpdate = autoUpdate;
     }
 
-    /**
-     * @return the mNscaPassPreference
-     */
-    public String getNscaPassPreference() {
-        return mNscaPassPreference;
+    public long getUpdateInterval() {
+        return updateInterval;
     }
 
-    /**
-     * @param mNscaPassPreference the mNscaPassPreference to set
-     */
-    public void setNscaPassPreference(String mNscaPassPreference) {
-        this.mNscaPassPreference = mNscaPassPreference;
+    public void setUpdateInterval(long updateInterval) {
+        this.updateInterval = updateInterval;
     }
 
-    /**
-     * @return the mNscaEncPreference
-     */
-    public String getNscaEncPreference() {
-        return mNscaEncPreference;
+    public String getLogPath() {
+        return logPath;
     }
 
-    /**
-     * @param mNscaEncPreference the mNscaEncPreference to set
-     */
-    public void setNscaEncPreference(String mNscaEncPreference) {
-        this.mNscaEncPreference = mNscaEncPreference;
-    }
-
-    /**
-     * @return the mUsernamePreference
-     */
-    public String getUsernamePreference() {
-        return mUsernamePreference;
-    }
-
-    /**
-     * @param mUsernamePreference the mUsernamePreference to set
-     */
-    public void setUsernamePreference(String mUsernamePreference) {
-        this.mUsernamePreference = mUsernamePreference;
-    }
-
-    /**
-     * @return the mPasswordPreference
-     */
-    public String getPasswordPreference() {
-        return mPasswordPreference;
-    }
-
-    /**
-     * @param mPasswordPreference the mPasswordPreference to set
-     */
-    public void setPasswordPreference(String mPasswordPreference) {
-        this.mPasswordPreference = mPasswordPreference;
-    }
-
-    /**
-     * @return the mAllowUnsafeSSLPreference
-     */
-    public boolean isAllowUnsafeSSLPreference() {
-        return mAllowUnsafeSSLPreference;
-    }
-
-    /**
-     * @param mAllowUnsafeSSLPreference the mAllowUnsafeSSLPreference to set
-     */
-    public void setAllowUnsafeSSLPreference(boolean mAllowUnsafeSSLPreference) {
-        this.mAllowUnsafeSSLPreference = mAllowUnsafeSSLPreference;
-    }
-
-    /**
-     * @return the mIsPermantConnection
-     */
-    public boolean isIsPermantConnection() {
-        return mIsPermantConnection;
-    }
-
-    /**
-     * @param mIsPermantConnection the mIsPermantConnection to set
-     */
-    public void setIsPermantConnection(boolean mIsPermantConnection) {
-        this.mIsPermantConnection = mIsPermantConnection;
-    }
-
-    /**
-     * @return the mRenewIntervalPreference
-     */
-    public Long getRenewIntervalPreference() {
-        return mRenewIntervalPreference;
-    }
-
-    /**
-     * @param mRenewIntervalPreference the mRenewIntervalPreference to set
-     */
-    public void setRenewIntervalPreference(Long mRenewIntervalPreference) {
-        this.mRenewIntervalPreference = mRenewIntervalPreference;
-    }
-
-    /**
-     * @return the mEnableNewAndEndSessionLog
-     */
-    public boolean isEnableNewAndEndSessionLog() {
-        return mEnableNewAndEndSessionLog;
-    }
-
-    /**
-     * @param mEnableNewAndEndSessionLog the mEnableNewAndEndSessionLog to set
-     */
-    public void setEnableNewAndEndSessionLog(boolean mEnableNewAndEndSessionLog) {
-        this.mEnableNewAndEndSessionLog = mEnableNewAndEndSessionLog;
-    }
-
-    /**
-     * @return the mEnableSubscribe
-     */
-    public boolean isEnableSubscribe() {
-        return mEnableSubscribe;
-    }
-
-    /**
-     * @param mEnableSubscribe the mEnableSubscribe to set
-     */
-    public void setEnableSubscribe(boolean mEnableSubscribe) {
-        this.mEnableSubscribe = mEnableSubscribe;
-    }
-
-    /**
-     * @return the mEnablePollLog
-     */
-    public boolean isEnablePollLog() {
-        return mEnablePollLog;
-    }
-
-    /**
-     * @param mEnablePollLog the mEnablePollLog to set
-     */
-    public void setEnablePollLog(boolean mEnablePollLog) {
-        this.mEnablePollLog = mEnablePollLog;
-    }
-
-    /**
-     * @return the mEnableLocationTrackingLog
-     */
-    public boolean isEnableLocationTrackingLog() {
-        return mEnableLocationTrackingLog;
-    }
-
-    /**
-     * @param mEnableLocationTrackingLog the mEnableLocationTrackingLog to set
-     */
-    public void setEnableLocationTrackingLog(boolean mEnableLocationTrackingLog) {
-        this.mEnableLocationTrackingLog = mEnableLocationTrackingLog;
-    }
-
-    /**
-     * @return the mEnablePublishCharacteristicsLog
-     */
-    public boolean isEnablePublishCharacteristicsLog() {
-        return mEnablePublishCharacteristicsLog;
-    }
-
-    /**
-     * @param mEnablePublishCharacteristicsLog the mEnablePublishCharacteristicsLog to set
-     */
-    public void setEnablePublishCharacteristicsLog(boolean mEnablePublishCharacteristicsLog) {
-        this.mEnablePublishCharacteristicsLog = mEnablePublishCharacteristicsLog;
-    }
-
-    /**
-     * @return the mEnableErrorMessageLog
-     */
-    public boolean isEnableErrorMessageLog() {
-        return mEnableErrorMessageLog;
-    }
-
-    /**
-     * @param mEnableErrorMessageLog the mEnableErrorMessageLog to set
-     */
-    public void setEnableErrorMessageLog(boolean mEnableErrorMessageLog) {
-        this.mEnableErrorMessageLog = mEnableErrorMessageLog;
-    }
-
-    /**
-     * @return the mEnableInvalideResponseLog
-     */
-    public boolean isEnableInvalideResponseLog() {
-        return mEnableInvalideResponseLog;
-    }
-
-    /**
-     * @param mEnableInvalideResponseLog the mEnableInvalideResponseLog to set
-     */
-    public void setEnableInvalideResponseLog(boolean mEnableInvalideResponseLog) {
-        this.mEnableInvalideResponseLog = mEnableInvalideResponseLog;
-    }
-
-    /**
-     * @return the mEnableRenewRequestLog
-     */
-    public boolean isEnableRenewRequestLog() {
-        return mEnableRenewRequestLog;
-    }
-
-    /**
-     * @param mEnableRenewRequestLog the mEnableRenewRequestLog to set
-     */
-    public void setEnableRenewRequestLog(boolean mEnableRenewRequestLog) {
-        this.mEnableRenewRequestLog = mEnableRenewRequestLog;
-    }
-
-    /**
-     * @return the mRenewRequestMinInterval
-     */
-    public long getRenewRequestMinInterval() {
-        return mRenewRequestMinInterval;
-    }
-
-    /**
-     * @return the mUpdateInterval
-     */
-    public long getmUpdateInterval() {
-        return mUpdateInterval;
-    }
-
-    /**
-     * @param mUpdateInterval the mUpdateInterval to set
-     */
-    public void setmUpdateInterval(long mLocationTrackingInterval) {
-        this.mUpdateInterval = mLocationTrackingInterval;
-    }
-
-    /**
-     * @return the mUseBasicAuth
-     */
-    public boolean isUseBasicAuth() {
-        return mUseBasicAuth;
-    }
-
-    /**
-     * @param mUseBasicAuth the mUseBasicAuth to set
-     */
-    public void setIsUseBasicAuth(boolean mUseBasicAuth) {
-        this.mUseBasicAuth = mUseBasicAuth;
-    }
-
-    /**
-     * @return the mAutoconnect
-     */
-    public boolean ismAutoconnect() {
-        return mAutoconnect;
-    }
-
-    /**
-     * @param mAutoconnect the mAutoconnect to set
-     */
-    public void setmAutoconnect(boolean mAutoconnect) {
-        this.mAutoconnect = mAutoconnect;
-    }
-
-    /**
-     * @return the mSendApplicationsInfos
-     */
-    public boolean ismSendApplicationsInfos() {
-        return mDontSendApplicationsInfos;
-    }
-
-    /**
-     * @param mSendApplicationsInfos the mSendApplicationsInfos to set
-     */
-    public void setmSendApplicationsInfos(boolean mSendApplicationsInfos) {
-        this.mDontSendApplicationsInfos = mSendApplicationsInfos;
-    }
-
-    /**
-     * @return the mDontSendGoogleApps
-     */
-    public boolean ismDontSendGoogleApps() {
-        return mDontSendGoogleApps;
-    }
-
-    /**
-     * @param mDontSendGoogleApps the mDontSendGoogleApps to set
-     */
-    public void setmDontSendGoogleApps(boolean mDontSendGoogleApps) {
-        this.mDontSendGoogleApps = mDontSendGoogleApps;
-    }
-
-    public void setKeystorePath(String keystorePath) {
-        this.keystorePath = keystorePath;
+    public void setLogPath(String logPath) {
+        this.logPath = logPath;
     }
 
     public String getKeystorePath() {
         return keystorePath;
     }
 
+    public void setKeystorePath(String keystorePath) {
+        this.keystorePath = keystorePath;
+    }
+
+    public String getKeystorePassword() {
+        return keystorePassword;
+    }
+
     public void setKeystorePassword(String keystorePassword) {
         this.keystorePassword = keystorePassword;
     }
 
-    public String getKeyStorePassword() {
-        return keystorePassword;
+    public boolean isUseNonConformMetadata() {
+        return useNonConformMetadata;
+    }
+
+    public void setUseNonConformMetadata(boolean useNonConformMetadata) {
+        this.useNonConformMetadata = useNonConformMetadata;
+    }
+
+    public boolean isDontSendApplicationsInfos() {
+        return dontSendApplicationsInfos;
+    }
+
+    public void setDontSendApplicationsInfos(boolean dontSendApplicationsInfos) {
+        this.dontSendApplicationsInfos = dontSendApplicationsInfos;
+    }
+
+    public boolean isDontSendGoogleApps() {
+        return dontSendGoogleApps;
+    }
+
+    public void setDontSendGoogleApps(boolean dontSendGoogleApps) {
+        this.dontSendGoogleApps = dontSendGoogleApps;
+    }
+
+    public boolean isAutostart() {
+        return autostart;
+    }
+
+    public void setAutostart(boolean autostart) {
+        this.autostart = autostart;
+    }
+
+    public boolean isAutoconnect() {
+        return autoconnect;
+    }
+
+    public void setAutoconnect(boolean autoconnect) {
+        this.autoconnect = autoconnect;
+    }
+
+    public String getIFMAPServerIpPreference() {
+        return iFMAPServerIpPreference;
+    }
+
+    public void setIFMAPServerIpPreference(String iFMAPServerIpPreference) {
+        this.iFMAPServerIpPreference = iFMAPServerIpPreference;
+    }
+
+    public String getIFMAPServerPortPreference() {
+        return iFMAPServerPortPreference;
+    }
+
+    public void setIFMAPServerPortPreference(String iFMAPServerPortPreference) {
+        this.iFMAPServerPortPreference = iFMAPServerPortPreference;
+    }
+
+    public String getIMonitorServerIpPreference() {
+        return iMonitorServerIpPreference;
+    }
+
+    public void setIMonitorServerIpPreference(String iMonitorServerIpPreference) {
+        this.iMonitorServerIpPreference = iMonitorServerIpPreference;
+    }
+
+    public String getIMonitorServerPortPreference() {
+        return iMonitorServerPortPreference;
+    }
+
+    public void setIMonitorServerPortPreference(String iMonitorServerPortPreference) {
+        this.iMonitorServerPortPreference = iMonitorServerPortPreference;
+    }
+
+    public String getNscaPassPreference() {
+        return nscaPassPreference;
+    }
+
+    public void setNscaPassPreference(String nscaPassPreference) {
+        this.nscaPassPreference = nscaPassPreference;
+    }
+
+    public String getNscaEncPreference() {
+        return nscaEncPreference;
+    }
+
+    public void setNscaEncPreference(String nscaEncPreference) {
+        this.nscaEncPreference = nscaEncPreference;
+    }
+
+    public boolean isUseBasicAuth() {
+        return useBasicAuth;
+    }
+
+    public void setUseBasicAuth(boolean useBasicAuth) {
+        this.useBasicAuth = useBasicAuth;
+    }
+
+    public String getUsernamePreference() {
+        return usernamePreference;
+    }
+
+    public void setUsernamePreference(String usernamePreference) {
+        this.usernamePreference = usernamePreference;
+    }
+
+    public String getPasswordPreference() {
+        return passwordPreference;
+    }
+
+    public void setPasswordPreference(String passwordPreference) {
+        this.passwordPreference = passwordPreference;
+    }
+
+    public boolean isAllowUnsafeSSLPreference() {
+        return allowUnsafeSSLPreference;
+    }
+
+    public void setAllowUnsafeSSLPreference(boolean allowUnsafeSSLPreference) {
+        this.allowUnsafeSSLPreference = allowUnsafeSSLPreference;
+    }
+
+    public boolean isPermantConnection() {
+        return isPermantConnection;
+    }
+
+    public void setIsPermantConnection(boolean isPermantConnection) {
+        this.isPermantConnection = isPermantConnection;
+    }
+
+    public Long getRenewIntervalPreference() {
+        return renewIntervalPreference;
+    }
+
+    public void setRenewIntervalPreference(Long renewIntervalPreference) {
+        this.renewIntervalPreference = renewIntervalPreference;
+    }
+
+    public long getRenewRequestMinInterval() {
+        return renewRequestMinInterval;
+    }
+
+    public void setRenewRequestMinInterval(long renewRequestMinInterval) {
+        this.renewRequestMinInterval = renewRequestMinInterval;
+    }
+
+    public boolean isApplicationFileLogging() {
+        return applicationFileLogging;
+    }
+
+    public void setApplicationFileLogging(boolean applicationFileLogging) {
+        this.applicationFileLogging = applicationFileLogging;
+    }
+
+    public boolean isEnableNewAndEndSessionLog() {
+        return enableNewAndEndSessionLog;
+    }
+
+    public void setEnableNewAndEndSessionLog(boolean enableNewAndEndSessionLog) {
+        this.enableNewAndEndSessionLog = enableNewAndEndSessionLog;
+    }
+
+    public boolean isEnableSubscribe() {
+        return enableSubscribe;
+    }
+
+    public void setEnableSubscribe(boolean enableSubscribe) {
+        this.enableSubscribe = enableSubscribe;
+    }
+
+    public boolean isEnablePollLog() {
+        return enablePollLog;
+    }
+
+    public void setEnablePollLog(boolean enablePollLog) {
+        this.enablePollLog = enablePollLog;
+    }
+
+    public boolean isEnableLocationTrackingLog() {
+        return enableLocationTrackingLog;
+    }
+
+    public void setEnableLocationTrackingLog(boolean enableLocationTrackingLog) {
+        this.enableLocationTrackingLog = enableLocationTrackingLog;
+    }
+
+    public boolean isEnablePublishCharacteristicsLog() {
+        return enablePublishCharacteristicsLog;
+    }
+
+    public void setEnablePublishCharacteristicsLog(boolean enablePublishCharacteristicsLog) {
+        this.enablePublishCharacteristicsLog = enablePublishCharacteristicsLog;
+    }
+
+    public boolean isEnableErrorMessageLog() {
+        return enableErrorMessageLog;
+    }
+
+    public void setEnableErrorMessageLog(boolean enableErrorMessageLog) {
+        this.enableErrorMessageLog = enableErrorMessageLog;
+    }
+
+    public boolean isEnableInvalideResponseLog() {
+        return enableInvalideResponseLog;
+    }
+
+    public void setEnableInvalideResponseLog(boolean enableInvalideResponseLog) {
+        this.enableInvalideResponseLog = enableInvalideResponseLog;
+    }
+
+    public boolean isEnableRenewRequestLog() {
+        return enableRenewRequestLog;
+    }
+
+    public void setEnableRenewRequestLog(boolean enableRenewRequestLog) {
+        this.enableRenewRequestLog = enableRenewRequestLog;
+    }
+
+    public void setCamActiv(boolean camActiv) {
+        this.camActiv = camActiv;
+    }
+
+    public boolean getCamActiv() {
+        return camActiv;
     }
 }

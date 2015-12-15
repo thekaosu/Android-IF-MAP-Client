@@ -73,6 +73,8 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
     private String setupMode;
 
+    private PreferencesValues mPreferences = PreferencesValues.getInstance();
+
     public SetupAdapter(Context context, List<PreferenceActivity.Header> objects) {
         super(context, 0, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,7 +83,6 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
             switchIDS.add(id);
             switchMap.put(id, new SwitchPreferenceHandler(context, new Switch(context), id + ""));
         }
-
         selectionHandler = new SpinnerSetupModePreferenceHandler(context, new Spinner(context), MONITORINGMODE_VIEW_ID + "");
     }
 
@@ -92,7 +93,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
         TextView title = null;
         TextView summary = null;
-        View mecha = null;
+        View mechanism = null;
 
         boolean enabled = isEnabled(position);
 
@@ -118,7 +119,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 title.setText(header.getTitle(getContext()
                         .getResources()));
                 switchMap.get(header.id).setSwitch((Switch) view.findViewById(R.id.switchWidget));
-                mecha = switchMap.get(header.id).getSwitch();
+                mechanism = switchMap.get(header.id).getSwitch();
                 break;
             case HEADER_TYPE_SELECTION:
                 if (selectionView == null) {
@@ -133,8 +134,8 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 }
                 title.setTextColor(ContextCompat.getColor(getContext(), R.color.lblColor));
                 view = selectionView;
-                mecha = selectionHandler.getSpinner();
-                mecha.setEnabled(true);
+                mechanism = selectionHandler.getSpinner();
+                mechanism.setEnabled(true);
                 break;
             case HEADER_TYPE_NORMAL:
                 view = mInflater.inflate(R.layout.preference_header_item, parent, false);
@@ -161,8 +162,8 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
             if (title != null) {
                 title.setTextColor(ContextCompat.getColor(getContext(), R.color.disabledText));
             }
-            if (mecha != null) {
-                mecha.setEnabled(false);
+            if (mechanism != null) {
+                mechanism.setEnabled(false);
             }
         }
 
@@ -199,7 +200,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
     @Override
     public boolean isEnabled(int position) {
-        if (PreferencesValues.sLockPreferences) {
+        if (mPreferences.isLockPreferences()) {
             for (long id : VIEW_WHILE_CONNECTION_WHITELIST) {
                 if (getItem(position).id == id) {
                     return true;

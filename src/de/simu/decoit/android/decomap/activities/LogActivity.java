@@ -52,6 +52,7 @@ public class LogActivity extends Activity {
 
     // database for log messages
     private LoggingDatabase mLogDB = null;
+    private PreferencesValues mPreferences = PreferencesValues.getInstance();
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -61,6 +62,7 @@ public class LogActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getClass().getName(), "LogActivity.OnCreate(...) called");
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.tab2);
 
         // create new database connection
@@ -205,15 +207,15 @@ public class LogActivity extends Activity {
 
         try {
             if (!Toolbox.sLogFolderExists) {
-                Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(PreferencesValues.sLogPath);
+                Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(mPreferences.getLogPath());
             }
 
             try {
                 String path;
-                if (PreferencesValues.sLogPath.endsWith("/")) {
-                    path = PreferencesValues.sLogPath + exportFileName;
+                if (mPreferences.getLogPath().endsWith("/")) {
+                    path = mPreferences.getLogPath() + exportFileName;
                 } else {
-                    path = PreferencesValues.sLogPath + "/" + exportFileName;
+                    path = mPreferences.getLogPath() + "/" + exportFileName;
                 }
 
 
@@ -240,7 +242,7 @@ public class LogActivity extends Activity {
 
                 // show quick success-message
                 dialog = new LogMessageDialog(this,
-                        "Messages have been successfully exported as \"" + exportFileName + "\" to the log directory " + PreferencesValues.sLogPath);
+                        "Messages have been successfully exported as \"" + exportFileName + "\" to the log directory " + mPreferences.getLogPath());
             } catch (Exception e) {
                 dialog = new LogMessageDialog(this, "Export failed! \nReason: " + e.getMessage(), LogMessageDialog.WARNING_MESSAGE);
             }

@@ -21,6 +21,17 @@
  */
 package de.simu.decoit.android.decomap.util;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Environment;
+import android.support.v7.app.NotificationCompat;
+import android.util.Log;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.StringWriter;
 import java.net.NetworkInterface;
@@ -31,17 +42,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Environment;
-import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import de.hshannover.f4.trust.ifmapj.messages.PublishRequest;
 import de.simu.decoit.android.decomap.activities.MainActivity;
@@ -54,7 +54,7 @@ import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 
 /**
  * Class for providing several Helper-Methods
- * 
+ *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
  * @version 0.2
@@ -65,10 +65,10 @@ public class Toolbox {
     public static final int SIMPLE_NOTFICATION_ID = 1;
     public static boolean sLogFolderExists = false;
     public static final String CONTENT_SMS = "content://sms";
-    
+
     /**
      * return IPv4 Regex.-pattern
-     * 
+     *
      * @return Pattern
      */
     public static String REGEX_IP4 = "^(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))$";
@@ -79,7 +79,7 @@ public class Toolbox {
 
     /**
      * return Port Regex.-pattern
-     * 
+     *
      * @return Pattern
      */
     public static String REGEX_PORT = "\\d+";
@@ -90,9 +90,9 @@ public class Toolbox {
 
     /**
      * get current time/date as string
-     * 
+     *
      * @param predefined
-     *            format string
+     * format string
      * @return current time/date as string
      */
     public static final String DATE_FORMAT_NOW_DEFAULT = "yyyy-MM-dd HH:mm:ss";
@@ -109,31 +109,24 @@ public class Toolbox {
 
     /**
      * output log message
-     * 
-     * @param tag
-     *            tag of message
-     * @param activity
-     *            message to log
-     * @param className
-     *            class who generated the message
+     *
+     * @param tag      tag of message
+     * @param activity message to log
      */
     public static void logTxt(String tag, String activity) {
         Log.d(tag, activity);
 
         // log to file
-        if (PreferencesValues.sApplicationFileLogging) {
+        if (PreferencesValues.getInstance().isApplicationFileLogging()) {
             CustomLogger.logTxt(tag, activity);
         }
     }
 
     /**
      * generate log message from passed in PublishRequest
-     * 
-     * @param msgType
-     *            byte indicating message-type
-     * @param publishReq
-     *            PublishRequest to generate log-message from
-     * 
+     *
+     * @param msgType    byte indicating message-type
+     * @param publishReq PublishRequest to generate log-message from
      * @return String containing generated log message
      */
     public static String generateRequestLogMessageFromPublishRequest(byte msgType, PublishRequest publishReq) {
@@ -141,13 +134,13 @@ public class Toolbox {
         if (msgType != MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION && msgType != MessageHandler.MSG_TYPE_REQUEST_NEWSESSION
                 && msgType != MessageHandler.MSG_TYPE_REQUEST_ENDSESSION) {
             String result = "";
-            ArrayList<HashMap<String,String>> requestStringList =  ReadOutMessages.readOutRequest(publishReq);
+            ArrayList<HashMap<String, String>> requestStringList = ReadOutMessages.readOutRequest(publishReq);
             for (int i = 0; i < requestStringList.size(); i++) {
-                if (requestStringList.get(i).toString() != null || requestStringList.get(i).toString() != ""){
+                if (requestStringList.get(i).toString() != null || requestStringList.get(i).toString() != "") {
                     result = requestStringList.get(i).toString();
                 }
             }
-            return result.replace("{", "").replace("}", "").replace(", ","\n" );
+            return result.replace("{", "").replace("}", "").replace(", ", "\n");
         } else if (msgType == MessageHandler.MSG_TYPE_REQUEST_NEWSESSION) {
             return "new-session request";
         } else if (msgType == MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION) {
@@ -159,36 +152,34 @@ public class Toolbox {
 
     /**
      * show passed in message as notification
-     * 
-     * @param String
-     *            notifyText notify-text
-     * @param String
-     *            displayTitle displayed title
-     * @param String
-     *            displayText displayed message
+     *
+     * @param notifyText
+     * @param displayTitle
+     * @param displayText
+     * @param appContext
      */
     public static void showNotification(String notifyText, String displayTitle,
-			String displayText, Context appContext) {
+                                        String displayText, Context appContext) {
 
-		// initialize notification manager
-		if (mNotificationManager == null) {
-			mNotificationManager = (NotificationManager) appContext
-					.getSystemService(MainActivity.NOTIFICATION_SERVICE);
-		}
+        // initialize notification manager
+        if (mNotificationManager == null) {
+            mNotificationManager = (NotificationManager) appContext
+                    .getSystemService(MainActivity.NOTIFICATION_SERVICE);
+        }
 
-		// set notification about incoming response
-		PendingIntent intent = PendingIntent.getActivity(appContext,
-				SIMPLE_NOTFICATION_ID,
-				(new Intent()).setClass(appContext, TabLayout.class),
-				PendingIntent.FLAG_UPDATE_CURRENT);
+        // set notification about incoming response
+        PendingIntent intent = PendingIntent.getActivity(appContext,
+                SIMPLE_NOTFICATION_ID,
+                (new Intent()).setClass(appContext, TabLayout.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
-		// using compat as easy way to stay compatible
-		Notification mNotification = new NotificationCompat.Builder(appContext)
-				.setContentTitle(displayTitle).setContentText(displayText)
-				.setContentIntent(intent).setSmallIcon(R.drawable.icon).build();
+        // using compat as easy way to stay compatible
+        Notification mNotification = new NotificationCompat.Builder(appContext)
+                .setContentTitle(displayTitle).setContentText(displayText)
+                .setContentIntent(intent).setSmallIcon(R.drawable.icon).build();
 
-		mNotificationManager.notify(SIMPLE_NOTFICATION_ID, mNotification);
-	}
+        mNotificationManager.notify(SIMPLE_NOTFICATION_ID, mNotification);
+    }
 
     /**
      * delete last notification messagn
@@ -199,13 +190,11 @@ public class Toolbox {
             mNotificationManager.cancel(SIMPLE_NOTFICATION_ID);
         }
     }
-    
+
     /**
      * check if folder at passed in path exists, if not create folder
-     * 
-     * @param path
-     *            folder-path
-     * 
+     *
+     * @param path folder-path
      * @return true if folder exists or has been created
      */
     public static boolean createDirIfNotExists(String path) {
@@ -222,30 +211,29 @@ public class Toolbox {
     /**
      * JSONify Object to string
      *
-     * @param input
-     * 				object to JSONify
-     *
+     * @param input object to JSONify
      * @return JSON string representation of input
      */
 
     public static String toJSON(Object input) {
-		StringWriter mJSON = new StringWriter();
-		ObjectMapper objectMapper = new ObjectMapper();
+        StringWriter mJSON = new StringWriter();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-		// generate JSON object
-		try {
-			objectMapper.writeValue(mJSON, input);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        // generate JSON object
+        try {
+            objectMapper.writeValue(mJSON, input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-		return mJSON.toString();
-	}
+        return mJSON.toString();
+    }
 
     /**
      * Returns MAC address of the given interface name.
+     *
      * @param interfaceName eth0, wlan0 or NULL=use first interface
-     * @return  mac address or empty string
+     * @return mac address or empty string
      */
     public static String getMACAddress(String interfaceName) {
         try {
@@ -255,14 +243,15 @@ public class Toolbox {
                     if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
                 }
                 byte[] mac = intf.getHardwareAddress();
-                if (mac==null) return "UNKNOWN EMULATOR";
+                if (mac == null) return "UNKNOWN EMULATOR";
                 StringBuilder buf = new StringBuilder();
-                for (int idx=0; idx<mac.length; idx++)
+                for (int idx = 0; idx < mac.length; idx++)
                     buf.append(String.format("%02X:", mac[idx]));
-                if (buf.length()>0) buf.deleteCharAt(buf.length()-1);
+                if (buf.length() > 0) buf.deleteCharAt(buf.length() - 1);
                 return buf.toString();
             }
-        } catch (Exception ex) { }
+        } catch (Exception ex) {
+        }
         return "UNKNOWN EMULATOR";
     }
 }

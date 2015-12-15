@@ -29,17 +29,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
 import android.content.res.Resources.NotFoundException;
-import android.hardware.Camera;
+import android.hardware.camera2.CameraManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,51 +89,6 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  */
 public class MainActivity extends Activity {
 
-    public static boolean mBackCamActive = false, mFrontCamActive = false;
-
-    public static void checkCameraActive() {
-//		new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-        int cameraCount = 0;
-        Camera cam = null;
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-        cameraCount = Camera.getNumberOfCameras();
-        for (int camIdx = 0; camIdx < cameraCount; camIdx++) {
-            Camera.getCameraInfo(camIdx, cameraInfo);
-            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                try {
-                    cam = Camera.open(camIdx);
-                    MainActivity.mBackCamActive = false;
-                    cam.release();
-                } catch (RuntimeException e) {
-                    Log.e("SystemProperties",
-                            "Camera failed to open: "
-                                    + e.getLocalizedMessage());
-                    MainActivity.mBackCamActive = true;
-                }
-            }
-            Camera.getCameraInfo(camIdx, cameraInfo);
-            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                try {
-                    cam = Camera.open(camIdx);
-                    MainActivity.mFrontCamActive = false;
-                    cam.release();
-                } catch (RuntimeException e) {
-                    Log.e("SystemProperties",
-                            "Camera failed to open: "
-                                    + e.getLocalizedMessage());
-                    MainActivity.mFrontCamActive = true;
-                }
-            }
-        }
-        Log.i("CameraWatcher", "Front: " + mFrontCamActive + " Back: " + mBackCamActive);
-
-//			}
-//		}).start();
-    }
-
     // local services definitions
     public static RenewConnectionService.LocalBinder sBoundRenewConnService;
     public static PermanentConnectionService.LocalBinder sBoundPermConnService;
@@ -145,7 +97,7 @@ public class MainActivity extends Activity {
     public static String sCurrentPublisherId;
 
     // fields for location-tracking-values, declared static so that
-    // the status-activity can access them
+// the status-activity can access them
     public static String sLatitude = null;
     public static String sLongitude = null;
     public static String sAltitude = null;
@@ -154,7 +106,7 @@ public class MainActivity extends Activity {
     private static SSRC sSsrcConnection;
 
     // preferences
-    private PreferencesValues mPreferences;
+    private PreferencesValues mPreferences = PreferencesValues.getInstance();
 
     // device properties
     private DeviceProperties mDeviceProperties;
@@ -174,7 +126,6 @@ public class MainActivity extends Activity {
     private ProgressDialog myProgressDialog = null;
 
     // current if-map session and publisher id
-    @SuppressWarnings("unused")
     private String mCurrentSessionId;
 
     // application/connection states
@@ -211,15 +162,15 @@ public class MainActivity extends Activity {
     // message-parameter-generator
     MessageParametersGenerator<PublishRequest> parameters;
 
-    @SuppressWarnings("unused")
     private BatteryReceiver mBatteryReciever = null;
 
     // observer for incoming and outgoing sms-messages
     private SMSObserver mSmsObserver = null;
 
     // receiver for pictures taken with the camera
-    @SuppressWarnings("unused")
     private CameraReceiver mCameraReceiver = null;
+
+    private CameraManager cam_manager;
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -234,18 +185,15 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getLocalClassName(), "onCreate(...) called");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab1);
 
-        // initialize preferences-object
-        mPreferences = new PreferencesValues();
+        setContentView(R.layout.tab1);
 
         // initialize application
         initViews();
         initValues();
-        initPreferences();
 
         // generator for if-map-messages to be published
-        parameters = new MessageParametersGenerator<PublishRequest>();
+        parameters = new MessageParametersGenerator<PublishRequest>(this);
 
         // initialize sms-observing
         mSmsObserver = new SMSObserver(getApplicationContext());
@@ -255,8 +203,28 @@ public class MainActivity extends Activity {
         // initialize camera-receiver
         mCameraReceiver = new CameraReceiver();
 
+        // register camera useage
+        cam_manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CameraManager.AvailabilityCallback camAvailCallback = new CameraManager.AvailabilityCallback() {
+                public void onCameraAvailable(String cameraId) {
+                    mPreferences.setCamActiv(false);
+                    Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is not in use!");
+
+                }
+
+                public void onCameraUnavailable(String cameraId) {
+                    mPreferences.setCamActiv(true);
+                    Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is in use!");
+
+                }
+            };
+
+            cam_manager.registerAvailabilityCallback(camAvailCallback, null);
+        }
+
         // autoconnect at Startup
-        if (mPreferences.ismAutoconnect()) {
+        if (mPreferences.isAutoconnect()) {
             // start connection service if all required preferences are set
             if (!validatePreferences()) {
                 mStatusMessageField.append("\n"
@@ -265,7 +233,7 @@ public class MainActivity extends Activity {
                         + " "
                         + getResources().getString(
                         R.string.main_default_wrongconfig_message));
-            } else if (PreferencesValues.sMonitoringPreference
+            } else if (mPreferences.getMonitoringPreference()
                     .equalsIgnoreCase("IF-MAP")) {
                 // set status message to-text-output-field
                 mStatusMessageField.append("\n"
@@ -280,7 +248,7 @@ public class MainActivity extends Activity {
                 if (initIFMAPConnection()) {
                     startIFMAPConnectionService();
                 }
-            } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
+            } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
                 connectNSCA();
             } else {
                 mStatusMessageField.append("\n"
@@ -318,11 +286,8 @@ public class MainActivity extends Activity {
         Toolbox.logTxt(this.getLocalClassName(), "onResume() called");
         super.onResume();
 
-        // reload preferences
-        initPreferences();
-
         // re-initialize location tracking
-        if (PreferencesValues.sEnableLocationTracking) {
+        if (mPreferences.isEnableLocationTracking()) {
             initLocation();
         }
     }
@@ -351,7 +316,7 @@ public class MainActivity extends Activity {
         super.onDestroy();
 
         // "unlock locked" preferences
-        PreferencesValues.sLockPreferences = false;
+        mPreferences.setLockPreferences(false);
 //        PreferencesValues.sLockConnectionPreferences = false;
 //        PreferencesValues.sLockLocationTrackingOptions = false;
 
@@ -433,126 +398,6 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * get application preferences
-     */
-    private void initPreferences() {
-        Toolbox.logTxt(this.getLocalClassName(), "onPreferences(...) called");
-
-        // object for holding preferences-values
-        mPreferences = new PreferencesValues();
-
-        // get the preferences.xml preferences
-        SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(getBaseContext());
-
-        // set preferences
-        PreferencesValues.sApplicationFileLogging = prefs.getBoolean(
-                "applicatiologging", false);
-        PreferencesValues.sMonitoringPreference = prefs.getString(
-                R.id.monitoringModeSettings + "", "IF-MAP");
-        PreferencesValues.sLocationTrackingType = prefs.getString(
-                "locationPref", "GPS");
-        PreferencesValues.sEnableLocationTracking = prefs.getBoolean(
-                "enableLocationTracking", false);
-
-        PreferencesValues.sLogPath = prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
-
-        PreferencesValues.sAutoUpdate = prefs.getBoolean("autoUpdate", false);
-
-        mPreferences.setKeystorePath(prefs.getString("KeystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
-        mPreferences.setKeystorePassword(prefs.getString("keystorepw", ""));
-
-        mPreferences.setUseNonConformMetadata(prefs.getBoolean(
-                R.id.esukomMetadataSettings + "", true));
-        mPreferences.setmSendApplicationsInfos(prefs.getBoolean(
-                "sendNoAppsPreferences", false));
-        mPreferences.setmAutostart(prefs.getBoolean("autostartPreferences",
-                false));
-        mPreferences.setmAutoconnect(prefs.getBoolean("autoconnectPreferences",
-                false));
-        mPreferences.setmDontSendGoogleApps(prefs.getBoolean(
-                "sendNoGoogleAppsPreferences", true));
-        mPreferences.setAllowUnsafeSSLPreference(prefs.getBoolean(
-                "allowUnsafeSSLPreference", true));
-        mPreferences.setEnableNewAndEndSessionLog(prefs.getBoolean(
-                "logNewsessionRequest", false));
-        mPreferences
-                .setEnablePollLog(prefs.getBoolean("logPollRequest", false));
-        mPreferences.setEnableSubscribe(prefs.getBoolean("logSubscripeRequest",
-                false));
-        mPreferences.setEnableLocationTrackingLog(prefs.getBoolean(
-                "logLocationTracking", false));
-        mPreferences.setEnablePublishCharacteristicsLog(prefs.getBoolean(
-                "logPublishCharacteristics", false));
-        mPreferences.setEnableErrorMessageLog(prefs.getBoolean(
-                "logErrorMessage", false));
-        mPreferences.setEnableInvalideResponseLog(prefs.getBoolean(
-                "logInvalideResponse", false));
-        mPreferences.setEnableRenewRequestLog(prefs.getBoolean(
-                "logRenewRequest", false));
-        mPreferences.setUsernamePreference(prefs.getString(
-                "usernamePreference", "user"));
-        mPreferences.setPasswordPreference(prefs.getString(
-                "passwordPreference", "password"));
-        mPreferences.setIFMAPServerIpPreference(prefs.getString(
-                "IF-MAPServeripPreference", ""));
-        mPreferences.setIFMAPServerPortPreference(prefs.getString(
-                "IF-MAPServerportPreference", "8443"));
-        mPreferences.setIMonitorServerIpPreference(prefs.getString(
-                "iMonitorServeripPreference", ""));
-        mPreferences.setIMonitorServerPortPreference(prefs.getString(
-                "iMonitorServerportPreference", "5667"));
-        mPreferences.setNscaEncPreference(prefs.getString(
-                "nscaEncPref", "1"));
-        mPreferences.setNscaPassPreference(prefs.getString(
-                "imonitorPassPreference", "icinga"));
-        mPreferences.setIsPermantConnection(prefs.getBoolean(
-                "permanantlyConectionPreferences", true));
-
-        //mPreferences.setIsUseBasicAuth(prefs.getString("auth", "Basic-Authentication"));
-        mPreferences.setIsUseBasicAuth(prefs.getString("authType", "Basic-Auth").equals("Basic-Auth"));
-
-        // set update interval
-        try {
-            mPreferences.setmUpdateInterval(Long.parseLong(prefs.getString(
-                    "updateInterval", "600000")));
-        } catch (NumberFormatException e) {
-            // should not happen! just in case of...
-            Toolbox.logTxt(
-                    this.getLocalClassName(),
-                    "initializing of update interval from preferences failed...using default (60000)");
-            mPreferences.setmUpdateInterval(60000L);
-        }
-        // check if update interval is above minimum, of not set it to
-        // default minimum value
-        if (mPreferences.getmUpdateInterval() < 60000L) {
-            mPreferences.setmUpdateInterval(60000L);
-            Toolbox.logTxt(this.getLocalClassName(),
-                    "configured update interval is to short...using default (60000)");
-        }
-
-        // set renew session interval
-        try {
-            mPreferences.setRenewIntervalPreference(Long.parseLong(prefs
-                    .getString("renewInterval", "10000l")));
-        } catch (NumberFormatException e) {
-            // should not happen! just in case of...
-            Toolbox.logTxt(
-                    this.getLocalClassName(),
-                    "initializing of renew session interval from preferences failed...using default (10000)");
-            mPreferences.setRenewIntervalPreference(10000L);
-        }
-
-        // check if renew-session interval is above minimum, of not set it to
-        // default minimum value
-        if (mPreferences.getRenewIntervalPreference() < 10000L) {
-            mPreferences.setRenewIntervalPreference(10000L);
-            Toolbox.logTxt(this.getLocalClassName(),
-                    "configured renew session interval is to short...using default (10000)");
-        }
-    }
-
-    /**
      * Initialize the connection object if not already initialized, else assign
      * already existing connection object
      */
@@ -594,7 +439,7 @@ public class MainActivity extends Activity {
                     Toolbox.logTxt(this.getLocalClassName(),
                             "initializing ssrc-connecion using certificate-based-auth");
                     KeyManager[] keyManagers = IfmapJHelper.getKeyManagers(mPreferences.getKeystorePath(),
-                            mPreferences.getKeyStorePassword());
+                            mPreferences.getKeystorePassword());
                     sSsrcConnection = new SsrcImpl("https://"
                             + mPreferences.getIFMAPServerIpPreference() + ":"
                             + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, timeout);
@@ -636,16 +481,16 @@ public class MainActivity extends Activity {
         mLocListener.setAppllicationContext(this);
 
         // gps
-        if (PreferencesValues.sLocationTrackingType.equalsIgnoreCase("gps")) {
+        if (mPreferences.getLocationTrackingType().equalsIgnoreCase("gps")) {
             mLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                    mPreferences.getmUpdateInterval(), 0, mLocListener);
+                    mPreferences.getUpdateInterval(), 0, mLocListener);
         }
 
         // cell based
         else {
             mLocManager.requestLocationUpdates(
                     LocationManager.NETWORK_PROVIDER,
-                    mPreferences.getmUpdateInterval(), 0, mLocListener);
+                    mPreferences.getUpdateInterval(), 0, mLocListener);
         }
     }
 
@@ -657,15 +502,14 @@ public class MainActivity extends Activity {
      * enable/disable buttons depending on current application state (detected
      * by mIsConnected-Flag)
      *
-     * @param isConnected  boolean indicating current connection state
-     * @param isSubscribed flag indicating if client is currently subscribed to searches
+     * @param isConnected boolean indicating current connection state
      */
     private void changeButtonStates(boolean isConnected) {
         // connected to if map server
         if (isConnected) {
             mConnectButton.setEnabled(false);
             mDisconnectButton.setEnabled(true);
-            if (PreferencesValues.sAutoUpdate) {
+            if (mPreferences.isAutoUpdate()) {
                 mPublishDeviceCharacteristicsButton.setEnabled(false);
             } else {
                 mPublishDeviceCharacteristicsButton.setEnabled(true);
@@ -685,9 +529,9 @@ public class MainActivity extends Activity {
      * @param view element that originated the call
      */
     public void mainTabButtonHandler(View view) {
-        if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("IF-MAP")) {
+        if (mPreferences.getMonitoringPreference().equalsIgnoreCase("IF-MAP")) {
             mainTabButtonHandlerIfmap(view);
-        } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
+        } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
             mainTabButtonHandlerIMonitor(view);
         } else {
             mStatusMessageField.append("\n"
@@ -740,7 +584,7 @@ public class MainActivity extends Activity {
             mIsBound = BinderClass.doBindNscaService(getApplicationContext(),
                     mNscaConnection);
 
-            PreferencesValues.sLockPreferences = true;
+            mPreferences.setLockPreferences(true);
 //            PreferencesValues.sLockConnectionPreferences = true;
 
 //                    true, new DialogInterface.OnCancelListener() {
@@ -787,7 +631,7 @@ public class MainActivity extends Activity {
                 getResources().getString(R.string.notification_disconnect),
                 getApplicationContext());
 
-        PreferencesValues.sLockPreferences = false;
+        mPreferences.setLockPreferences(false);
 //        PreferencesValues.sLockConnectionPreferences = false;
     }
 
@@ -843,17 +687,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    /**
-     * override the behavior of the back-button so that the application runs in
-     * the background
-     */
-    @Override
-    public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
-    }
 
     // -------------------------------------------------------------------------
     // CONNECTION/SERVICE-START HANDLING
@@ -864,7 +697,7 @@ public class MainActivity extends Activity {
      */
     public boolean validatePreferences() {
 
-        if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
+        if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
             // validate password (defaults always to "icinga")
             if (mPreferences.getNscaPassPreference() == null
                     || !(mPreferences.getNscaPassPreference().length() > 0)) {
@@ -913,7 +746,7 @@ public class MainActivity extends Activity {
                     return false;
                 }
             }
-        } else if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("IF-MAP")) {
+        } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("IF-MAP")) {
 
             if (mPreferences.isUseBasicAuth()) {
                 // validate username
@@ -1006,10 +839,10 @@ public class MainActivity extends Activity {
         PublishRequest publishReq = parameters.generateSRCRequestParamteres(
                 mMessageType, mDeviceProperties,
                 mPreferences.isUseNonConformMetadata(),
-                mPreferences.ismSendApplicationsInfos(),
-                mPreferences.ismDontSendGoogleApps());
+                mPreferences.isDontSendApplicationsInfos(),
+                mPreferences.isDontSendGoogleApps());
 
-        if (!mPreferences.isIsPermantConnection()) {
+        if (!mPreferences.isPermantConnection()) {
             // gather parameters for local service
             mLocalServicePreferences = new LocalServiceParameters(
                     LocalServiceParameters.SERVICE_BINDER_TYPE_RENEW_CONNECTION_SERVICE,
@@ -1055,9 +888,9 @@ public class MainActivity extends Activity {
                 false);
     }
 
-    // -------------------------------------------------------------------------
-    // SERVICE CALLBACK HANDLING
-    // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// SERVICE CALLBACK HANDLING
+// -------------------------------------------------------------------------
 
     /**
      * Callback-Handler for Local Service that handles synchronous
@@ -1111,6 +944,7 @@ public class MainActivity extends Activity {
                 sBoundPermConnService = null;
             }
         }
+
     }
 
     // -------------------------------------------------------------------------
@@ -1138,7 +972,7 @@ public class MainActivity extends Activity {
 
                 // lock parts of preferences-tab that cannot be changed as
                 // long as a connection is established
-                PreferencesValues.sLockPreferences = true;
+                mPreferences.setLockPreferences(true);
 //                PreferencesValues.sLockConnectionPreferences = true;
 //                PreferencesValues.sLockLocationTrackingOptions = true;
 
@@ -1173,7 +1007,7 @@ public class MainActivity extends Activity {
                 mIsConnected = false;
 
                 // "unlock" some parts of preferences
-                PreferencesValues.sLockPreferences = false;
+                mPreferences.setLockPreferences(false);
 //                PreferencesValues.sLockConnectionPreferences = false;
 //                PreferencesValues.sLockLocationTrackingOptions = false;
                 mCurrentSessionId = null; // session has ended!
@@ -1194,7 +1028,7 @@ public class MainActivity extends Activity {
             case MessageHandler.MSG_TYPE_ERRORMSG:
                 // error-response, reset all messaging-related values
                 mIsConnected = false;
-                PreferencesValues.sLockPreferences = false;
+                mPreferences.setLockPreferences(false);
 //                PreferencesValues.sLockLocationTrackingOptions = false;
                 mCurrentSessionId = null;
                 MessageParametersGenerator.sInitialDevCharWasSend = false;
@@ -1209,7 +1043,7 @@ public class MainActivity extends Activity {
             // -----> PUBLISH DEVICE CHARACTERISTICS RESPONSE <-----
             case MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS:
                 mIsConnected = true;
-                PreferencesValues.sLockPreferences = true;
+                mPreferences.setLockPreferences(true);
                 break;
         }
 
@@ -1287,8 +1121,8 @@ public class MainActivity extends Activity {
         PublishRequest publishReq = parameters.generateSRCRequestParamteres(
                 mMessageType, mDeviceProperties,
                 mPreferences.isUseNonConformMetadata(),
-                mPreferences.ismSendApplicationsInfos(),
-                mPreferences.ismDontSendGoogleApps());
+                mPreferences.isDontSendApplicationsInfos(),
+                mPreferences.isDontSendGoogleApps());
 
         if (!mIsBound) {
             // renew-session-connection
@@ -1344,10 +1178,10 @@ public class MainActivity extends Activity {
     private Handler mUpdateHandler = new Handler();
     private Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
-            if (PreferencesValues.sAutoUpdate) {
+            if (mPreferences.isAutoUpdate()) {
                 sendMetadataUpdateToServer();
                 mUpdateHandler.postDelayed(this,
-                        mPreferences.getmUpdateInterval());
+                        mPreferences.getUpdateInterval());
             }
         }
     };
@@ -1397,7 +1231,7 @@ public class MainActivity extends Activity {
             mNscaServiceBind.publish(eP.genInfoEvent());
             mNscaServiceBind.publish(eP.genAppEvents());
 
-            mNscaServiceBind.startMonitor(mPreferences.getmUpdateInterval());
+            mNscaServiceBind.startMonitor(mPreferences.getUpdateInterval());
             myProgressDialog.dismiss();
             mStatusMessageField.append("\n"
                     + getResources().getString(R.string.main_status_message_prefix)
@@ -1445,4 +1279,5 @@ public class MainActivity extends Activity {
             }
         }
     };
+
 }
