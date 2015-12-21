@@ -21,123 +21,138 @@
 package de.simu.decoit.android.decomap.messaging;
 
 import android.content.Context;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
  * Class representing a serialized server-response-object
- * 
- * @author  Marcel Jahnke, DECOIT GmbH
- * @author  Dennis Dunekacke, DECOIT GmbH
+ *
+ * @author Marcel Jahnke, DECOIT GmbH
+ * @author Dennis Dunekacke, DECOIT GmbH
  * @version 0.2
  */
 public class SerializedResponse {
 
-	// error-strings (more precise: parts of error strings) from ifmapj
-	// used to detect type of error and map it to our own error-messages
-	private final String mIfMapJNull = "null";
-	private final String mIfMapJTimeOut = "timed out";
-	private final String mIfMapJServerNotResponding = "The target server failed to respond";
-	private final String mIfMapJIOError = "I/O error";
-	private final String mIfMapJNotAuthorized = "Unauthorized";
-	private final String mIfMapJConnectionRefused = "refused";
-	private final String mIfMapJNetworkUnreachable = "unreachable";
-	private final String mIfMapJForbidden = "403";
-	
+    // error-strings (more precise: parts of error strings) from ifmapj
+    // used to detect type of error and map it to our own error-messages
+    private final String mIfMapJNull = "null";
+    private final String mIfMapJTimeOut = "timed out";
+    private final String mIfMapJServerNotResponding = "The target server failed to respond";
+    private final String mIfMapJIOError = "I/O error";
+    private final String mIfMapJNotAuthorized = "Unauthorized";
+    private final String mIfMapJConnectionRefused = "refused";
+    private final String mIfMapJNetworkUnreachable = "unreachable";
+    private final String mIfMapJForbidden = "403";
 
-	private String mSerializedMsg = null;
-	private String mSessionID = null;
-	private String mPublisherId = null;
 
-	/**
-	 * @return the serializes message
-	 */
-	public String getSerializedMsg() {
-		return mSerializedMsg;
-	}
+    private String mSerializedMsg = null;
+    private String mStatusMsg = null;
+    private String mSessionID = null;
+    private String mPublisherId = null;
 
-	/**
-	 * Format passed in server-response message or generate error message, when
-	 * an error is detected.
-	 * 
-	 * @param response
-	 *            The response message from the server
-	 * @param msgType
-	 *            type of the response message
-	 * @param context
-	 *            application/service context, used to access
-	 *            String-Ressource-File
-	 */
-	public void setSerializedMsg(String response, byte msgType, Context context) {
-		switch (msgType) {
+    /**
+     * @return the serializes message
+     */
+    public String getSerializedMsg() {
+        return mSerializedMsg;
+    }
 
-		case MessageHandler.MSG_TYPE_ERRORMSG:
-			// detect error-type and set relating error-message
-			if (response.contains(mIfMapJNull)) {
-				mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_null);
-			} else if (response.contains(mIfMapJTimeOut)) {
-				mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_time_out);
-			} else if (response.contains(mIfMapJServerNotResponding)) {
-				mSerializedMsg = context.getResources().getString(
-						R.string.serialized_response_errormsg_server_not_responding);
-			} else if (response.contains(mIfMapJIOError)) {
-				mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_io_error);
-			} else if (response.contains(mIfMapJNotAuthorized)) {
-				mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_Unauthorized);
-			} else if (response.contains(mIfMapJConnectionRefused)) {
-				mSerializedMsg = context.getResources().getString(
-						R.string.serialized_response_errormsg_connection_refused);
-			} else if (response.contains(mIfMapJNetworkUnreachable)) {
-				mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_unreachable);
-			}else if (response.contains(mIfMapJForbidden)) {
-					mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_forbidden);
-				}  
-			else {
-				mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_other);
-			}
-			break;
+    /**
+     * Format passed in server-response message or generate error message, when
+     * an error is detected.
+     *
+     * @param response The response message from the server
+     * @param msgType  type of the response message
+     * @param context  application/service context, used to access
+     *                 String-Ressource-File
+     */
+    public void setSerializedMsg(String response, byte msgType, Context context) {
+        switch (msgType) {
 
-		default:
-			// convert server-message
-			String message[] = response.trim().split("\\,");
-			for (int i = 0; i < message.length; i++) {
-				if (message[i].startsWith("session-id")) {
-					setSessionID(message[i].substring("session-id".length()));
-				} else if (message[i].startsWith("publisher-id")) {
-					setPublisherId(message[i].substring("publisher-id".length()));
-				}
-			}
-			mSerializedMsg = response.replaceAll(",", "\n").replace("{", "").replace("}", "").trim();
-			break;
-		}
-	}
+            case MessageHandler.MSG_TYPE_ERRORMSG:
+                // detect error-type and set relating error-message
+                if (response.contains(mIfMapJNull)) {
+                    mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_null);
+                } else if (response.contains(mIfMapJTimeOut)) {
+                    mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_time_out);
+                } else if (response.contains(mIfMapJServerNotResponding)) {
+                    mSerializedMsg = context.getResources().getString(
+                            R.string.serialized_response_errormsg_server_not_responding);
+                } else if (response.contains(mIfMapJIOError)) {
+                    mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_io_error);
+                } else if (response.contains(mIfMapJNotAuthorized)) {
+                    mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_Unauthorized);
+                } else if (response.contains(mIfMapJConnectionRefused)) {
+                    mSerializedMsg = context.getResources().getString(
+                            R.string.serialized_response_errormsg_connection_refused);
+                } else if (response.contains(mIfMapJNetworkUnreachable)) {
+                    mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_unreachable);
+                } else if (response.contains(mIfMapJForbidden)) {
+                    mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_forbidden);
+                } else {
+                    mSerializedMsg = response;
+                    mStatusMsg = context.getResources().getString(R.string.serialized_response_errormsg_other);
+                }
+                break;
 
-	/**
-	 * @return the sessionId
-	 */
-	public String getSessionID() {
-		return mSessionID;
-	}
+            default:
+                // convert server-message
+                String message[] = response.trim().split("\\,");
+                for (int i = 0; i < message.length; i++) {
+                    if (message[i].startsWith("session-id")) {
+                        setSessionID(message[i].substring("session-id".length()));
+                    } else if (message[i].startsWith("publisher-id")) {
+                        setPublisherId(message[i].substring("publisher-id".length()));
+                    }
+                }
+                mSerializedMsg = response.replaceAll(",", "\n").replace("{", "").replace("}", "").replace(", ", "\n").trim();
+                break;
+        }
 
-	/**
-	 * @param sessionId
-	 *            the sessionId to set
-	 */
-	public void setSessionID(String sessionID) {
-		this.mSessionID = sessionID;
-	}
+        if (mStatusMsg == null) {
+            mStatusMsg = mSerializedMsg;
+        }
+    }
 
-	/**
-	 * @return the publisherId
-	 */
-	public String getPublisherId() {
-		return mPublisherId;
-	}
+    /**
+     * @return the status message
+     */
+    public String getStatusMsg() {
+        return mStatusMsg;
+    }
 
-	/**
-	 * @param publisherId
-	 *            the publisherId to set
-	 */
-	public void setPublisherId(String publisherId) {
-		this.mPublisherId = publisherId;
-	}
+    /**
+     * @param mStatusMsg the status message to set
+     */
+    public void setStatusMsg(String mStatusMsg) {
+        this.mStatusMsg = mStatusMsg;
+    }
+
+    /**
+     * @return the sessionId
+     */
+    public String getSessionID() {
+        return mSessionID;
+    }
+
+    /**
+     * @param sessionId the sessionId to set
+     */
+    public void setSessionID(String sessionID) {
+        this.mSessionID = sessionID;
+    }
+
+    /**
+     * @return the publisherId
+     */
+    public String getPublisherId() {
+        return mPublisherId;
+    }
+
+    /**
+     * @param publisherId the publisherId to set
+     */
+    public void setPublisherId(String publisherId) {
+        this.mPublisherId = publisherId;
+    }
 }

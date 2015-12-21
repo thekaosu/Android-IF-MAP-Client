@@ -106,7 +106,7 @@ public class MessageHandler {
             responseParams.setParamter(ResponseParameters.RESPONSE_PARAMS_MSGCONTENT, serResponse.getSerializedMsg());
             break;
         case MSG_TYPE_ERRORMSG:
-            responseParams.setParamter(ResponseParameters.RESPONSE_PARAMS_STATUSMSG, serResponse.getSerializedMsg());
+            responseParams.setParamter(ResponseParameters.RESPONSE_PARAMS_STATUSMSG, serResponse.getStatusMsg());
             responseParams.setParamter(ResponseParameters.RESPONSE_PARAMS_MSGCONTENT, serResponse.getSerializedMsg());
             break;
         case MSG_TYPE_METADATA_UPDATE:

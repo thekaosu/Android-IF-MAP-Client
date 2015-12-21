@@ -137,30 +137,24 @@ public class LogMessageHelper {
 		switch (msgType) {
 		case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
 			msgtype = "END SESSION REQUEST";
-			msg = reqMsg;
 			break;
 		case MessageHandler.MSG_TYPE_REQUEST_NEWSESSION:
 			msgtype = "NEWS SESSION REQUEST";
-			msg = reqMsg;
 			break;
 		case MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS:
 			msgtype = "PUBLISH CHARACTERISTICS REQUEST";
-			msg = reqMsg;
 			break;
 		case MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION:
 			msgtype = "RENEW SESSION REQUEST";
-			msg = reqMsg;
 			break;
 		case MessageHandler.MSG_TYPE_METADATA_UPDATE:
 			msgtype = "METADATA AUTO-UPDATE";
-			msg = reqMsg;
 			break;
 		default:
 			msgtype = "UNKNOWN MESSAGE TYPE!";
-			msg = reqMsg;
 			break;
 		}
-
+		msg = reqMsg;
 		// get server infos
 		String status = "Request Created";
 		//String targetPort = new Integer(serverPrt).toString();

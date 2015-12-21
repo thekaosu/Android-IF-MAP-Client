@@ -1058,7 +1058,7 @@ public class MainActivity extends Activity {
                             + getResources().getString(
                             R.string.main_status_message_prefix)
                             + " "
-                            + (msg.getParameter(ResponseParameters.RESPONSE_PARAMS_STATUSMSG)));
+                            + (msg.getParameter(ResponseParameters.RESPONSE_PARAMS_MSGCONTENT)));
         } else {
             // in case of error message, add a text-prefix
             mStatusMessageField
@@ -1066,7 +1066,7 @@ public class MainActivity extends Activity {
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " "
-                            + (msg.getParameter(ResponseParameters.RESPONSE_PARAMS_STATUSMSG)));
+                            + (msg.getParameter(ResponseParameters.RESPONSE_PARAMS_MSGCONTENT)));
         }
 
         // set notification about incoming response
