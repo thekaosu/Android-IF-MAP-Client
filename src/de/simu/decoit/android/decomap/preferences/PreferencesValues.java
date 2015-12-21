@@ -21,10 +21,13 @@
 
 package de.simu.decoit.android.decomap.preferences;
 
+import java.util.HashMap;
+
 /**
  * Object for holding Preferences
  *
  * @author Dennis Dunekacke, Decoit GmbH
+ * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
 public class PreferencesValues {
@@ -90,7 +93,7 @@ public class PreferencesValues {
     private boolean enableRenewRequestLog;
 
     //Session values
-    private boolean camActiv = false;
+    private HashMap<String, Boolean> camActiv = new HashMap<String, Boolean>();
 
     private static PreferencesValues instance;
 
@@ -396,11 +399,20 @@ public class PreferencesValues {
         this.enableRenewRequestLog = enableRenewRequestLog;
     }
 
-    public void setCamActiv(boolean camActiv) {
-        this.camActiv = camActiv;
+    public void setCamActiv(String camId, boolean isCamActiv) {
+        camActiv.put(camId, isCamActiv);
     }
 
-    public boolean getCamActiv() {
-        return camActiv;
+    public boolean isCamActiv(String camId) {
+        return camActiv.get(camId);
+    }
+
+    public boolean isAnyCamActiv(){
+        for(String key : camActiv.keySet()){
+            if(camActiv.get(key)){
+                return true;
+            }
+        }
+        return false;
     }
 }

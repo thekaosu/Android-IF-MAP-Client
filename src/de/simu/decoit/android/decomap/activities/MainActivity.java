@@ -66,6 +66,7 @@ import de.simu.decoit.android.decomap.observer.battery.BatteryReceiver;
 import de.simu.decoit.android.decomap.observer.camera.CameraReceiver;
 import de.simu.decoit.android.decomap.observer.location.LocationObserver;
 import de.simu.decoit.android.decomap.observer.sms.SMSObserver;
+import de.simu.decoit.android.decomap.preferences.PreferenceInitializer;
 import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 import de.simu.decoit.android.decomap.services.NscaService;
 import de.simu.decoit.android.decomap.services.NscaService.LocalBinder;
@@ -106,7 +107,7 @@ public class MainActivity extends Activity {
     private static SSRC sSsrcConnection;
 
     // preferences
-    private PreferencesValues mPreferences = PreferencesValues.getInstance();
+    private PreferencesValues mPreferences;
 
     // device properties
     private DeviceProperties mDeviceProperties;
@@ -207,14 +208,14 @@ public class MainActivity extends Activity {
         cam_manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CameraManager.AvailabilityCallback camAvailCallback = new CameraManager.AvailabilityCallback() {
-                public void onCameraAvailable(String cameraId) {
-                    mPreferences.setCamActiv(false);
-                    Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is not in use!");
 
+                public void onCameraAvailable(String cameraId) {
+                    mPreferences.setCamActiv(cameraId, false);
+                    Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is not in use!");
                 }
 
                 public void onCameraUnavailable(String cameraId) {
-                    mPreferences.setCamActiv(true);
+                    mPreferences.setCamActiv(cameraId, true);
                     Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is in use!");
 
                 }
@@ -379,6 +380,9 @@ public class MainActivity extends Activity {
      */
     private void initValues() {
         Toolbox.logTxt(this.getLocalClassName(), "initValues(...) called");
+
+        mPreferences = PreferencesValues.getInstance();
+        PreferenceInitializer.initPreferences(getBaseContext());
 
         // create new database connection
         mLogDB = new LoggingDatabase(this);

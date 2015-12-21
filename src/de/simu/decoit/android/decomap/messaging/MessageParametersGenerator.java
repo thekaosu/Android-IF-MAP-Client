@@ -627,9 +627,11 @@ public class MessageParametersGenerator<T> {
      *
      * @return Is the Camera at the moment in use
      */
+
+
     @SuppressWarnings("deprecation")
     private boolean isCameraUsed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             Camera cam;
             Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
             int cameraCount = Camera.getNumberOfCameras();
@@ -638,31 +640,31 @@ public class MessageParametersGenerator<T> {
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                     try {
                         cam = Camera.open(camIdx);
-                        mPreferences.setCamActiv(false);
+                        mPreferences.setCamActiv(camIdx + "", false);
                         cam.release();
                     } catch (RuntimeException e) {
                         Toolbox.logTxt("SystemProperties",
                                 "Camera failed to open: "
                                         + e.getLocalizedMessage());
-                        mPreferences.setCamActiv(true);
+                        mPreferences.setCamActiv(camIdx + "", true);
                     }
                 }
                 Camera.getCameraInfo(camIdx, cameraInfo);
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                     try {
                         cam = Camera.open(camIdx);
-                        mPreferences.setCamActiv(false);
+                        mPreferences.setCamActiv(camIdx + "", false);
                         cam.release();
                     } catch (RuntimeException e) {
                         Toolbox.logTxt("SystemProperties",
                                 "Camera failed to open: "
                                         + e.getLocalizedMessage());
-                        mPreferences.setCamActiv(true);
+                        mPreferences.setCamActiv(camIdx + "", true);
                     }
                 }
             }
         }
-        return mPreferences.getCamActiv();
+        return mPreferences.isAnyCamActiv();
     }
 
     /**
