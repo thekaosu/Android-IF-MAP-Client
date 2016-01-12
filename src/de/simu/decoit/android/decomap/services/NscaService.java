@@ -44,155 +44,157 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Service to manage communication with NSCA/iMonitor
- * 
+ *
  * @author Markus Schölzel, Decoit GmbH
  */
 
 public class NscaService extends Service {
-	private final IBinder mBinder = new LocalBinder();
+    private final IBinder mBinder = new LocalBinder();
 
-	// some connection properties (used for connecting and log messages)
-	private String mServerIP;
-	private int mServerPort;
-	private String mServerPass;
-	private Encryption mServerEnc;
-	private NagiosSettings mNagiosSettings;
-	private NagiosPassiveCheckSender sender;
-	
-	private boolean readyToSend = false;
+    // some connection properties (used for connecting and log messages)
+    private String mServerIP;
+    private int mServerPort;
+    private String mServerPass;
+    private Encryption mServerEnc;
+    private NagiosSettings mNagiosSettings;
+    private NagiosPassiveCheckSender sender;
 
-	private Handler mMonitorHandler;
-	private long mMonitorInterval;
-	private boolean mMonitorRunning = false;
+    private boolean readyToSend = false;
 
-	/**
-	 * start "monitoring" to generate MonitorEvents in the background
-	 */
+    private Handler mMonitorHandler;
+    private long mMonitorInterval;
+    private boolean mMonitorRunning = false;
 
-	public void startMonitor(long interval) {
-		if (!mMonitorRunning) {
-			this.mMonitorInterval = interval;
-			this.mMonitorHandler = new Handler();
-			mMonitorHandler.postDelayed(runMonitorBackground, interval);
-			mMonitorRunning = true;
-		}
-	}
+    /**
+     * start "monitoring" to generate MonitorEvents in the background
+     */
 
-	/**
-	 * stop generating MonitorEvents
-	 */
-	public void stopMonitor() {
-		mMonitorHandler.removeCallbacks(runMonitorBackground);
-		mMonitorRunning = false;
-	}
+    public void startMonitor(long interval) {
+        if (!mMonitorRunning) {
+            this.mMonitorInterval = interval;
+            this.mMonitorHandler = new Handler();
+            mMonitorHandler.postDelayed(runMonitorBackground, interval);
+            mMonitorRunning = true;
+        }
+    }
 
-	/**
-	 * tidy way to send string to the nsca server
-	 */
-	public void publish(String event) {
-		NscaPublishThread mNscaPublishThread = new NscaPublishThread();
+    /**
+     * stop generating MonitorEvents
+     */
+    public void stopMonitor() {
+        mMonitorHandler.removeCallbacks(runMonitorBackground);
+        mMonitorRunning = false;
+    }
 
-		if(readyToSend)
-			mNscaPublishThread.execute(event);
-	}
+    /**
+     * tidy way to send string to the nsca server
+     */
+    public void publish(String event) {
+        NscaPublishThread mNscaPublishThread = new NscaPublishThread();
+        if (readyToSend) {
+            mNscaPublishThread.execute(event);
+        }
+    }
 
-	/**
-	 * send multiple strings to the nsca server
-	 */
-	public void publish(List<String> eventList) {
-		for(String event: eventList)
-			this.publish(event);
-	}
+    /**
+     * send multiple strings to the nsca server
+     */
+    public void publish(List<String> eventList) {
+        for (String event : eventList)
+            this.publish(event);
+    }
 
-	/**
-	 * create local intent to generate a new MonitorEvent
-	 */
-	private void generateIntent(String event) {
-		Intent intent = new Intent("iMonitor-Event");
-		intent.putExtra("Event", event);
+    /**
+     * create local intent to generate a new MonitorEvent
+     */
+    private void generateIntent(String event) {
+        Intent intent = new Intent("iMonitor-Event");
+        intent.putExtra("Event", event);
 
-		LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-	}
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
 
-	/**
-	 * set up the nsca connection properties
-	 */
-	public void setupConnection(String host, String port, String password,
-			Encryption enc) {
+    /**
+     * set up the nsca connection properties
+     */
+    public void setupConnection(String host, String port, String password,
+                                Encryption enc) {
 
-		this.mServerIP = host;
-		this.mServerPort = Integer.parseInt(port);
-		this.mServerPass = password;
-		this.mServerEnc = enc;
+        this.mServerIP = host;
+        this.mServerPort = Integer.parseInt(port);
+        this.mServerPass = password;
+        this.mServerEnc = enc;
 
-		NscaConnectionSetupThread mNscaConnectionSetupThread = new NscaConnectionSetupThread();
-		mNscaConnectionSetupThread.execute();
-	}
+        NscaConnectionSetupThread mNscaConnectionSetupThread = new NscaConnectionSetupThread();
+        mNscaConnectionSetupThread.execute();
+    }
 
-	/**
-	 * set up the nsca connection properties in background using jsendnsca
-	 */
-	private class NscaConnectionSetupThread extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected Void doInBackground(Void... params) {
-			mNagiosSettings = new NagiosSettingsBuilder()
-					.withNagiosHost(mServerIP).withPort(mServerPort)
-					.withPassword(mServerPass).withEncryption(mServerEnc.ordinal())
-					.create();
-			//TODO: test encript with ordinal
+    /**
+     * set up the nsca connection properties in background using jsendnsca
+     */
+    private class NscaConnectionSetupThread extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+            mNagiosSettings = new NagiosSettingsBuilder()
+                    .withNagiosHost(mServerIP).withPort(mServerPort)
+                    .withPassword(mServerPass).withEncryption(mServerEnc.ordinal())
+                    .create();
+            //TODO: test encript with ordinal
 
-			sender = new NagiosPassiveCheckSender(mNagiosSettings);
-			readyToSend = true;
-			return null;
-		}
+            sender = new NagiosPassiveCheckSender(mNagiosSettings);
+            readyToSend = true;
+            return null;
+        }
 
-	}
+    }
 
-	/**
-	 * send nsca messages (events) using jsendnsca
-	 */
-	private class NscaPublishThread extends AsyncTask<String, Void, Void> {
+    /**
+     * send nsca messages (events) using jsendnsca
+     */
+    private class NscaPublishThread extends AsyncTask<String, Void, Void> {
 
-		@Override
-		protected Void doInBackground(String... params) {
-			MessagePayload payload = new MessagePayloadBuilder()
-					.withHostname("iMonitor-Sensors")
-					.withServiceName("Android Event").withLevel(0)
-					.withMessage(params[0]).create();
+        @Override
+        protected Void doInBackground(String... params) {
+            if(readyToSend) {
+                MessagePayload payload = new MessagePayloadBuilder()
+                        .withHostname("iMonitor-Sensors")
+                        .withServiceName("Android Event").withLevel(0)
+                        .withMessage(params[0]).create();
 
-			try {
-				sender.send(payload);
-			} catch (NagiosException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				Toolbox.logTxt("dasdsa",e.getMessage());
-				generateIntent("ConnectionError");
-				readyToSend = false;
-			}
-			return null;
-		}
+                try {
+                    sender.send(payload);
+                } catch (NagiosException e) {
+                    generateIntent("ConnectionError");
+                    readyToSend = false;
+                } catch (IOException e) {
+                    Toolbox.logTxt("dasdsa", e.getMessage());
+                    generateIntent("ConnectionError");
+                    readyToSend = false;
+                }
+            }
+            return null;
+        }
+    }
 
-	}
+    /**
+     * run check on events in background (iMonitor/NSCA)
+     */
+    private Runnable runMonitorBackground = new Runnable() {
+        @Override
+        public void run() {
+            generateIntent("MonitorEvent");
+            mMonitorHandler.postDelayed(this, mMonitorInterval);
+        }
+    };
 
-	/**
-	 * run check on events in background (iMonitor/NSCA)
-	 */
-	private Runnable runMonitorBackground = new Runnable() {
-		@Override
-		public void run() {
-			generateIntent("MonitorEvent");
-			mMonitorHandler.postDelayed(this, mMonitorInterval);
-		}
-	};
+    public class LocalBinder extends Binder {
+        public NscaService getService() {
+            return NscaService.this;
+        }
+    }
 
-	public class LocalBinder extends Binder {
-		public NscaService getService() {
-			return NscaService.this;
-		}
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		return mBinder;
-	}
+    @Override
+    public IBinder onBind(Intent intent) {
+        return mBinder;
+    }
 }

@@ -29,6 +29,7 @@ package de.simu.decoit.android.decomap.logging;
 public class LogMessage {
 	private int mId;
 	private String mMsg;
+	private String userLogMsg;
 	private String mTimestamp;
 	private String mMsgType;
 	private String mTarget;
@@ -63,7 +64,7 @@ public class LogMessage {
 		this.mMsgType = msgType;
 		this.mTarget = target;
 		this.mStatus = status;
-		
+        this.userLogMsg = userLogMsg;
 	}
 	
 	/**

@@ -35,10 +35,10 @@ import de.simu.decoit.android.decomap.services.RenewConnectionService;
 
 /**
  * Thread for Connecting to a map-server (by using the IfmapJ-lib)
- * 
- * @version 0.1.4.2
+ *
  * @author Dennis Dunekacke, DECOIT GmbH
  * @author Marcel Jahnke, DECOIT GmbH
+ * @version 0.1.4.2
  */
 public class SyncConnectionThread implements Runnable {
 
@@ -63,13 +63,10 @@ public class SyncConnectionThread implements Runnable {
 
     /**
      * constructor for the permanently connection with ifmapj
-     * 
-     * @param callback
-     *            service (or activity) to handle server response
-     * @param msgType
-     *            the message type
-     * @param msg
-     *            the publish message
+     *
+     * @param callback service (or activity) to handle server response
+     * @param msgType  the message type
+     * @param msg      the publish message
      */
     public SyncConnectionThread(PermanentConnectionService callback, byte msgType, PublishRequest msg) {
         // initialize members fields
@@ -83,13 +80,10 @@ public class SyncConnectionThread implements Runnable {
 
     /**
      * constructor for the renew-session connection with ifmapj
-     * 
-     * @param callback
-     *            service (or activity) to handle server response
-     * @param msgType
-     *            the message type
-     * @param msg
-     *            the publish message
+     *
+     * @param callback service (or activity) to handle server response
+     * @param msgType  the message type
+     * @param msg      the publish message
      */
     public SyncConnectionThread(RenewConnectionService callback, byte msgType, PublishRequest msg) {
         mIsPermConection = false;
@@ -107,27 +101,27 @@ public class SyncConnectionThread implements Runnable {
         ArrayList<HashMap<String, String>> responseMsg = null;
         try {
             switch (mMessageType) {
-            case MessageHandler.MSG_TYPE_REQUEST_NEWSESSION:
-                sSsrcConnection.newSession();
-                sSessionId = sSsrcConnection.getSessionId();
-                sSsrcConnection.purgePublisher();
-                sPublisherId = sSsrcConnection.getPublisherId();
-                break;
-            case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
-                sSsrcConnection.endSession();
-                ConnectionObjects.setSsrcConnection(null);
-                break;
-            case MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION:
-                sSsrcConnection.renewSession();
-                break;
-            case MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS:
-                responseMsg = ReadOutMessages.readOutRequest(mMessagePublish);
-                sSsrcConnection.publish(mMessagePublish);
-                break;
-            case MessageHandler.MSG_TYPE_METADATA_UPDATE:
-                responseMsg = ReadOutMessages.readOutRequest(mMessagePublish);
-                sSsrcConnection.publish(mMessagePublish);
-                break;
+                case MessageHandler.MSG_TYPE_REQUEST_NEWSESSION:
+                    sSsrcConnection.newSession();
+                    sSessionId = sSsrcConnection.getSessionId();
+                    sSsrcConnection.purgePublisher();
+                    sPublisherId = sSsrcConnection.getPublisherId();
+                    break;
+                case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
+                    sSsrcConnection.endSession();
+                    ConnectionObjects.setSsrcConnection(null);
+                    break;
+                case MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION:
+                    sSsrcConnection.renewSession();
+                    break;
+                case MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS:
+                    responseMsg = ReadOutMessages.readOutRequest(mMessagePublish);
+                    sSsrcConnection.publish(mMessagePublish);
+                    break;
+                case MessageHandler.MSG_TYPE_METADATA_UPDATE:
+                    responseMsg = ReadOutMessages.readOutRequest(mMessagePublish);
+                    sSsrcConnection.publish(mMessagePublish);
+                    break;
             }
 
             // build response
@@ -167,6 +161,13 @@ public class SyncConnectionThread implements Runnable {
                 mPermCallback.handleServerResponse(mMessageType, e.getMessage());
             } else {
                 mCallback.handleServerResponse(mMessageType, e.getMessage());
+            }
+        } catch (IllegalArgumentException e) {
+            mMessageType = MessageHandler.MSG_TYPE_ERRORMSG;
+            if (mIsPermConection) {
+                mPermCallback.handleServerResponse(mMessageType, "Illegal configuration arguments: " + e.getMessage());
+            } else {
+                mCallback.handleServerResponse(mMessageType, "Illegal configuration arguments: " + e.getMessage());
             }
         }
 
