@@ -29,18 +29,18 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.googlecode.jsendnsca.core.Encryption;
-import com.googlecode.jsendnsca.core.MessagePayload;
-import com.googlecode.jsendnsca.core.NagiosException;
-import com.googlecode.jsendnsca.core.NagiosPassiveCheckSender;
-import com.googlecode.jsendnsca.core.NagiosSettings;
-import com.googlecode.jsendnsca.core.builders.MessagePayloadBuilder;
-import com.googlecode.jsendnsca.core.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.MessagePayload;
+import com.googlecode.jsendnsca.NagiosException;
+import com.googlecode.jsendnsca.NagiosPassiveCheckSender;
+import com.googlecode.jsendnsca.NagiosSettings;
+import com.googlecode.jsendnsca.builders.MessagePayloadBuilder;
+import com.googlecode.jsendnsca.builders.NagiosSettingsBuilder;
+import com.googlecode.jsendnsca.encryption.Encryption;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
-
-import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Service to manage communication with NSCA/iMonitor
@@ -82,8 +82,10 @@ public class NscaService extends Service {
      * stop generating MonitorEvents
      */
     public void stopMonitor() {
+        generateIntent("CONNECTION CLOSED", "Connection Closed");
         mMonitorHandler.removeCallbacks(runMonitorBackground);
         mMonitorRunning = false;
+        readyToSend = false;
     }
 
     /**
@@ -107,9 +109,12 @@ public class NscaService extends Service {
     /**
      * create local intent to generate a new MonitorEvent
      */
-    private void generateIntent(String event) {
+    private void generateIntent(String event, String msg) {
         Intent intent = new Intent("iMonitor-Event");
         intent.putExtra("Event", event);
+        intent.putExtra("Target", mServerIP + ":" + mServerPort);
+        intent.putExtra("Timestamp", new Timestamp(new Date().getTime()).toString());
+        intent.putExtra("Msg", msg);
 
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
@@ -137,12 +142,12 @@ public class NscaService extends Service {
         protected Void doInBackground(Void... params) {
             mNagiosSettings = new NagiosSettingsBuilder()
                     .withNagiosHost(mServerIP).withPort(mServerPort)
-                    .withPassword(mServerPass).withEncryption(mServerEnc.ordinal())
-                    .create();
-            //TODO: test encript with ordinal
+                    .withEncryption(mServerEnc).withPassword(mServerPass)
+                    .withLargeMessageSupportEnabled().create();
 
             sender = new NagiosPassiveCheckSender(mNagiosSettings);
             readyToSend = true;
+            generateIntent("CONNECTION READY", "Established Connection");
             return null;
         }
 
@@ -155,7 +160,7 @@ public class NscaService extends Service {
 
         @Override
         protected Void doInBackground(String... params) {
-            if(readyToSend) {
+            if (readyToSend) {
                 MessagePayload payload = new MessagePayloadBuilder()
                         .withHostname("iMonitor-Sensors")
                         .withServiceName("Android Event").withLevel(0)
@@ -163,13 +168,13 @@ public class NscaService extends Service {
 
                 try {
                     sender.send(payload);
+                    generateIntent("PUBLISH SUCCESS", payload.toString().replace(",", ",\n"));
                 } catch (NagiosException e) {
-                    generateIntent("ConnectionError");
                     readyToSend = false;
+                    generateIntent("CONNECTION ERROR", e.getMessage());
                 } catch (IOException e) {
-                    Toolbox.logTxt("dasdsa", e.getMessage());
-                    generateIntent("ConnectionError");
                     readyToSend = false;
+                    generateIntent("CONNECTION ERROR", e.getMessage());
                 }
             }
             return null;
@@ -182,7 +187,7 @@ public class NscaService extends Service {
     private Runnable runMonitorBackground = new Runnable() {
         @Override
         public void run() {
-            generateIntent("MonitorEvent");
+            generateIntent("MONITOR EVENT", "Sending MonitorEvent");
             mMonitorHandler.postDelayed(this, mMonitorInterval);
         }
     };

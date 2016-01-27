@@ -41,7 +41,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.googlecode.jsendnsca.core.Encryption;
+import com.googlecode.jsendnsca.encryption.Encryption;
 
 import java.util.regex.Matcher;
 
@@ -223,7 +223,6 @@ public class MainActivity extends Activity {
 
             cam_manager.registerAvailabilityCallback(camAvailCallback, null);
         }
-
         // autoconnect at Startup
         if (mPreferences.isAutoconnect()) {
             // start connection service if all required preferences are set
@@ -550,7 +549,6 @@ public class MainActivity extends Activity {
             switch (view.getId()) {
                 case R.id.Disconnect_Button:
                     disconnectNSCA();
-
                     break;
             }
         }
@@ -560,7 +558,6 @@ public class MainActivity extends Activity {
             switch (view.getId()) {
                 case R.id.Connect_Button:
                     connectNSCA();
-
                     break;
             }
         }
@@ -1219,13 +1216,13 @@ public class MainActivity extends Activity {
             Encryption mNscaEncryption = null;
             switch (mPreferences.getNscaEncPreference()) {
                 case "0":
-                    mNscaEncryption = Encryption.NO_ENCRYPTION;
+                    mNscaEncryption = Encryption.NONE;
                     break;
                 case "1":
-                    mNscaEncryption = Encryption.XOR_ENCRYPTION;
+                    mNscaEncryption = Encryption.XOR;
                     break;
                 case "2":
-                    mNscaEncryption = Encryption.TRIPLE_DES_ENCRYPTION;
+                    mNscaEncryption = Encryption.TRIPLE_DES;
                     break;
             }
 
@@ -1233,14 +1230,17 @@ public class MainActivity extends Activity {
 
             LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mMonitorEventReceiver, new IntentFilter("iMonitor-Event"));
             EventParameters eP = new EventParameters(mDeviceProperties);
+
+            mNscaServiceBind.startMonitor(mPreferences.getUpdateInterval());
+
             mNscaServiceBind.publish(eP.genInfoEvent());
             mNscaServiceBind.publish(eP.genAppEvents());
 
-            mNscaServiceBind.startMonitor(mPreferences.getUpdateInterval());
-            myProgressDialog.dismiss();
+
             mStatusMessageField.append("\n"
                     + getResources().getString(R.string.main_status_message_prefix)
                     + " " + "Connection established");
+            myProgressDialog.dismiss();
         }
 
         public void onServiceDisconnected(ComponentName arg0) {
@@ -1256,32 +1256,63 @@ public class MainActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             EventParameters eP = new EventParameters(mDeviceProperties);
             String type = intent.getStringExtra("Event");
+            byte responseType = 0;
+            String status = "";
             if (type != null) {
                 switch (type) {
-                    case "AppEvent":
+                    case "CONNECTION READY":
+                        status = "Established Connection";
+                        responseType = MessageHandler.MSG_TYPE_REQUEST_NEWSESSION;
+                        break;
+                    case "APP EVENT":
                         mNscaServiceBind.publish(eP.genAppEvents());
                         mStatusMessageField.append("\n"
                                 + getResources().getString(
                                 R.string.main_status_message_prefix) + " "
                                 + "AppEvent sent.");
+                        status = "Sending AppEvent";
+                        responseType = MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS;
                         break;
-                    case "MonitorEvent":
+                    case "MONITOR EVENT":
                         mNscaServiceBind.publish(eP.genMonitorEvent());
                         mStatusMessageField.append("\n"
                                 + getResources().getString(
                                 R.string.main_status_message_prefix) + " "
                                 + "MonitorEvent sent.");
+                        status = "Sending MonitorEvent";
+                        responseType = MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS;
                         break;
-                    case "ConnectionError":
+                    case "PUBLISH SUCCESS":
+                        status = "Published Passive NSCA Check";
+                        responseType = MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS;
+                        break;
+                    case "CONNECTION ERROR":
+                        status = getResources().getString(R.string.main_default_connectionerror_nsca_status);
+                        responseType = MessageHandler.MSG_TYPE_ERRORMSG;
                         mStatusMessageField
-                                .append("\n"
+                                .append("\n" + getResources().getString(
+                                        R.string.main_status_message_errorprefix)
                                         + getResources()
                                         .getString(
                                                 R.string.main_default_connectionerror_nsca));
                         disconnectNSCA();
                         break;
+                    case "CONNECTION CLOSED":
+                        status = "Connection closed";
+                        responseType = MessageHandler.MSG_TYPE_REQUEST_ENDSESSION;
+                        break;
+                    default:
+                        status = "unknown";
+                        responseType = MessageHandler.MSG_TYPE_ERRORMSG;
                 }
             }
+
+            String timestamp = intent.getStringExtra("Timestamp");
+            String msg = intent.getStringExtra("Msg");
+            String target = intent.getStringExtra("Target");
+
+            LogMessage logMsg = new LogMessage(timestamp, msg, type, target, status);
+            LogMessageHelper.getInstance().logMessage(responseType, logMsg, mPreferences, mLogDB);
         }
     };
 

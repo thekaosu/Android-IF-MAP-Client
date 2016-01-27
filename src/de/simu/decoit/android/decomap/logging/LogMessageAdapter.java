@@ -93,27 +93,18 @@ public class LogMessageAdapter extends BaseAdapter implements OnClickListener {
     }
 
     /**
-     * add new Log-Message-List-Item
-     *
-     * @param newLogMessage Log-Message to be added to List
-     */
-    public void addItem(LogMessage newLogMessage) {
-        mListLogMessage.add(newLogMessage);
-    }
-
-    /**
      * get View-Element from passed position
      *
      * @param position    index of View-Element
      * @param convertView view to be converted
-     * @param viewGroup
+     * @param viewGroup parent view
      * @return View View-Element from passed in position/index
      */
     public View getView(int position, View convertView, ViewGroup viewGroup) {
         LogMessage entry = mListLogMessage.get(position);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.log_message_listrow, null);
+            convertView = inflater.inflate(R.layout.log_message_listrow, viewGroup, false);
         }
 
         // timestamp

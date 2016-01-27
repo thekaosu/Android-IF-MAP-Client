@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollView01"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -14,8 +10,8 @@
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dip"
             android:gravity="center"
+            android:padding="10dip"
             android:scrollHorizontally="false"
             android:singleLine="true"
             android:text="title"
@@ -30,12 +26,16 @@
             android:orientation="vertical"
             android:stretchColumns="0">
 
-            <TableRow android:layout_marginTop="10px">
+            <TableRow android:layout_marginTop="10px"
+                android:layout_weight="1">
 
                 <HorizontalScrollView
                     android:id="@+id/horizontalScrollView1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="fill_parent">
+                    <ScrollView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
 
                     <TextView
                         android:id="@+id/msgView"
@@ -49,11 +49,13 @@
                         android:text="Message:"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="?android:attr/textColorPrimary" />
+                    </ScrollView>
                 </HorizontalScrollView>
 
             </TableRow>
 
-            <TableRow android:layout_marginTop="10px">
+            <TableRow android:layout_marginTop="10px"
+                android:layout_weight="0">
 
                 <Button
                     android:id="@+id/buttonOK"
@@ -66,5 +68,4 @@
         </TableLayout>
     </LinearLayout>
 
-</ScrollView>
 <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/layout/log_message_dialog.xml -->

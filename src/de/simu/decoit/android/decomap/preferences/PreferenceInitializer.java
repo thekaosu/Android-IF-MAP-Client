@@ -47,7 +47,7 @@ public class PreferenceInitializer {
         mPreferences.setKeystorePassword(prefs.getString("keystorepw", ""));
 
         mPreferences.setUseNonConformMetadata(prefs.getBoolean(
-                R.id.esukomMetadataSettings + "", true));
+                R.id.esukomMetadataSettings + "", false));
         mPreferences.setDontSendApplicationsInfos(prefs.getBoolean(
                 "sendNoAppsPreferences", false));
         mPreferences.setAutostart(prefs.getBoolean("autostartPreferences",
@@ -89,7 +89,7 @@ public class PreferenceInitializer {
         mPreferences.setNscaEncPreference(prefs.getString(
                 "nscaEncPref", "1"));
         mPreferences.setNscaPassPreference(prefs.getString(
-                "imonitorPassPreference", "icinga"));
+                "nscaPassPreference", ""));
         mPreferences.setIsPermantConnection(prefs.getBoolean(
                 "permanantlyConectionPreferences", true));
 

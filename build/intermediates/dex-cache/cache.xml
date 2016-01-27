@@ -2,18 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\jars\classes.jar"
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\commons-lang\commons-lang\2.6\ce1edb914c94ebc388f086c6827e8bdeec71ac2\commons-lang-2.6.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\classes-e7e865e621597c2070fa464e687f26ac00aba729.jar" />
+        sha1="0ce1edb914c94ebc388f086c6827e8bdeec71ac2">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\commons-lang-2.6-c90bc0886bebbea936d9ae6f9964ceffdb2a29ea.jar" />
     </item>
     <item
-        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.googlecode.jsendnsca\jsendnsca\2.1\756727a0ba7c6775789bd775e25db600dcb06ad4\jsendnsca-2.1.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\classes-597de760d2347524a02c7300e04362d014b11cb5.jar" />
+        sha1="756727a0ba7c6775789bd775e25db600dcb06ad4">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\jsendnsca-2.1-6f72b9fe677904999ff2eb31a202df8dd146f9a1.jar" />
     </item>
 
 </items>

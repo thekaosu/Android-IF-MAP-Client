@@ -53,6 +53,11 @@ public class LogActivity extends Activity {
     private LoggingDatabase mLogDB = null;
     private PreferencesValues mPreferences = PreferencesValues.getInstance();
 
+    //scroll position
+    private ListView logViewList;
+    private int scrollIndex = 0;
+    private int scrollOffSet = 0;
+    private int listCount = 0;
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
     // -------------------------------------------------------------------------
@@ -77,6 +82,21 @@ public class LogActivity extends Activity {
         createListAdapter();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if (logViewList != null) {
+            scrollIndex = logViewList.getFirstVisiblePosition();
+            View v = logViewList.getChildAt(0);
+            if (v != null) {
+                scrollOffSet = v.getTop() - logViewList.getPaddingTop();
+            }
+
+            listCount = logViewList.getCount();
+        }
+    }
+
     // -------------------------------------------------------------------------
     // LOG-ENTRIES-LIST OPERATIONS
     // -------------------------------------------------------------------------
@@ -87,14 +107,21 @@ public class LogActivity extends Activity {
      */
     public void createListAdapter() {
         // get view for log-msg list
-        ListView list = (ListView) findViewById(R.id.logMessages_ListView);
+        logViewList = (ListView) findViewById(R.id.logMessages_ListView);
 
         // get messages from database
         List<LogMessage> listOfLogMessages = getAllEntrys();
 
         // create and set new adapter
         LogMessageAdapter adapter = new LogMessageAdapter(this, listOfLogMessages);
-        list.setAdapter(adapter);
+        logViewList.setAdapter(adapter);
+
+        //setting scroll position
+        if (listCount == logViewList.getCount()) {
+            logViewList.setSelectionFromTop(scrollIndex, scrollOffSet);
+        } else {
+            logViewList.setSelection(logViewList.getCount() - 1);
+        }
     }
 
     /**
