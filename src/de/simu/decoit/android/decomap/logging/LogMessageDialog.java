@@ -39,12 +39,11 @@ import de.simu.decoit.android.decomap.activities.R;
  */
 public class LogMessageDialog extends Dialog {
 
-    private String mMessage;
-    private String mTitle;
-    private int mDialogType;
+    private final String mMessage;
+    private final String mTitle;
 
-    public static int WARNING_MESSAGE = 0;
-    public static int INFO_MESSAGE = 1;
+    public final static int WARNING_MESSAGE = 0;
+    public final static int INFO_MESSAGE = 1;
 
     /**
      * constructor
@@ -68,7 +67,6 @@ public class LogMessageDialog extends Dialog {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         mMessage = msg;
-        mDialogType = dialogType;
 
         if (dialogType == WARNING_MESSAGE) {
             mTitle = (String) context.getText(R.string.log_msgDialogBox_label_warn);
@@ -84,14 +82,12 @@ public class LogMessageDialog extends Dialog {
      *
      * @param context    current context
      * @param msg        message to display
-     * @param dialogType typ of dialog
      * @param title      title of dialog
      */
-    public LogMessageDialog(Context context, String msg, int dialogType, String title) {
+    public LogMessageDialog(Context context, String msg, String title) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         mMessage = msg;
-        mDialogType = dialogType;
         mTitle = title;
     }
 
@@ -104,7 +100,7 @@ public class LogMessageDialog extends Dialog {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_message_dialog);
-        TextView title = ((TextView) findViewById(R.id.title));
+        TextView title = ((TextView) findViewById(android.R.id.title));
         title.setText(mTitle);
 
         TextView twMsg = (TextView) findViewById(R.id.msgView);

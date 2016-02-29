@@ -15,22 +15,22 @@ import android.util.AttributeSet;
  */
 public class PreferenceFileChooserDialogPreference extends Preference {
 
-    private final String ANDROID_DNS = "http://schemas.android.com/apk/res/android";
-    private final String MYNS = "http://schemas.android.com/apk/res-auto";
     private final String defaultValue;
     private final String fileEnding;
     private final boolean onlyDir;
 
-    private SharedPreferences preferenceManager;
+    private final SharedPreferences preferenceManager;
 
     public PreferenceFileChooserDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
+        String ANDROID_DNS = "http://schemas.android.com/apk/res/android";
         String defValue = attrs.getAttributeValue(ANDROID_DNS, "defaultValue");
         if (defValue == null) {
             defaultValue = Environment.getExternalStorageDirectory().getAbsolutePath();
         } else {
             defaultValue = Environment.getExternalStorageDirectory() + defValue;
         }
+        String MYNS = "http://schemas.android.com/apk/res-auto";
         fileEnding = attrs.getAttributeValue(MYNS, "fileEnding");
         onlyDir = attrs.getAttributeBooleanValue(MYNS, "onlyDirectory", false);
         preferenceManager = PreferenceManager.getDefaultSharedPreferences(context);

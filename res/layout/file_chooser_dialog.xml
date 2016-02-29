@@ -15,7 +15,7 @@
         android:padding="10dip"
         android:scrollHorizontally="false"
         android:singleLine="true"
-        android:text="title"
+        android:text="@string/file_chooser_lable_title"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="?android:attr/textColorPrimary"
         android:textStyle="bold" />
@@ -53,15 +53,14 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="Choose Folder" />
+            android:text="@string/file_chooser_lable_choose_folder" />
 
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:onClick="closeDialog"
             android:singleLine="true"
-            android:text="cancel" />
+            android:text="@string/cancel" />
 
     </LinearLayout>
 

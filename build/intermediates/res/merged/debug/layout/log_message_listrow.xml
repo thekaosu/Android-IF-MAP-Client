@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/LinearLayout01"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -14,85 +13,94 @@
         android:id="@+id/tvTimestamp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:text="@string/log_tab_placeholder_timestemp"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:typeface="sans"
-        android:textColor="?android:attr/textColorSecondary"></TextView>
+        android:typeface="sans" />
 
     <LinearLayout
-        android:id="@+id/LinearLayout02"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <!-- message type label -->
-        <TextView
-            android:id="@+id/TextView01"
+        <LinearLayout
+            android:id="@+id/LinearLayout02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type:   "
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorSecondary"></TextView>
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:orientation="vertical">
 
-        <!-- message type value -->
-        <TextView
-            android:id="@+id/tvMessagetype"
+            <!-- message type label -->
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_tab_label_type"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+
+            <!-- target address label -->
+            <TextView
+                android:id="@id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_tab_label_target"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <!-- status label -->
+            <TextView
+                android:id="@id/TextView01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_tab_label_type"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@id/LinearLayout02"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Number"
-            android:textSize="13sp"
-            android:textColor="?android:attr/textColorSecondary"></TextView>
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@id/LinearLayout02"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
 
-        <!-- target address label -->
-        <TextView
-            android:id="@id/TextView01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Target: "
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorSecondary"></TextView>
+            <!-- message type value -->
+            <TextView
+                android:id="@+id/tvMessagetype"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_tab_placeholder_type"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="13sp" />
 
-        <!-- target address value -->
-        <TextView
-            android:id="@+id/tvTarget"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Mail"
-            android:textSize="13sp"
-            android:textColor="?android:attr/textColorSecondary"></TextView>
-    </LinearLayout>
+            <!-- target address value -->
+            <TextView
+                android:id="@+id/tvTarget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/log_tab_placeholder_target"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="13sp" />
 
-    <LinearLayout
-        android:id="@id/LinearLayout02"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <!-- status label -->
-        <TextView
-            android:id="@id/TextView01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status: "
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="?android:attr/textColorSecondary"></TextView>
-
-        <!-- status value -->
-        <TextView
-            android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Mail"
-            android:textSize="13sp"
-            android:textColor="?android:attr/textColorSecondary"></TextView>
+            <!-- status value -->
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/log_tab_placeholder_status"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="13sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -100,42 +108,45 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp">
+
         <!-- details button -->
         <Button
             android:id="@+id/details_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_btn_beige"
+            android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
-            android:textSize="10sp"
-            android:text="DETAILS"
-            android:textStyle="bold"
-            android:minHeight="25dp" android:minWidth="75dp"
-            />
+            android:background="@drawable/custom_btn_beige"
+            android:minHeight="25dp"
+            android:minWidth="75dp"
+            android:text="@string/log_tab_label_details"
+            android:textSize="12sp" />
 
         <!-- remove button -->
         <Button
             android:id="@+id/remove_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_btn_beige"
+            android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
-            android:textSize="10sp"
-            android:text="REMOVE"
-            android:textStyle="bold"
-            android:minHeight="25dp" android:minWidth="75dp"/>
+            android:background="@drawable/custom_btn_beige"
+            android:minHeight="25dp"
+            android:minWidth="75dp"
+            android:text="@string/log_tab_label_remove"
+            android:textSize="12sp" />
 
         <!-- remove button -->
         <Button
             android:id="@+id/remove_type_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_btn_beige"
+            android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
-            android:textSize="10sp"
-            android:text="REMOVE TYPE"
-            android:textStyle="bold"
-            android:minHeight="25dp" android:minWidth="75dp"/>
+            android:background="@drawable/custom_btn_beige"
+            android:minHeight="25dp"
+            android:minWidth="90dp"
+            android:text="@string/log_tab_label_remove_type"
+            android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

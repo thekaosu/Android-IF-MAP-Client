@@ -33,18 +33,6 @@ import de.simu.decoit.android.decomap.activities.R;
  */
 public class SerializedResponse {
 
-    // error-strings (more precise: parts of error strings) from ifmapj
-    // used to detect type of error and map it to our own error-messages
-    private final String mIfMapJNull = "null";
-    private final String mIfMapJTimeOut = "timed out";
-    private final String mIfMapJServerNotResponding = "The target server failed to respond";
-    private final String mIfMapJIOError = "I/O error";
-    private final String mIfMapJNotAuthorized = "Unauthorized";
-    private final String mIfMapJConnectionRefused = "refused";
-    private final String mIfMapJNetworkUnreachable = "unreachable";
-    private final String mIfMapJForbidden = "403";
-
-
     private String mSerializedMsg = null;
     private String mStatusMsg = null;
     private String mSessionID = null;
@@ -70,6 +58,16 @@ public class SerializedResponse {
         switch (msgType) {
 
             case MessageHandler.MSG_TYPE_ERRORMSG:
+
+                String mIfMapJNull = "null";
+                String mIfMapJTimeOut = "timed out";
+                String mIfMapJServerNotResponding = "The target server failed to respond";
+                String mIfMapJIOError = "I/O error";
+                String mIfMapJNotAuthorized = "Unauthorized";
+                String mIfMapJConnectionRefused = "refused";
+                String mIfMapJNetworkUnreachable = "unreachable";
+                String mIfMapJForbidden = "403";
+
                 // detect error-type and set relating error-message
                 if (response.contains(mIfMapJNull)) {
                     mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_null);
@@ -98,11 +96,11 @@ public class SerializedResponse {
             default:
                 // convert server-message
                 String message[] = response.trim().split("\\,");
-                for (int i = 0; i < message.length; i++) {
-                    if (message[i].startsWith("session-id")) {
-                        setSessionID(message[i].substring("session-id".length()));
-                    } else if (message[i].startsWith("publisher-id")) {
-                        setPublisherId(message[i].substring("publisher-id".length()));
+                for (String aMessage : message) {
+                    if (aMessage.startsWith("session-id")) {
+                        setSessionID(aMessage.substring("session-id".length()));
+                    } else if (aMessage.startsWith("publisher-id")) {
+                        setPublisherId(aMessage.substring("publisher-id".length()));
                     }
                 }
                 mSerializedMsg = response.replaceAll(",", "\n").replace("{", "").replace("}", "").replace(", ", "\n").trim();
@@ -122,13 +120,6 @@ public class SerializedResponse {
     }
 
     /**
-     * @param mStatusMsg the status message to set
-     */
-    public void setStatusMsg(String mStatusMsg) {
-        this.mStatusMsg = mStatusMsg;
-    }
-
-    /**
      * @return the sessionId
      */
     public String getSessionID() {
@@ -136,9 +127,9 @@ public class SerializedResponse {
     }
 
     /**
-     * @param sessionId the sessionId to set
+     * @param sessionID the sessionId to set
      */
-    public void setSessionID(String sessionID) {
+    private void setSessionID(String sessionID) {
         this.mSessionID = sessionID;
     }
 
@@ -152,7 +143,7 @@ public class SerializedResponse {
     /**
      * @param publisherId the publisherId to set
      */
-    public void setPublisherId(String publisherId) {
+    private void setPublisherId(String publisherId) {
         this.mPublisherId = publisherId;
     }
 }

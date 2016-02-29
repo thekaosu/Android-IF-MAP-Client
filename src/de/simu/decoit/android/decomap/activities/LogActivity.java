@@ -51,7 +51,7 @@ public class LogActivity extends Activity {
 
     // database for log messages
     private LoggingDatabase mLogDB = null;
-    private PreferencesValues mPreferences = PreferencesValues.getInstance();
+    private final PreferencesValues mPreferences = PreferencesValues.getInstance();
 
     //scroll position
     private ListView logViewList;
@@ -143,7 +143,7 @@ public class LogActivity extends Activity {
      */
     public ArrayList<LogMessage> getAllEntrys() {
         // create log message list for list-view
-        ArrayList<LogMessage> logMessageList = new ArrayList<LogMessage>();
+        ArrayList<LogMessage> logMessageList = new ArrayList<>();
 
         // get db content
         Cursor resultCursor = null;
@@ -162,7 +162,9 @@ public class LogActivity extends Activity {
                 logMessageList.add(lMsg);
             }
         } finally {
-            resultCursor.close();
+            if (resultCursor != null) {
+                resultCursor.close();
+            }
         }
         return logMessageList;
     }
@@ -179,7 +181,7 @@ public class LogActivity extends Activity {
     /**
      * delete all log messages from database
      */
-    public void deleteLog() {
+    private void deleteLog() {
         mLogDB.deleteAllMassages(mLogDB.getWritableDatabase());
     }
 

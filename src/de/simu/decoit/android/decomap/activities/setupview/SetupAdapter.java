@@ -48,15 +48,12 @@ import de.simu.decoit.android.decomap.preferences.PreferencesValues;
  */
 public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
-    static final int HEADER_TYPE_CATEGORY = 0;
-    static final int HEADER_TYPE_NORMAL = 1;
-    static final int HEADER_TYPE_SWITCH = 2;
-    static final int HEADER_TYPE_SELECTION = 3;
+    private static final int HEADER_TYPE_CATEGORY = 0;
+    private static final int HEADER_TYPE_NORMAL = 1;
+    private static final int HEADER_TYPE_SWITCH = 2;
+    private static final int HEADER_TYPE_SELECTION = 3;
 
-    private LayoutInflater mInflater;
-
-    //Contains all views, which get a SwitchPreferenceHandler
-    private final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings};
+    private final LayoutInflater mInflater;
 
     //View id for the monitoring mode selection
     public static final long MONITORINGMODE_VIEW_ID = R.id.monitoringModeSettings;
@@ -65,20 +62,20 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     // R.id.esukomMetadataSettings could be whitelisted too, but Problems with sInitialDevCharWasSend
     private final long[] VIEW_WHILE_CONNECTION_WHITELIST = new long[]{R.id.loggingPreferences};
 
-    private ArrayList<Long> switchIDS = new ArrayList<Long>();
+    private final ArrayList<Long> switchIDS = new ArrayList<>();
 
-    private HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<Long, SwitchPreferenceHandler>();
-    private SpinnerSetupModePreferenceHandler selectionHandler;
+    private final HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<>();
+    private final SpinnerSetupModePreferenceHandler selectionHandler;
     private View selectionView;
 
-    private String setupMode;
-
-    private PreferencesValues mPreferences = PreferencesValues.getInstance();
+    private final PreferencesValues mPreferences = PreferencesValues.getInstance();
 
     public SetupAdapter(Context context, List<PreferenceActivity.Header> objects) {
         super(context, 0, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         //putting ids into arrays
+        final long[] SWITCH_IDS = new long[]{R.id.esukomMetadataSettings};
         for (long id : SWITCH_IDS) {
             switchIDS.add(id);
             switchMap.put(id, new SwitchPreferenceHandler(context, new Switch(context), id + ""));

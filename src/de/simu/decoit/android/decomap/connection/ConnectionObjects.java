@@ -65,17 +65,10 @@ public class ConnectionObjects {
     }
 
     /**
-     * @param sArcConnection
+     * @param arcConnection
      *            the mArcConnection to set
      */
     private static void setArcConnection(ARC arcConnection) {
         ConnectionObjects.sArcConnection = arcConnection;
-    }
-
-    /**
-     * @return the mArcConnection
-     */
-    public static ARC getArcConnection() {
-        return sArcConnection;
     }
 }

@@ -32,13 +32,13 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "name", "label", "version", "running", "installTime", "updateTime", "permissions"})
 public class App {
 
-	private String name;
-	private String label;
-	private String version;
-	private boolean running;
-	private long installTime;
-	private long updateTime;
-	private String[] permissions;
+	private final String name;
+	private final String label;
+	private final String version;
+	private final boolean running;
+	private final long installTime;
+	private final long updateTime;
+	private final  String[] permissions;
 
 	public App(String name, String label, String version, boolean running, long installTime, long updateTime, String[] permissions) {
 		this.name = name;

@@ -38,7 +38,7 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.2
  */
 public class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSelectedListener {
-    protected final Context context;
+    private final Context context;
     private final String key;
     private final ArrayAdapter<CharSequence> spinnerAdapter;
     private Spinner spinner;
@@ -63,7 +63,7 @@ public class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSele
 
         editor.putString(key, ((String) spinner.getSelectedItem()));
 
-        editor.commit();
+        editor.apply();
 
         if (context instanceof SetupActivity) {
             ((SetupActivity) context).refreshHeaders();
@@ -93,16 +93,16 @@ public class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSele
         return spinner;
     }
 
-    public String getSelectedItem() {
+    private String getSelectedItem() {
         SharedPreferences prefs;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         return prefs.getString(key, "IF-MAP");
     }
 
-    public int getSelectedItemPosition() {
+    private int getSelectedItemPosition() {
         String[] modeArray = context.getResources().getStringArray(R.array.preferences_value_serverForm);
-        int pos = 0;
+        int pos;
         String value = getSelectedItem();
         for (pos = 0; pos < modeArray.length; pos++) {
             if (value.equals(modeArray[pos])) {

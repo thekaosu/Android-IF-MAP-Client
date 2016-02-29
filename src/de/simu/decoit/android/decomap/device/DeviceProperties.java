@@ -21,11 +21,12 @@
 
 package de.simu.decoit.android.decomap.device;
 
-import java.lang.reflect.Constructor;
-
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+
+import java.lang.reflect.Constructor;
+
 import de.simu.decoit.android.decomap.device.application.ApplicationProperties;
 import de.simu.decoit.android.decomap.device.phone.PhoneProperties;
 import de.simu.decoit.android.decomap.device.system.SystemProperties;
@@ -40,7 +41,6 @@ import de.simu.decoit.android.decomap.device.system.SystemProperties;
  */
 public class DeviceProperties {
 
-    private final Context mApplicationContext;
     private final ApplicationProperties appProperties;
     private final SystemProperties systemProperties;
     private PhoneProperties phoneProperties;
@@ -48,13 +48,12 @@ public class DeviceProperties {
     /**
      * constructor
      * 
-     * @param context
+     * @param appContext
      *            current application context
      */
     public DeviceProperties(Context appContext) {
-        mApplicationContext = appContext;
-        appProperties = new ApplicationProperties(mApplicationContext);
-        systemProperties = new SystemProperties(mApplicationContext);
+        appProperties = new ApplicationProperties(appContext);
+        systemProperties = new SystemProperties(appContext);
 
         /*
          * some calls inside phone-properties class differs in some versions of android, so we use reflection to get the required class
@@ -74,7 +73,7 @@ public class DeviceProperties {
         try {
             Class<?> myClass = Class.forName(className);
 
-            Constructor<?> constructor = myClass.getConstructor(new Class[] { Context.class });
+            Constructor<?> constructor = myClass.getConstructor(Context.class);
             phoneProperties = (PhoneProperties) constructor.newInstance(appContext);
         } catch (Exception e) {
             Log.d("!!!", "error while loading PhoneProperties-Implementation using reflection");

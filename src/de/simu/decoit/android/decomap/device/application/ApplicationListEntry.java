@@ -24,31 +24,23 @@ import java.util.ArrayList;
 
 /**
  * class representing an application-list-entry
- * 
- * @version 0.2
+ *
  * @author Dennis Dunekacke, Decoit Gmbh
+ * @version 0.2
  */
 public class ApplicationListEntry {
-	
+
     private String name;
     private String versionName;
     private int versionCode;
     private String installerPackageName;
-    private ArrayList<Permission> permissions = new ArrayList<Permission>();
+    private ArrayList<Permission> permissions = new ArrayList<>();
     private boolean isCurrentlyRunning = false;
 
     /**
-     * parameterless constructor
-     */
-    public ApplicationListEntry() {
-        // nothing to do here
-    }
-
-    /**
      * constructor
-     * 
-     * @param name
-     *            application-name
+     *
+     * @param name application-name
      */
     public ApplicationListEntry(String name) {
         this.name = name;
@@ -62,14 +54,6 @@ public class ApplicationListEntry {
     }
 
     /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * @return the android:versionName as specified in the manifest
      */
     public String getVersionName() {
@@ -77,26 +61,24 @@ public class ApplicationListEntry {
     }
 
     /**
-     * @param version
-     *            the android:versionName as specified in the manifest
+     * @param versionName the android:versionName as specified in the manifest
      */
     public void setVersionName(String versionName) {
         this.versionName = versionName;
     }
-    
+
     /**
      * @return the android:versionCode as specified in the manifest
      */
     public int getVersionCode() {
-    	return versionCode;
+        return versionCode;
     }
-    
+
     /**
-     * @param version
-     *            the android:versionCode as specified in the manifest
+     * @param versionCode the android:versionCode as specified in the manifest
      */
     public void setVersionCode(int versionCode) {
-    	this.versionCode = versionCode;
+        this.versionCode = versionCode;
     }
 
     /**
@@ -106,32 +88,22 @@ public class ApplicationListEntry {
         return permissions;
     }
 
-    /**
-     * @param permissions
-     *            the permissions to set
-     */
-    public void setPermissions(ArrayList<Permission> permissions) {
-        this.permissions = permissions;
-    }
-    
-  
 
     /**
      * add a permission-string to permissions-lists depending
      * on type of the permission (granted/required)
-     * 
-     * @param permission
-     *            permission-string to be added
+     *
+     * @param permissionName permission-string to be added
      */
     public void addPermission(String permissionName) {
-    	// granted permission
-    	if (permissionName.startsWith("android.permission")){
-    		this.permissions.add(new Permission(permissionName, Permission.PERMISSIONTYPE_GRANTED));
-    	}
-    	// required permission
-    	else{
-    		this.permissions.add(new Permission(permissionName, Permission.PERMISSIONTYPE_REQUIRED));
-    	}
+        // granted permission
+        if (permissionName.startsWith("android.permission")) {
+            this.permissions.add(new Permission(permissionName, Permission.PERMISSIONTYPE_GRANTED));
+        }
+        // required permission
+        else {
+            this.permissions.add(new Permission(permissionName, Permission.PERMISSIONTYPE_REQUIRED));
+        }
     }
 
     /**
@@ -152,10 +124,9 @@ public class ApplicationListEntry {
      * @return the installerPackageName
      */
     public String getInstallerPackageName() {
-        if (installerPackageName != null){
+        if (installerPackageName != null) {
             return installerPackageName;
-        }
-        else{
+        } else {
             return "";
         }
     }

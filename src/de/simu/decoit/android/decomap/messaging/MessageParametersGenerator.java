@@ -28,10 +28,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -79,20 +81,20 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 public class MessageParametersGenerator<T> {
 
     // some predefined values
-    final static String OTHER_TYPE_DEFINITION = "32939:category";
-    final static String NAMESPACE = "http://www.esukom.de/2012/ifmap-metadata/1";
-    final static String NAMESPACE_PREFIX = "esukom";
-    final static String QUANT = "quantitive";
-    final static String ARBIT = "arbitrary";
-    final static String QUALI = "qualified";
+    private final static String OTHER_TYPE_DEFINITION = "32939:category";
+    private final static String NAMESPACE = "http://www.esukom.de/2012/ifmap-metadata/1";
+    private final static String NAMESPACE_PREFIX = "esukom";
+    private final static String QUANT = "quantitive";
+    private final static String ARBIT = "arbitrary";
+    private final static String QUALI = "qualified";
 
     // flag detecting that a previous publish-request has been send
     // (to handle deletion of previous send data)
-    public static boolean sInitialLocationWasSend = false;
+    private static boolean sInitialLocationWasSend = false;
     public static boolean sInitialDevCharWasSend = false;
 
     // create device identifier
-    Device deviceIdentifier;
+    private Device deviceIdentifier;
 
     // location information
     private String mLastLatitude;
@@ -101,25 +103,18 @@ public class MessageParametersGenerator<T> {
     // request-type
     private T mRequest = null;
 
-    // document-builder
-    private DocumentBuilderFactory mDocumentBuilderFactory;
     private DocumentBuilder mDocumentBuilder;
 
-    // category-identities
-    private Identity mPhoneCat;
     private Identity mPhoneSystemCat;
     private Identity mPhoneDeviceCat;
     private Identity mPhoneAndroidCat;
     private Identity mPhoneOsCat;
     private Identity mPhoneSensorCat;
-    private Identity mPhoneCommunicationCat;
     private Identity mPhoneSMSCat;
     private Identity mPhoneIpCat;
     private Identity mPhoneBatteryCat;
     private Identity mPhoneMemoryCat;
 
-    // category-metadata
-    private Document mDeviceCategory;
     private Document mSubCategoryOf;
 
     // values for features that need to be republished because they can change at runtime
@@ -136,18 +131,15 @@ public class MessageParametersGenerator<T> {
     private String mLastIpAddress;
     private boolean mLastCameraIsUsed;
 
-    private PreferencesValues mPreferences = PreferencesValues.getInstance();
-
-    private final MainActivity mainActivity;
+    private final PreferencesValues mPreferences = PreferencesValues.getInstance();
 
     /**
      * constructor
      */
-    public MessageParametersGenerator(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public MessageParametersGenerator() {
 
         // create document-builder from factory
-        mDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilderFactory mDocumentBuilderFactory = DocumentBuilderFactory.newInstance();
         try {
             mDocumentBuilder = mDocumentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -188,7 +180,7 @@ public class MessageParametersGenerator<T> {
         StandardIfmapMetadataFactory metadataFactory = IfmapJ.createStandardMetadataFactory();
 
         // Current time in specified format according to ifmap-spec
-        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ");
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'kk:mm:ssZ", Locale.getDefault());
         Date nowTime = new java.util.Date();
 
         // create ip-address identifier
@@ -314,7 +306,7 @@ public class MessageParametersGenerator<T> {
      * @param nowTime          current time
      * @param ipAddress        IP-Identifier
      */
-    public void createDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdentifier,
+    private void createDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdentifier,
                                                          DeviceProperties deviceProperties, SimpleDateFormat simpledateformat, Date nowTime, IpAddress ipAddress) {
         Document document = createStdSingleElementDocument("device-characteristic", Cardinality.multiValue);
         Element root = (Element) document.getFirstChild();
@@ -343,7 +335,7 @@ public class MessageParametersGenerator<T> {
      * @param nowTime          current time
      * @param devProps         device-properties object containing device-related informations to be appended to the metadata-graph
      */
-    public void createEsukomSpecificDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdent,
+    private void createEsukomSpecificDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdent,
                                                                        SimpleDateFormat simpledateformat, Date nowTime, DeviceProperties devProps, boolean dontSendAppInfos, boolean dontSendGoogleApps) {
 
         // feature-document and current time
@@ -355,7 +347,7 @@ public class MessageParametersGenerator<T> {
         // republish informations-flag
         boolean locationChanged = false;
         if (mPreferences.isEnableLocationTracking() && (MainActivity.sLatitude != null && MainActivity.sLongitude != null)) {
-            if (mLastLatitude != MainActivity.sLatitude || mLastLongitude != MainActivity.sLongitude) {
+            if (!mLastLatitude.equals(MainActivity.sLatitude) || !mLastLongitude.equals(MainActivity.sLongitude)) {
                 mLastLatitude = MainActivity.sLatitude;
                 mLastLongitude = MainActivity.sLongitude;
                 locationChanged = true;
@@ -365,18 +357,18 @@ public class MessageParametersGenerator<T> {
         // only send in initial publish
         if (!sInitialDevCharWasSend) {
             // categories
-            mPhoneCat = createCategory("smartphone", deviceIdentifier.getName());
+            Identity mPhoneCat = createCategory("smartphone", deviceIdentifier.getName());
             mPhoneSystemCat = createCategory("smartphone.system", deviceIdentifier.getName());
             mPhoneDeviceCat = createCategory("smartphone.device", deviceIdentifier.getName());
             mPhoneAndroidCat = createCategory("smartphone.android", deviceIdentifier.getName());
             mPhoneOsCat = createCategory("smartphone.android.os", deviceIdentifier.getName());
             mPhoneSensorCat = createCategory("smartphone.sensor", deviceIdentifier.getName());
-            mPhoneCommunicationCat = createCategory("smartphone.communication", deviceIdentifier.getName());
+            Identity mPhoneCommunicationCat = createCategory("smartphone.communication", deviceIdentifier.getName());
             mPhoneSMSCat = createCategory("smartphone.communication.sms", deviceIdentifier.getName());
             mPhoneIpCat = createCategory("smartphone.communication.ip", deviceIdentifier.getName());
             mPhoneBatteryCat = createCategory("smartphone.system.battery", deviceIdentifier.getName());
             mPhoneMemoryCat = createCategory("smartphone.system.memory", deviceIdentifier.getName());
-            mDeviceCategory = createCategoryLink("device-category");
+            Document mDeviceCategory = createCategoryLink("device-category");
             mSubCategoryOf = createCategoryLink("subcategory-of");
 
             addToUpdateRequest(publishRequest, deviceIdent, mPhoneCat, mDeviceCategory, MetadataLifetime.session, false);
@@ -505,7 +497,7 @@ public class MessageParametersGenerator<T> {
 
         Date lastSendDate = SMSObserver.sLastSendDate;
         if (lastSendDate != null) {
-            String mCurSmsSentDate = SMSObserver.sLastSendDate.toLocaleString();
+            String mCurSmsSentDate = DateFormat.getInstance().format(SMSObserver.sLastSendDate);
             if (!mCurSmsSentDate.equals(mLastSmsSentDate) || locationChanged) {
                 fe = createFeature("LastSent", time, mCurSmsSentDate, QUANT);
                 addToUpdateRequest(publishRequest, mPhoneSMSCat, null, fe, MetadataLifetime.session, true);
@@ -678,7 +670,7 @@ public class MessageParametersGenerator<T> {
      * @param metadataLifeTime lifetime of metadata
      * @param doDelete         flag to decide if an automatic delete request is appended
      */
-    public void addToUpdateRequest(PublishRequest request, Identifier ident1, Identifier ident2, Document metadata,
+    private void addToUpdateRequest(PublishRequest request, Identifier ident1, Identifier ident2, Document metadata,
                                    MetadataLifetime metadataLifeTime, boolean doDelete) {
         // add publish-update to request
         PublishUpdate publishUpdate = Requests.createPublishUpdate();

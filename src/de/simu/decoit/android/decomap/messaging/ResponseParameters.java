@@ -36,9 +36,9 @@ public class ResponseParameters {
 	public static final byte RESPONSE_PARAMS_ERRORMSG = 3;
 	public static final byte RESPONSE_PARAMS_PUBLISHERID = 4;
 	
-	public static final int RESPONSE_PARAMS_NUM = 5;
+	private static final int RESPONSE_PARAMS_NUM = 5;
 
-	private String[] mParams;
+	private final String[] mParams;
 	
 	/**
 	 * constructor

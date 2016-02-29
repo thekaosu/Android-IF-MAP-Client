@@ -22,194 +22,116 @@ package de.simu.decoit.android.decomap.logging;
 
 /**
  * Class representing a single Log-Message
- * 
+ *
  * @author Dennis Dunekacke, DECOIT GmbH
  * @version 0.2
  */
 public class LogMessage {
-	private int mId;
-	private String mMsg;
-	private String userLogMsg;
-	private String mTimestamp;
-	private String mMsgType;
-	private String mTarget;
-	private String mStatus;
+    private int mId;
+    private String mMsg;
+    private String mTimestamp;
+    private String mMsgType;
+    private String mTarget;
+    private String mStatus;
 
-	
-	/**
-	 * constructor without id...is used for generating new log-messages
-	 * for inserting into database
-	 * 
-	 * id is auto generated (auto-increment value) in insert-case, so we
-	 * dont need it for this task
-	 * 
-	 * @param timestamp
-	 *            current date/time
-	 * @param message
-	 *            message content
-	 * @param msgType
-	 *            type of message
-	 * @param hostIP
-	 *            target IP-Address
-	 * @param hostPort
-	 *            target port number
-	 * @param status
-	 *            status/result of request/response-message
-	 */
-	public LogMessage(String timestamp, String message, String msgType,
-			String target, String status) {
-		super();
-		this.mMsg = message;
-		this.mTimestamp = timestamp;
-		this.mMsgType = msgType;
-		this.mTarget = target;
-		this.mStatus = status;
-        this.userLogMsg = userLogMsg;
-	}
-	
-	/**
-	 * constructor with id...this is used when creating message for display
-	 * the internally generated id from DB is used in this case for the
-	 * navigation inside the log-message list view
-	 * 
-	 * @param timestamp
-	 *            current date/time
-	 * @param message
-	 *            message content
-	 * @param msgType
-	 *            type of message
-	 * @param hostIP
-	 *            target IP-Address
-	 * @param hostPort
-	 *            target port number
-	 * @param status
-	 *            status/result of request/response-message
-	 */
-	public LogMessage(int aid,String timestamp, String message, String msgType,
-			String target, String status) {
-		super();
 
-		this.mMsg = message;
-		this.mTimestamp = timestamp;
-		this.mMsgType = msgType;
-		this.mTarget = target;
-		this.mStatus = status;
-		this.mId = aid;
-	}
+    /**
+     * constructor without id...is used for generating new log-messages
+     * for inserting into database
+     * <p/>
+     * id is auto generated (auto-increment value) in insert-case, so we
+     * dont need it for this task
+     *
+     * @param timestamp current date/time
+     * @param message   message content
+     * @param msgType   type of message
+     * @param status    status/result of request/response-message
+     */
+    public LogMessage(String timestamp, String message, String msgType,
+                      String target, String status) {
+        super();
+        this.mMsg = message;
+        this.mTimestamp = timestamp;
+        this.mMsgType = msgType;
+        this.mTarget = target;
+        this.mStatus = status;
+    }
 
-	/**
-	 * get request/response-message status
-	 * 
-	 * @return String message status
-	 */
-	public String getStatus() {
-		return mStatus;
-	}
+    /**
+     * constructor with id...this is used when creating message for display
+     * the internally generated id from DB is used in this case for the
+     * navigation inside the log-message list view
+     *
+     * @param timestamp current date/time
+     * @param message   message content
+     * @param msgType   type of message
+     * @param status    status/result of request/response-message
+     */
+    public LogMessage(int aid, String timestamp, String message, String msgType,
+                      String target, String status) {
+        super();
 
-	/**
-	 * set request/response mssage status
-	 * 
-	 * @param msgStatus
-	 *            message status
-	 */
-	public void setStatus(String msgStatus) {
-		this.mStatus = msgStatus;
-	}
+        this.mMsg = message;
+        this.mTimestamp = timestamp;
+        this.mMsgType = msgType;
+        this.mTarget = target;
+        this.mStatus = status;
+        this.mId = aid;
+    }
 
-	/**
-	 * get message-content
-	 * 
-	 * @return String content of message
-	 */
-	public String getMsg() {
-		return mMsg;
-	}
+    /**
+     * get request/response-message status
+     *
+     * @return String message status
+     */
+    public String getStatus() {
+        return mStatus;
+    }
 
-	/**
-	 * set message content
-	 * 
-	 * @param msg
-	 *            content of message
-	 */
-	public void setMsg(String msg) {
-		this.mMsg = msg;
-	}
+    /**
+     * get message-content
+     *
+     * @return String content of message
+     */
+    public String getMsg() {
+        return mMsg;
+    }
 
-	/**
-	 * get target IP-Address
-	 * 
-	 * @return String target IP
-	 */
-	public String getTarget() {
-		return mTarget;
-	}
+    /**
+     * get target IP-Address
+     *
+     * @return String target IP
+     */
+    public String getTarget() {
+        return mTarget;
+    }
 
-	/**
-	 * set target IP-Address
-	 * 
-	 * @param hostIp
-	 *            target IP
-	 */
-	public void setTarget(String target) {
-		this.mTarget = target;
-	}
 
-	
-	/**
-	 * get timsestamp string
-	 * 
-	 * @return String timestamp-string(Date/Time)
-	 */
-	public String getTimestamp() {
-		return mTimestamp;
-	}
+    /**
+     * get timsestamp string
+     *
+     * @return String timestamp-string(Date/Time)
+     */
+    public String getTimestamp() {
+        return mTimestamp;
+    }
 
-	/**
-	 * set timestamp string
-	 * 
-	 * @param timestamp
-	 *            timestamp-string(date/time)
-	 */
-	public void setTimestamp(String timestamp) {
-		this.mTimestamp = timestamp;
-	}
+    /**
+     * get type of message, corresponding to static message-type values in
+     * ConnectionService-Class
+     *
+     * @return type of message as String
+     */
+    public String getMsgType() {
+        return mMsgType;
+    }
 
-	/**
-	 * get type of message, corresponding to static message-type values in
-	 * ConnectionService-Class
-	 * 
-	 * @return type of message as String
-	 */
-	public String getMsgType() {
-		return mMsgType;
-	}
-
-	/**
-	 * set type of message, corresponding to static message-type values in
-	 * ConnectionService-Class
-	 * 
-	 * @param msgType
-	 *            message type as string
-	 */
-	public void setMsgType(String msgType) {
-		this.mMsgType = msgType;
-	}
-
-	/**
-	 * get log-message id
-	 * 
-	 * @return id of log message
-	 */
-	public int getId() {
-		return mId;
-	}
-
-	/**
-	 * set log-message id
-	 * 
-	 * @param id the id of the log message
-	 */
-	public void setId(int id) {
-		this.mId = id;
-	}
+    /**
+     * get log-message id
+     *
+     * @return id of log message
+     */
+    public int getId() {
+        return mId;
+    }
 }

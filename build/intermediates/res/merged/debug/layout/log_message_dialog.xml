@@ -7,14 +7,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+android:id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dip"
             android:scrollHorizontally="false"
             android:singleLine="true"
-            android:text="title"
+            android:text="@string/log_msgDialogBox_label_title"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:orientation="vertical"
             android:stretchColumns="0">
 
-            <TableRow android:layout_marginTop="10px"
+            <TableRow android:layout_marginTop="5dp"
                 android:layout_weight="1">
 
                 <HorizontalScrollView
@@ -34,19 +34,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="fill_parent">
                     <ScrollView
-                        android:layout_width="fill_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="fill_parent">
 
                     <TextView
                         android:id="@+id/msgView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:ellipsize="none"
                         android:padding="5dip"
                         android:scrollHorizontally="false"
                         android:singleLine="false"
-                        android:text="Message:"
+                        android:text="@string/log_msgDialogBox_label_message"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="?android:attr/textColorPrimary" />
                     </ScrollView>
@@ -54,14 +53,14 @@
 
             </TableRow>
 
-            <TableRow android:layout_marginTop="10px"
+            <TableRow android:layout_marginTop="5dp"
                 android:layout_weight="0">
 
                 <Button
                     android:id="@+id/buttonOK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="OK" />
+                    android:text="@string/log_msgDialogBox_button_label_ok" />
 
             </TableRow>
 

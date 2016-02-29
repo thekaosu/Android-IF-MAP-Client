@@ -94,11 +94,7 @@ public class PermissionListEntry {
         }
 
         PermissionListEntry entry = (PermissionListEntry) obj;
-        if (permissionName.equals(entry.getPermissionName())) {
-            return true;
-        } else {
-            return false;
-        }
+        return permissionName.equals(entry.getPermissionName());
     }
 
     public int hashCode() {

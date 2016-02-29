@@ -36,7 +36,7 @@ import de.simu.decoit.android.decomap.activities.R;
  */
 public class AuthSettingsFragment extends AbstractPreferenceFragment {
 
-    ListPreference authType;
+    private ListPreference authType;
 
     public AuthSettingsFragment() {
         fragmentID = R.xml.preferences_auth_fragment;

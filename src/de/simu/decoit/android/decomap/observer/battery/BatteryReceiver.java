@@ -37,7 +37,6 @@ import android.os.BatteryManager;
 public class BatteryReceiver {
 
     public static String sCurrentBatteryLevel = "not detected";
-    private BatteryLevelReceiver mBatteryLevelReceiver;
 
     /**
      * constructor
@@ -47,7 +46,7 @@ public class BatteryReceiver {
      */
     public BatteryReceiver(Context context) {
         final IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        mBatteryLevelReceiver = new BatteryLevelReceiver();
+        BatteryLevelReceiver mBatteryLevelReceiver = new BatteryLevelReceiver();
         context.registerReceiver(mBatteryLevelReceiver, intentFilter);
     }
 

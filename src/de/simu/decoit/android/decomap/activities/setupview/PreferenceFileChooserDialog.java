@@ -14,13 +14,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import de.simu.decoit.android.decomap.activities.R;
 
@@ -38,7 +38,6 @@ public class PreferenceFileChooserDialog extends Dialog {
     private boolean onlyDir = false;
     private String fileEnding;
     private final String key;
-    private final String defaultValue;
 
     private final LayoutInflater inflater;
 
@@ -46,7 +45,12 @@ public class PreferenceFileChooserDialog extends Dialog {
     private View selectedDir;
 
     /**
-     * @param context
+     * Constructor
+     *
+     * @param context in which context should the dialog run
+     * @param onlyDir only show directories
+     * @param key preference key for filepath
+     * @param defaultValue default filepath
      */
     public PreferenceFileChooserDialog(Context context, boolean onlyDir, String key, String defaultValue) {
         this(context, "", key, defaultValue);
@@ -55,12 +59,16 @@ public class PreferenceFileChooserDialog extends Dialog {
     }
 
     /**
-     * @param context
+     * Constructor
+     *
+     * @param context in which context should the dialog run
+     * @param fileEndsWith fileending filter
+     * @param key preference key for filepath
+     * @param defaultValue default filepath
      */
     public PreferenceFileChooserDialog(Context context, String fileEndsWith, String key, String defaultValue) {
         super(context);
         this.key = key;
-        this.defaultValue = defaultValue;
         if (fileEndsWith != null) {
             this.fileEnding = fileEndsWith;
         } else {
@@ -84,9 +92,6 @@ public class PreferenceFileChooserDialog extends Dialog {
         currentPath = path;
     }
 
-    /**
-     * @return file dialog
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         loadFileList(currentPath);
@@ -94,7 +99,7 @@ public class PreferenceFileChooserDialog extends Dialog {
 
         setContentView(R.layout.file_chooser_dialog);
 
-        ((Button) findViewById(R.id.cancelButton)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.cancelButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
@@ -137,12 +142,13 @@ public class PreferenceFileChooserDialog extends Dialog {
             String file = fileList.get(i);
             View row = list.getChildAt(i);
             File choosenFile = getChosenFile(file);
+            TextView fileView = ((TextView) row.findViewById(R.id.fileText));
             if (choosenFile.isDirectory()) {
-                ((ImageView) row.findViewById(R.id.fileIcon)).setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_tab_log_unselected));
+                fileView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_tab_log_unselected), null, null, null);
             } else {
-                ((ImageView) row.findViewById(R.id.fileIcon)).setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_tab_status_unselected));
+                fileView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_tab_status_unselected), null, null, null);
             }
-            ((TextView) row.findViewById(R.id.fileText)).setText(file);
+            fileView.setText(file);
 
             row.setOnTouchListener(new OnTouchRow());
             row.setOnClickListener(new OnClickRow(choosenFile));
@@ -150,7 +156,7 @@ public class PreferenceFileChooserDialog extends Dialog {
     }
 
     public boolean isOnlyDir() {
-        return isOnlyDir();
+        return onlyDir;
     }
 
     public void setOnlyDir(boolean onlyDir) {
@@ -158,7 +164,9 @@ public class PreferenceFileChooserDialog extends Dialog {
     }
 
     public void setFileEnding(String fileEnding) {
-        this.fileEnding = fileEnding != null ? fileEnding.toLowerCase() : fileEnding;
+        if (fileEnding != null) {
+            this.fileEnding = fileEnding.toLowerCase();
+        }
     }
 
     public String getFileEnding() {
@@ -176,7 +184,7 @@ public class PreferenceFileChooserDialog extends Dialog {
 
     private void loadFileList(File path) {
         this.currentPath = path;
-        fileList = new ArrayList<String>();
+        fileList = new ArrayList<>();
 
         if (path.exists() && path.canRead() && path.isDirectory()) {
             if (path.getParentFile() != null) {
@@ -197,9 +205,7 @@ public class PreferenceFileChooserDialog extends Dialog {
                 }
             };
 
-            for (String file : path.list(filter)) {
-                fileList.add(file);
-            }
+            Collections.addAll(fileList, path.list(filter));
         } else {
             loadFileList(Environment.getExternalStorageDirectory());
         }
@@ -217,13 +223,13 @@ public class PreferenceFileChooserDialog extends Dialog {
             editor.putString(key, getChosenFile((String) ((TextView) selectedDir.findViewById(R.id.fileText)).getText()).getAbsolutePath());
         }
 
-        editor.commit();
+        editor.apply();
         dismiss();
     }
 
     private class OnClickRow implements View.OnClickListener {
 
-        private File choosenFile;
+        private final File choosenFile;
 
         public OnClickRow(File choosenFile) {
             this.choosenFile = choosenFile;

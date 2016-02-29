@@ -43,13 +43,13 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.2
  */
 public class LogMessageAdapter extends BaseAdapter implements OnClickListener {
-    private Context mContext;
+    private final Context mContext;
 
     // called when opening/showing LogMessage-Content in a DialogBox
-    private LogActivity mActivityCallback;
+    private final LogActivity mActivityCallback;
 
     // List containing the different Log-Entries
-    private List<LogMessage> mListLogMessage;
+    private final List<LogMessage> mListLogMessage;
 
     /**
      * constructor

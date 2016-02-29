@@ -44,9 +44,6 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  */
 public class RenewConnectionService extends Service {
 
-	// some connection properties (used for connecting and log messages)
-	private String mServerAddress;
-	private String mServerPort;
 	private String mClientAddress;
 
 	// Callback-Handler for Activity that started the service
@@ -54,7 +51,7 @@ public class RenewConnectionService extends Service {
 	private MainActivity.SynchronousRunnable mRunnable;
 
 	// callback from Connection-Thread to service
-	private RenewConnectionService mCallback = this;
+	private final RenewConnectionService mCallback = this;
 
 	// service binder
 	private final IBinder mBinder = new LocalBinder();
@@ -65,7 +62,6 @@ public class RenewConnectionService extends Service {
 	 * Activity via Callback-Handler afterwards (see MeinRunnable)
 	 */
 	private LogMessage mLogRequestMessage;
-	private LogMessage mLogResponseMessage;
 
 	// interface for service binding
 	public interface IRenewConnectionService {
@@ -73,9 +69,7 @@ public class RenewConnectionService extends Service {
 		/**
 		 * Connect to Server using passed in Connection-Type and Message for
 		 * publishing
-		 * 
-		 * @param msg
-		 *            message-type constant
+		 *
 		 * @param adr
 		 *            server i.p.
 		 * @param prt
@@ -86,8 +80,6 @@ public class RenewConnectionService extends Service {
 		 *            message(type) to send to the server
 		 * @param params
 		 *            PublishRequest Object that contains the request
-		 * @param ssrcConnection
-		 *            SSRC object for the connection with IfmapJ
 		 * @param msgContent
 		 *            contains the message data for logging
 		 */
@@ -115,24 +107,20 @@ public class RenewConnectionService extends Service {
 			Toolbox.logTxt("RenewConnectionService", "connect(...) called");
 
 			// some connection params, used for logging, etc.
-			mServerAddress = adr;
 			//mServerPort = new Integer(prt).toString();
-			mServerPort = prt;
 			mClientAddress = clientIP;
 
 			Toolbox.logTxt("RenewConnectionService", "outgoing message: " + msgContent);
 
 			// create log message
 			mLogRequestMessage = LogMessageHelper.getInstance().generateRequestLogMessage(quest, msgContent,
-					mServerAddress, mServerPort);
+					adr, prt);
 
 			// start connection thread
 			sslClient = new SyncConnectionThread(mCallback, quest, params);
 			sslThread = new Thread(sslClient);
-			if (sslThread != null) {
-				Toolbox.logTxt(this.getClass().getName(), "---> MESSAGE TO SEND FROM SRC <--- \n" + quest);
-				sslThread.start();
-			}
+			Toolbox.logTxt(this.getClass().getName(), "---> MESSAGE TO SEND FROM SRC <--- \n" + quest);
+			sslThread.start();
 		}
 	}
 
@@ -156,7 +144,7 @@ public class RenewConnectionService extends Service {
 		Toolbox.logTxt("RenewConnectionService", "incoming message: " + msg);
 
 		// create response-log message
-		mLogResponseMessage = LogMessageHelper.getInstance().generateResponseLogMessage(responseMessageType,
+		LogMessage mLogResponseMessage = LogMessageHelper.getInstance().generateResponseLogMessage(responseMessageType,
 				responseParams, mClientAddress);
 
 		// assign log messages to callback
@@ -171,16 +159,6 @@ public class RenewConnectionService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return mBinder;
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
 	}
 
 	@Override

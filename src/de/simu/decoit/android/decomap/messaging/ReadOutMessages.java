@@ -21,17 +21,18 @@
 
 package de.simu.decoit.android.decomap.messaging;
 
+import android.util.Log;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-
-import android.util.Log;
 import de.hshannover.f4.trust.ifmapj.messages.PublishElement;
 import de.hshannover.f4.trust.ifmapj.messages.PublishRequest;
 import de.hshannover.f4.trust.ifmapj.messages.PublishUpdate;
@@ -49,7 +50,7 @@ public class ReadOutMessages extends ArrayList<HashMap<String, String>> {
     /**
      * constructor
      */
-    public ReadOutMessages() {
+    private ReadOutMessages() {
         super();
     }
 

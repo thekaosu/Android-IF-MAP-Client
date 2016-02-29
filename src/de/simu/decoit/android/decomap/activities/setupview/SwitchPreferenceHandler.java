@@ -34,7 +34,7 @@ import android.widget.Switch;
  * @version 0.2
  */
 public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeListener {
-    protected final Context context;
+    private final Context context;
     private final String key;
     private Switch mSwitch;
 
@@ -71,7 +71,7 @@ public class SwitchPreferenceHandler implements CompoundButton.OnCheckedChangeLi
         editor = prefs.edit();
 
         editor.putBoolean(key, isChecked);
-        editor.commit();
+        editor.apply();
 
     }
 

@@ -32,7 +32,6 @@
     <string name="main_buttonlabel_subscribe">Subscribe to IP-Identifier</string>
     <string name="main_buttonlabel_poll">Send a Poll Request</string>
     <string name="main_buttonlabel_search">Search last location</string>
-    <string name="main_ButtonHandler">mainTabButtonHandler</string>
     <string name="main_default_wrongconfig_message">error while validating preferences…please check them</string>
     <string name="main_default_connectiontimeout_message">Connection Timeout - No Response from MAP-Server!</string>
     <string name="main_default_connectionerror_nsca">Connection Error - Check your connection preferences!</string>
@@ -53,6 +52,15 @@
     <string name="messagehandler_mainstatus_message_invalidresponse">invalid response from server</string>
 
     <!-- Preferences-Tab -->
+    <string name="preferences_kategoryheader_applicationSettings">Application Settings</string>
+    <string name="preferences_kategoryheader_connectionSettings">Connection Settings</string>
+    <string name="preferences_header_esukomMetadataSettings">ESUKOM-Metadata Settings</string>
+    <string name="preferences_header_automationSettings">Automation Settings</string>
+    <string name="preferences_header_serverSettings">Server Settings</string>
+    <string name="preferences_header_basicAuthSettings">Authentication</string>
+    <string name="preferences_header_connectionTzpeSettings">Connection-Type Settings</string>
+    <string name="preferences_header_iMonitorEncryption">iMonitor-Encryption</string>
+    <string name="preferences_header_loggingSettings">Logging Settings</string>
     <string name="preferences_summary_nonconformdata">Publish esukom-specific metadata </string>
     <string name="preferences_summary_sendesukomspecificapps">When publishing esukom-specific metadata, dont send informations about installed applications. Improves performance.</string>
     <string name="preferences_summary_dontsendgoogleapps">Exclude google/android applications from publishing application information</string>
@@ -118,8 +126,11 @@
     <string name="preferences_title_logerrormessage">Enable error-message logging</string>
     <string name="preferences_title_loginvalidresponse">Enable invalid-response logging</string>
     <string name="preferences_title_autoupdate">Enable auto-update</string>
+    <string name="preferences_header_default_icon_text">icon</string>
+
 
     <!--Status-Tab -->
+    <string name="status_lable_update_status">update status information</string>
     <string name="status_default_undetected">not detected</string>
     <string name="status_label_deviceproperties">Device Properties</string>
     <string name="status_label_locationproperties">Location Properties</string>
@@ -160,9 +171,27 @@
     <string name="status_DialogBox_label">Applications Properties</string>
 
 
+    <!-- Log Tab -->
+    <string name="log_tab_label_details">DETAILS</string>
+    <string name="log_tab_label_remove">REMOVE</string>
+    <string name="log_tab_label_remove_type">REMOVE TYPE</string>
+    <string name="log_tab_label_type">Type: </string>
+    <string name="log_tab_label_target">Target: </string>
+    <string name="log_tab_label_status">Status: </string>
+    <string name="log_tab_label_export">EXPORT</string>
+    <string name="log_tab_label_removeall">REMOVE ALL</string>
+    <string name="log_tab_placeholder_timestemp">timestemp placeholder</string>
+    <string name="log_tab_placeholder_type">type placeholder</string>
+    <string name="log_tab_placeholder_target">target placeholder</string>
+    <string name="log_tab_placeholder_status">status placeholder</string>
+
+
     <!-- Log-Message-Dialog -->
     <string name="log_msgDialogBox_label_info">Info Message</string>
     <string name="log_msgDialogBox_label_warn">Warning Message</string>
+    <string name="log_msgDialogBox_label_title">title</string>
+    <string name="log_msgDialogBox_label_message">Message:</string>
+    <string name="log_msgDialogBox_button_label_ok">OK</string>
 
     <!-- About-Info-Tab -->
     <string name="info_name">DECOmap for Android</string>
@@ -170,7 +199,13 @@
     <string name="info_copyright">© 2015 Decoit GmbH</string>
     <string name="info_license">Released under Apache License, Version 2.0</string>
     <string name="info_label_openwebsite">Visit SIMU-Project Website</string>
-    <string name="info_ButtonHandler">infoTabButtonHandler</string>
+    <string name="info_label_simu_icon_text">SIMU Icon</string>
+    <string name="info_label_decoit_icon_text">Decoit logo</string>
+
+    <!-- file chooser dialog -->
+    <string name="file_chooser_lable_title">title</string>
+    <string name="file_chooser_lable_choose_folder">Choose Folder</string>
+    <string name="file_chooser_lable_file">FILENAME</string>
 
     <!-- toast messages -->
     <string name="service_connected_toastmsg">Sending Poll to ARC-Channel</string>
@@ -185,7 +220,7 @@
     <string name="main_notification_message_label">Incoming MAPS-Response</string>
     <string name="main_notification_message_message">Response Message from SRC</string>
     <string name="notification_nsca_label">iMonitor-Connection</string>
-    <string name="notification_disconnect">Client disconnected ...</string>
+    <string name="notification_disconnect">Client disconnected …</string>
 
     <!-- error messages -->
     <string name="serialized_response_errormsg_null">no connection object found</string>
@@ -204,16 +239,5 @@
     <!-- enable/cancel -->
     <string name="enable">"Enable"</string>
     <string name="cancel">"Cancel"</string>
-
-    <!-- einordnen!!!! -->
-    <string name="preferences_header_automationSettings">Automation Settings</string>
-    <string name="preferences_kategoryheader_applicationSettings">Application Settings</string>
-    <string name="preferences_header_esukomMetadataSettings">ESUKOM-Metadata Settings</string>
-    <string name="preferences_kategoryheader_connectionSettings">Connection Settings</string>
-    <string name="preferences_header_serverSettings">Server Settings</string>
-    <string name="preferences_header_basicAuthSettings">Authentication</string>
-    <string name="preferences_header_connectionTzpeSettings">Connection-Type Settings</string>
-    <string name="preferences_header_iMonitorEncryption">iMonitor-Encryption</string>
-    <string name="preferences_header_loggingSettings">Logging Settings</string>
 
 </resources>

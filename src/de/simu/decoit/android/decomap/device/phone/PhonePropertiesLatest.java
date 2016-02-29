@@ -144,11 +144,7 @@ public class PhonePropertiesLatest extends PhoneProperties{
         BluetoothAdapter bt = null;
         if (BluetoothAdapter.getDefaultAdapter() != null) {
             bt = BluetoothAdapter.getDefaultAdapter();
-            if (bt.isEnabled()) {
-                return true;
-            } else {
-                return false;
-            }
+            return bt.isEnabled();
         } else {
             return false;
         }
@@ -176,11 +172,7 @@ public class PhonePropertiesLatest extends PhoneProperties{
     @Override
     public boolean isMicrophoneMute() {
         AudioManager audioManager = (AudioManager) mAppContext.getSystemService(Context.AUDIO_SERVICE);
-        if (audioManager.isMicrophoneMute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return audioManager.isMicrophoneMute();
     }
     
     /**

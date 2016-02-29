@@ -20,11 +20,6 @@
  */
 package de.simu.decoit.android.decomap.device.application;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -32,6 +27,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * class for reading out several properties from applications which are installed on the device
@@ -42,7 +42,7 @@ import android.content.pm.ResolveInfo;
 public class ApplicationProperties {
 
     /* application context object */
-    private Context mAppContext;
+    private final Context mAppContext;
 
     /* separator for lines in formatted result */
     private final String lineSeperator = "----------------------------------------------------------------------------------------";
@@ -186,12 +186,10 @@ public class ApplicationProperties {
 
     /**
      * get permissions and their relating applications
-     * 
-     * @param permisissionType
-     *            byte describing the type of permission to read out
+     *
      * @return List of installed permissions and their related applications
      */
-    public ArrayList<PermissionListEntry> getPermissionsList() {
+    private ArrayList<PermissionListEntry> getPermissionsList() {
         // gather all permissions and the applications that uses them
         ArrayList<PermissionListEntry> permissionAppList = new ArrayList<PermissionListEntry>();
 

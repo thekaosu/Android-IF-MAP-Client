@@ -34,8 +34,8 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.1
  */
 public class DevicePropertiesDialog extends Dialog {
-    private String title;
-    private String message;
+    private final String title;
+    private final String message;
 
     /**
      * constructor

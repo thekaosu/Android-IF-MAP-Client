@@ -30,6 +30,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -56,36 +57,36 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     // static values for onClick-handler, used to determine which
     // list item has been clicked by using item position in list
-    public static final byte LIST_POSITION_IP = 0;
-    public static final byte LIST_POSITION_MAC = 1;
-    public static final byte LIST_POSITION_IMEI = 2;
-    public static final byte LIST_POSITION_IMSI = 3;
-    public static final byte LIST_POSITION_KERNEL_VERSION = 4;
-    public static final byte LIST_POSITION_FIRMWARE_VERSION = 5;
-    public static final byte LIST_POSITION_BUILD_NUMBER = 6;
-    public static final byte LIST_POSITION_BASEBAND_VERSION = 7;
-    public static final byte LIST_POSITION_DEVICE_BRANDING = 8;
-    public static final byte LIST_POSITION_DEVICE_MANUFACTURER = 9;
-    public static final byte LIST_POSITION_DEVICE_PHONENUMBER = 10;
-    public static final byte LIST_POSITION_DEVICE_SMSCOUNT_IN = 11;
-    public static final byte LIST_POSITION_DEVICE_SMSCOUNT_OUT = 12;
-    public static final byte LIST_POSITION_DEVICE_SMSSENDDATE = 13;
-    public static final byte LIST_POSITION_DEVICE_LASTCAMERAUSE = 14;
-    public static final byte LIST_POSITION_BLUEATOOTH_ENABLED = 15;
-    public static final byte LIST_POSITION_MICROPHONE_MUTED = 16;
-    public static final byte LIST_POSITION_BATTERY_LEVEL = 17;
-    public static final byte LIST_POSITION_RECEIVED_BYTES = 18;
-    public static final byte LIST_POSITION_TRANSFERED_BYTES = 19;
-    public static final byte LIST_POSITION_CPU_LOAD = 20;
-    public static final byte LIST_POSITION_RAM_FREE = 21;
-    public static final byte LIST_POSITION_PROCESS_COUNT = 22;
-    public static final byte LIST_POSITION_RUNNING_PROCESSES = 23;
-    public static final byte LIST_POSITION_INSTALLED_APPS = 24;
-    public static final byte LIST_POSITION_INSTALLED_APPS_WITH_PERMS = 25;
-    public static final byte LIST_POSITION_PERMISSIONS = 26;
-    public static final byte LIST_POSITION_LONGITUDE = 27;
-    public static final byte LIST_POSITION_LATITUDE = 28;
-    public static final byte LIST_POSITION_ALTITUDE = 29;
+    private static final byte LIST_POSITION_IP = 0;
+    private static final byte LIST_POSITION_MAC = 1;
+    private static final byte LIST_POSITION_IMEI = 2;
+    private static final byte LIST_POSITION_IMSI = 3;
+    //public static final byte LIST_POSITION_KERNEL_VERSION = 4;
+    private static final byte LIST_POSITION_FIRMWARE_VERSION = 5;
+    private static final byte LIST_POSITION_BUILD_NUMBER = 6;
+    private static final byte LIST_POSITION_BASEBAND_VERSION = 7;
+    private static final byte LIST_POSITION_DEVICE_BRANDING = 8;
+    private static final byte LIST_POSITION_DEVICE_MANUFACTURER = 9;
+    private static final byte LIST_POSITION_DEVICE_PHONENUMBER = 10;
+    private static final byte LIST_POSITION_DEVICE_SMSCOUNT_IN = 11;
+    private static final byte LIST_POSITION_DEVICE_SMSCOUNT_OUT = 12;
+    private static final byte LIST_POSITION_DEVICE_SMSSENDDATE = 13;
+    private static final byte LIST_POSITION_DEVICE_LASTCAMERAUSE = 14;
+    private static final byte LIST_POSITION_BLUEATOOTH_ENABLED = 15;
+    private static final byte LIST_POSITION_MICROPHONE_MUTED = 16;
+    private static final byte LIST_POSITION_BATTERY_LEVEL = 17;
+    private static final byte LIST_POSITION_RECEIVED_BYTES = 18;
+    private static final byte LIST_POSITION_TRANSFERED_BYTES = 19;
+    private static final byte LIST_POSITION_CPU_LOAD = 20;
+    private static final byte LIST_POSITION_RAM_FREE = 21;
+    private static final byte LIST_POSITION_PROCESS_COUNT = 22;
+    private static final byte LIST_POSITION_RUNNING_PROCESSES = 23;
+    private static final byte LIST_POSITION_INSTALLED_APPS = 24;
+    private static final byte LIST_POSITION_INSTALLED_APPS_WITH_PERMS = 25;
+    private static final byte LIST_POSITION_PERMISSIONS = 26;
+    private static final byte LIST_POSITION_LONGITUDE = 27;
+    private static final byte LIST_POSITION_LATITUDE = 28;
+    private static final byte LIST_POSITION_ALTITUDE = 29;
 
     // required by location manager from MainActivity in order to detect
     // if this Activity is already initialized before sending location-data
@@ -95,7 +96,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     // location properties
     private static TextView sLocationLongitude;
     private static TextView sLocationLatitude;
-    private static TextView sLocationAltitude;;
+    private static TextView sLocationAltitude;
 
     // location tracking default values
     private static String sLatitudeValue = "not detected";
@@ -105,8 +106,6 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     // device properties
     private DeviceProperties mDeviceProperties;
 
-    // ListView Items
-    private ListEntry mEntry;
     private ListView mList;
     private ArrayList<ListEntry> mListArray;
     private StatusMessageAdapter mStatusAdapter;
@@ -143,6 +142,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
                 sLongitudeValue = (String) super.getParent().getIntent().getExtras().get("longitude");
             }
         } catch (NullPointerException e) {
+            e.printStackTrace();
             Toolbox.logTxt(this.getClass().getName(), "StatusActivity.onResume(...) getExtras() " + e.getMessage());
         }
         initValues();
@@ -167,7 +167,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         mDeviceProperties = new DeviceProperties(this);
 
         // Add Items to ListView
-        mListArray = new ArrayList<ListEntry>();
+        mListArray = new ArrayList<>();
 
         // add values
         addValueToListEntry(getString(R.string.info_label_value_ip), mDeviceProperties.getSystemProperties().getLocalIpAddress());
@@ -193,7 +193,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         addValueToListEntry(getString(R.string.info_label_value_battery), BatteryReceiver.sCurrentBatteryLevel + "%");
         addValueToListEntry(getString(R.string.info_label_value_received_total_bytes), SystemProperties.getTotalRxKBytes()
                 + " kb");
-        addValueToListEntry(getString(R.string.info_label_value_transferred_total_bytes), mDeviceProperties.getSystemProperties().getTotalTxKBytes()
+        addValueToListEntry(getString(R.string.info_label_value_transferred_total_bytes), SystemProperties.getTotalTxKBytes()
                 + " kb");
         addValueToListEntry(getString(R.string.info_label_value_cpu_load), "touch to update");
         addValueToListEntry(getString(R.string.info_label_value_ram_free), mDeviceProperties.getSystemProperties().getFormattedFreeRam());
@@ -242,7 +242,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         updateEntry(mDeviceProperties.getPhoneProperties().getMicrophoneActiveString(), LIST_POSITION_MICROPHONE_MUTED);
         updateEntry(BatteryReceiver.sCurrentBatteryLevel + "%", LIST_POSITION_BATTERY_LEVEL);
         updateEntry(SystemProperties.getTotalRxKBytes() + " kb", LIST_POSITION_RECEIVED_BYTES);
-        updateEntry(mDeviceProperties.getSystemProperties().getTotalTxKBytes() + " kb", LIST_POSITION_TRANSFERED_BYTES);
+        updateEntry(SystemProperties.getTotalTxKBytes() + " kb", LIST_POSITION_TRANSFERED_BYTES);
         updateEntry(sLongitudeValue, LIST_POSITION_LONGITUDE);
         updateEntry(sLatitudeValue, LIST_POSITION_LATITUDE);
         updateEntry(sLongitudeValue, LIST_POSITION_LONGITUDE);
@@ -256,7 +256,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-        mEntry = (ListEntry) mStatusAdapter.getItem(position);
+        ListEntry mEntry = (ListEntry) mStatusAdapter.getItem(position);
         if (position != LIST_POSITION_INSTALLED_APPS && position != LIST_POSITION_INSTALLED_APPS_WITH_PERMS
                 && position != LIST_POSITION_PERMISSIONS) {
             Toast.makeText(this, "updating " + mEntry.getTitle().replace(":", "") + " value...", Toast.LENGTH_SHORT).show();
@@ -321,7 +321,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
             updateEntry(SystemProperties.getTotalRxKBytes() + " kb", position);
             break;
         case LIST_POSITION_TRANSFERED_BYTES:
-            updateEntry(mDeviceProperties.getSystemProperties().getTotalTxKBytes() + " kb", position);
+            updateEntry(SystemProperties.getTotalTxKBytes() + " kb", position);
             break;
         case LIST_POSITION_LATITUDE:
             updateEntry(sLongitudeValue, position);
@@ -365,9 +365,9 @@ public class StatusActivity extends Activity implements OnItemClickListener {
      * @param infoType
      *            type of applications-informations
      */
-    public void showApplicationsInformations(int infoType) {
+    private void showApplicationsInformations(int infoType) {
         String title = null;
-        String msgToShow = null;
+        String msgToShow;
         ArrayList<String> appsettings = null;
         switch (infoType) {
         case LIST_POSITION_INSTALLED_APPS:
@@ -397,7 +397,8 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         if (appsettings != null) {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < appsettings.size() - 1; i++) {
-                sb.append(appsettings.get(i) + "\n");
+                sb.append(appsettings.get(i));
+                sb.append("\n");
             }
             msgToShow = sb.toString();
             DevicePropertiesDialog dialog = new DevicePropertiesDialog(this, title, msgToShow);
@@ -499,7 +500,8 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         if (date == null) {
             return "not available";
         } else {
-            return date.toLocaleString();
+            DateFormat format = DateFormat.getDateInstance();
+            return format.format(date);
         }
     }
 }

@@ -56,7 +56,6 @@ public class NscaService extends Service {
     private int mServerPort;
     private String mServerPass;
     private Encryption mServerEnc;
-    private NagiosSettings mNagiosSettings;
     private NagiosPassiveCheckSender sender;
 
     private boolean readyToSend = false;
@@ -140,7 +139,7 @@ public class NscaService extends Service {
     private class NscaConnectionSetupThread extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            mNagiosSettings = new NagiosSettingsBuilder()
+            NagiosSettings mNagiosSettings = new NagiosSettingsBuilder()
                     .withNagiosHost(mServerIP).withPort(mServerPort)
                     .withEncryption(mServerEnc).withPassword(mServerPass)
                     .withLargeMessageSupportEnabled().create();
@@ -169,10 +168,7 @@ public class NscaService extends Service {
                 try {
                     sender.send(payload);
                     generateIntent("PUBLISH SUCCESS", payload.toString().replace(",", ",\n"));
-                } catch (NagiosException e) {
-                    readyToSend = false;
-                    generateIntent("CONNECTION ERROR", e.getMessage());
-                } catch (IOException e) {
+                } catch (NagiosException | IOException e) {
                     readyToSend = false;
                     generateIntent("CONNECTION ERROR", e.getMessage());
                 }
@@ -184,7 +180,7 @@ public class NscaService extends Service {
     /**
      * run check on events in background (iMonitor/NSCA)
      */
-    private Runnable runMonitorBackground = new Runnable() {
+    private final Runnable runMonitorBackground = new Runnable() {
         @Override
         public void run() {
             generateIntent("MONITOR EVENT", "Sending MonitorEvent");

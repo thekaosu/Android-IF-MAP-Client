@@ -22,6 +22,7 @@ package de.simu.decoit.android.decomap.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Simple util class for date transformations
@@ -30,26 +31,39 @@ import java.util.Calendar;
 public class DateUtil {
 
 	private final static SimpleDateFormat mDateFormatHumanReadable = new SimpleDateFormat(
-			"dd-MM-yyyy HH:mm:ss");
+			"dd-MM-yyyy HH:mm:ss", Locale.getDefault());
 	private final static Calendar mCalendar = Calendar.getInstance();
 
-	private final static SimpleDateFormat DATEFORMAT_YYYYMMDD = new SimpleDateFormat(
-			"yyyyMMdd");
+	private final static SimpleDateFormat mDateFormatXsd = new SimpleDateFormat(
+			"yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault());
 
-	private static SimpleDateFormat mDateFormatXsd = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ssZ");
-
-	public static String getFormattedDateFromTimestamp(final long timestamp) {
+	private static String getFormattedDateFromTimestamp(final long timestamp) {
 		synchronized (mCalendar) {
 			mCalendar.setTimeInMillis(timestamp);
 			return mDateFormatHumanReadable.format(mCalendar.getTime());
 		}
 	}
 
+    /**
+     *
+     * @param xsdDate xsd data to work with
+     * @return returning human readable xsd
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
 	public static String xsd2HumanReadble(final String xsdDate) {
 		return xsdDate.replace('T', ' ').substring(0, xsdDate.lastIndexOf('+'));
 	}
 
+    /**
+     *
+     * @param sdf simple data format of returning data
+     * @return now time in given format
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
 	public static String getCurrentTimestampFormatted(final SimpleDateFormat sdf) {
 		synchronized (mCalendar) {
 			mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -57,6 +71,13 @@ public class DateUtil {
 		}
 	}
 
+    /**
+     *
+     * @return now time in default format
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
 	public static String getCurrentTimestampFormatted() {
 		synchronized (mCalendar) {
 			mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -64,6 +85,13 @@ public class DateUtil {
 		}
 	}
 
+    /**
+     *
+     * @return now time as xsd
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
 	public static String getCurrentTimestampXsd() {
 		synchronized (mCalendar) {
 			mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -74,6 +102,11 @@ public class DateUtil {
 		}
 	}
 
+    /**
+     *
+     * @param timestamp timestamp to transform
+     * @return timestamp as xsd
+     */
 	public static String getTimestampXsd(final long timestamp) {
 		synchronized (mCalendar) {
 			mCalendar.setTimeInMillis(timestamp);
@@ -84,10 +117,14 @@ public class DateUtil {
 		}
 	}
 
-	public static long getCurrentTimestamp() {
-		return System.currentTimeMillis();
-	}
-
+    /**
+     *
+     * @param timestamp timestamp as string
+     * @return formatted string timestamp
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
 	public static String getFormattedDateFromTimestamp(final String timestamp) {
 		synchronized (mCalendar) {
 			try {

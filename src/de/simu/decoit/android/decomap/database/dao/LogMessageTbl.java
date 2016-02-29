@@ -29,7 +29,7 @@ package de.simu.decoit.android.decomap.database.dao;
  */
 public final class LogMessageTbl implements LogMessageColums {
 
-	public static final String TABLE_NAME = "logmessages";
+	private static final String TABLE_NAME = "logmessages";
 
 	public static final String SQL_CREATE = "CREATE TABLE logmessages ("
 			+ "_id INTEGER PRIMARY KEY AUTOINCREMENT,"

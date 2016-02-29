@@ -22,9 +22,9 @@
 package de.simu.decoit.android.decomap.services.local;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+
 import de.simu.decoit.android.decomap.activities.MainActivity;
 import de.simu.decoit.android.decomap.activities.MainActivity.PermanentRunnable;
 import de.simu.decoit.android.decomap.services.PermanentConnectionService;
@@ -45,9 +45,9 @@ public class LocalServicePermanent {
 	 * 
 	 * @return bound local service
 	 */
-	public static ServiceConnection getPermConnection(final Context mainActivity, final LocalServiceParameters values,
-			final PermanentRunnable callbackHandler, final String msgContext) {
-		ServiceConnection mPermConnection = new ServiceConnection() {
+	public static ServiceConnection getPermConnection(final LocalServiceParameters values,
+													  final PermanentRunnable callbackHandler, final String msgContext) {
+		return new ServiceConnection() {
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
 				MainActivity.sBoundPermConnService = (PermanentConnectionService.LocalBinder) service;
@@ -66,6 +66,5 @@ public class LocalServicePermanent {
 				MainActivity.sBoundPermConnService = null;
 			}
 		};
-		return mPermConnection;
 	}
 }

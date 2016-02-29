@@ -50,14 +50,6 @@ public class ListEntry {
 	}
 	
 	/**
-	 * @param title 
-	 * 				set title of the item
-	 */
-	public void setTitle(String title){
-		this.mTitle = title;
-	}
-	
-	/**
 	 * @return value of Item
 	 */
 	public String getValue(){

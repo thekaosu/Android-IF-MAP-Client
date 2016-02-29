@@ -56,10 +56,10 @@ public class SyncConnectionThread implements Runnable {
 
     // server-connection details
     private byte mMessageType;
-    private PublishRequest mMessagePublish;
+    private final PublishRequest mMessagePublish;
 
     // flag for server-connection type
-    private boolean mIsPermConection;
+    private final boolean mIsPermConection;
 
     /**
      * constructor for the permanently connection with ifmapj

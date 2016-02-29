@@ -45,9 +45,6 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  */
 public class PermanentConnectionService extends Service {
 
-	// some connection properties (used for connecting and log messages)
-	private String mServerAddress;
-	private String mServerPort;
 	private String mClientAddress;
 
 	// Callback-Handler for Activity that started the service
@@ -55,7 +52,7 @@ public class PermanentConnectionService extends Service {
 	private MainActivity.PermanentRunnable mRunnable;
 
 	// callback from Connection-Thread to service
-	private PermanentConnectionService mCallback = this;
+	private final PermanentConnectionService mCallback = this;
 
 	// service binder
 	private final IBinder mBinder = new LocalBinder();
@@ -66,7 +63,6 @@ public class PermanentConnectionService extends Service {
 	 * Activity via Callback-Handler afterwards (see (As)SynchronousRunnable)
 	 */
 	private LogMessage mLogRequestMessage;
-	private LogMessage mLogResponseMessage;
 
 	// interface for service binding
 	public interface IPermanentConnectionService {
@@ -95,8 +91,6 @@ public class PermanentConnectionService extends Service {
 	 * service binder-class
 	 */
 	public class LocalBinder extends Binder implements IPermanentConnectionService {
-		Thread sslThread = null;
-		SyncConnectionThread sslClient = null;
 
 		public void setActivityCallbackHandler(final Handler callback) {
 			mCallbackHandler = callback;
@@ -111,16 +105,14 @@ public class PermanentConnectionService extends Service {
 			Toolbox.logTxt("PermanetConnectionService", "connect(...) called");
 
 			// some connection params, used for logging, etc.
-			mServerAddress = adr;
 			//mServerPort = new Integer(prt).toString();
-			mServerPort = prt;
 			mClientAddress = clientIP;
 
 			//Toolbox.logTxt("PermanetConnectionService", "outgoing message: " + msgContext);
 
 			// create log message
 			mLogRequestMessage = LogMessageHelper.getInstance().generateRequestLogMessage(quest, msgContext,
-					mServerAddress, mServerPort);
+					adr, prt);
 
 			// start communication
 			new SyncConnectionThread(mCallback, quest, params);
@@ -149,7 +141,7 @@ public class PermanentConnectionService extends Service {
 	    
 	    
 		// create response-log message
-		mLogResponseMessage = LogMessageHelper.getInstance().generateResponseLogMessage(responseMessageType,
+		LogMessage mLogResponseMessage = LogMessageHelper.getInstance().generateResponseLogMessage(responseMessageType,
 				responseParams, mClientAddress);
 
 		// assign log messages to callback
@@ -164,16 +156,6 @@ public class PermanentConnectionService extends Service {
 	@Override
 	public IBinder onBind(Intent intent) {
 		return mBinder;
-	}
-
-	@Override
-	public void onCreate() {
-		super.onCreate();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
 	}
 
 	@Override

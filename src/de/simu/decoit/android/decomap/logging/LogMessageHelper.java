@@ -68,7 +68,7 @@ public class LogMessageHelper {
         Timestamp tStamp = new Timestamp(new Date().getTime());
 
         // get message type-string and assign message
-        String msgtype = null;
+        String msgtype;
         switch (msgType) {
             case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
                 msgtype = "END SESSION RESPONSE";
@@ -122,8 +122,8 @@ public class LogMessageHelper {
         Timestamp tStamp = new Timestamp(new Date().getTime());
 
         // get message type-string and assign message
-        String msgtype = null;
-        String msg = null;
+        String msgtype;
+        String msg;
 
         switch (msgType) {
             case MessageHandler.MSG_TYPE_REQUEST_ENDSESSION:
@@ -148,11 +148,8 @@ public class LogMessageHelper {
         msg = reqMsg;
         // get server infos
         String status = "Request Created";
-        //String targetPort = new Integer(serverPrt).toString();
-        String targetPort = serverPrt;
-        String targetIp = serverIp;
 
-        String target = targetIp + ":" + targetPort;
+        String target = serverIp + ":" + serverPrt;
         // create new log message
         return new LogMessage(tStamp.toString(), msg, msgtype, target, status);
     }
@@ -160,11 +157,11 @@ public class LogMessageHelper {
     /**
      * add collected Log Messages from Request/Response to Log-Message-List
      *
-     * @param responseType
-     * @param requestMsg
-     * @param responseMsg
-     * @param prefs
-     * @param db
+     * @param responseType type of the responded message
+     * @param requestMsg message of the request
+     * @param responseMsg responded message
+     * @param prefs preferences
+     * @param db database
      */
     public void logMessage(byte responseType, LogMessage requestMsg, LogMessage responseMsg, PreferencesValues prefs,
                            LoggingDatabase db) {

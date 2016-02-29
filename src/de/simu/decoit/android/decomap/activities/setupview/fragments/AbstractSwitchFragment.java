@@ -32,7 +32,7 @@ public abstract class AbstractSwitchFragment extends AbstractPreferenceFragment 
             actionbar.setCustomView(actionBarSwitch, new ActionBar.LayoutParams(
                     ActionBar.LayoutParams.WRAP_CONTENT,
                     ActionBar.LayoutParams.WRAP_CONTENT, Gravity.CENTER_VERTICAL
-                    | Gravity.RIGHT));
+                    | Gravity.END));
 
             actionbar.setDisplayHomeAsUpEnabled(true);
         }
@@ -52,7 +52,7 @@ public abstract class AbstractSwitchFragment extends AbstractPreferenceFragment 
         switchPreferenceHandler.pause();
     }
 
-    protected void updateSettings() {
+    private void updateSettings() {
         boolean available = switchPreferenceHandler.isSwitchOn();
 
         int count = getPreferenceScreen().getPreferenceCount();

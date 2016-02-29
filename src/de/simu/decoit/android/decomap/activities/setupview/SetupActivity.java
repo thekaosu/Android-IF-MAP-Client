@@ -47,9 +47,9 @@ public class SetupActivity extends PreferenceActivity {
     private List<Header> headers;
     private String setupMode;
 
-    private List<Header> mainHeader = new ArrayList<Header>();
-    private List<Header> iMonitorHeaderList = new ArrayList<Header>();
-    private List<Header> ifMapHeaderList = new ArrayList<Header>();
+    private final List<Header> mainHeader = new ArrayList<Header>();
+    private final List<Header> iMonitorHeaderList = new ArrayList<Header>();
+    private final List<Header> ifMapHeaderList = new ArrayList<Header>();
 
     private PreferencesValues mPreferences = PreferencesValues.getInstance();
 

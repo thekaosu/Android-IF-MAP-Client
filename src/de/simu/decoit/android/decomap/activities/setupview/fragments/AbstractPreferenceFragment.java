@@ -23,8 +23,7 @@ import de.simu.decoit.android.decomap.activities.setupview.PreferenceFileChooser
 public abstract class AbstractPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     protected int fragmentID;
-    protected ArrayList<String> dynamicSummaryKeys = new ArrayList<String>();
-    protected final String DEFAULTSUMMARY = "<no value>";
+    protected final ArrayList<String> dynamicSummaryKeys = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
         } else if (p instanceof EditTextPreference) {
             EditTextPreference editTextPref = (EditTextPreference) p;
             if (editTextPref.getText() == null || editTextPref.getText().trim().length() == 0) {
+                String DEFAULTSUMMARY = "<no value>";
                 p.setSummary(DEFAULTSUMMARY);
             } else if (editTextPref.getEditText().getInputType() == (InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD)) {

@@ -37,6 +37,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -103,9 +104,6 @@ public class MainActivity extends Activity {
     public static String sLongitude = null;
     public static String sAltitude = null;
 
-    // ssrc-connection-object
-    private static SSRC sSsrcConnection;
-
     // preferences
     private PreferencesValues mPreferences;
 
@@ -127,7 +125,7 @@ public class MainActivity extends Activity {
     private ProgressDialog myProgressDialog = null;
 
     // current if-map session and publisher id
-    private String mCurrentSessionId;
+    public String mCurrentSessionId; //TODO: damit was anfangen?
 
     // application/connection states
     private boolean mIsConnected = false;
@@ -136,7 +134,7 @@ public class MainActivity extends Activity {
     private ServiceConnection mConnection;
     private ServiceConnection mPermConnection;
 
-    private final int timeout = 12000;
+    private final int timeout = 12000; //TODO into config!
 
     // local services states
     private boolean mIsBound;
@@ -161,17 +159,12 @@ public class MainActivity extends Activity {
     private LocationObserver mLocListener;
 
     // message-parameter-generator
-    MessageParametersGenerator<PublishRequest> parameters;
+    private MessageParametersGenerator<PublishRequest> parameters;
 
-    private BatteryReceiver mBatteryReciever = null;
-
-    // observer for incoming and outgoing sms-messages
-    private SMSObserver mSmsObserver = null;
+    private BatteryReceiver mBatteryReciever = null; //vielleicht noch nützlich!
 
     // receiver for pictures taken with the camera
-    private CameraReceiver mCameraReceiver = null;
-
-    private CameraManager cam_manager;
+    private CameraReceiver mCameraReceiver = null; //vielleicht noch nützlich!
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -194,19 +187,19 @@ public class MainActivity extends Activity {
         initValues();
 
         // generator for if-map-messages to be published
-        parameters = new MessageParametersGenerator<PublishRequest>(this);
+        parameters = new MessageParametersGenerator<>();
 
         // initialize sms-observing
-        mSmsObserver = new SMSObserver(getApplicationContext());
+        SMSObserver mSmsObserver = new SMSObserver(getApplicationContext());
         mSmsObserver.registerReceivedSmsBroadcastReceiver();
         mSmsObserver.registerSentSmsContentObserver();
 
         // initialize camera-receiver
         mCameraReceiver = new CameraReceiver();
 
-        // register camera useage
-        cam_manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // register camera useage
+            CameraManager cam_manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
             CameraManager.AvailabilityCallback camAvailCallback = new CameraManager.AvailabilityCallback() {
 
                 public void onCameraAvailable(String cameraId) {
@@ -263,7 +256,6 @@ public class MainActivity extends Activity {
 
         // show initial notification
         Toolbox.showNotification(
-                getResources().getString(R.string.notification_initial_label),
                 getResources().getString(R.string.notification_initial_label),
                 getResources().getString(R.string.notification_initial_messgae),
                 getApplicationContext());
@@ -406,6 +398,7 @@ public class MainActivity extends Activity {
      */
     private boolean initIFMAPConnection() {
         Toolbox.logTxt(this.getLocalClassName(), "initIFMAPConnection(...) called");
+        SSRC sSsrcConnection;
         if (ConnectionObjects.getSsrcConnection() == null
                 || (mResponseType == MessageHandler.MSG_TYPE_ERRORMSG)) {
             try {
@@ -461,9 +454,10 @@ public class MainActivity extends Activity {
                 return false;
             }
             ConnectionObjects.setSsrcConnection(sSsrcConnection);
-        } else {
-            sSsrcConnection = ConnectionObjects.getSsrcConnection();
         }
+        //else {
+        //sSsrcConnection = ConnectionObjects.getSsrcConnection();
+        //}
         return true;
     }
 
@@ -614,11 +608,9 @@ public class MainActivity extends Activity {
     private void disconnectNSCA() {
         mNscaServiceBind.stopMonitor();
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(mMonitorEventReceiver);
-        if (mIsBound) {
-            mIsBound = UnbinderClass.doUnbindConnectionService(
-                    getApplicationContext(), mNscaConnection, myProgressDialog,
-                    mIsBound);
-        }
+        mIsBound = UnbinderClass.doUnbindConnectionService(
+                getApplicationContext(), mNscaConnection, myProgressDialog,
+                mIsBound);
         mConnectButton.setEnabled(true);
         mDisconnectButton.setEnabled(false);
         mIsConnected = false;
@@ -627,7 +619,6 @@ public class MainActivity extends Activity {
                 R.string.main_status_message_prefix) + " "
                 + "disconnected.");
         Toolbox.showNotification(
-                getResources().getString(R.string.notification_nsca_label),
                 getResources().getString(R.string.notification_nsca_label),
                 getResources().getString(R.string.notification_disconnect),
                 getApplicationContext());
@@ -696,7 +687,7 @@ public class MainActivity extends Activity {
     /**
      * check if the preference values are valid
      */
-    public boolean validatePreferences() {
+    private boolean validatePreferences() {
 
         if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
             // validate password (defaults always to "icinga")
@@ -737,9 +728,7 @@ public class MainActivity extends Activity {
                         + " iMonitor port is null or empty!");
                 return false;
             } else {
-                try {
-                    int d = Integer.parseInt(mPreferences.getIMonitorServerPortPreference());
-                } catch (NumberFormatException nfe) {
+                if (!TextUtils.isDigitsOnly(mPreferences.getIMonitorServerPortPreference())) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
@@ -768,8 +757,6 @@ public class MainActivity extends Activity {
                             + " basic auth password is null or empty!");
                     return false;
                 }
-            } else {
-
             }
 
             // validate ip-setting from preferences
@@ -800,9 +787,7 @@ public class MainActivity extends Activity {
                         + " IF-MAP port is null or empty!");
                 return false;
             } else {
-                try {
-                    int d = Integer.parseInt(mPreferences.getIFMAPServerPortPreference());
-                } catch (NumberFormatException nfe) {
+                if (!TextUtils.isDigitsOnly(mPreferences.getIFMAPServerPortPreference())) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
@@ -824,7 +809,7 @@ public class MainActivity extends Activity {
     /**
      * start the connection-service to connect to the Map-Server
      */
-    public void startIFMAPConnectionService() {
+    private void startIFMAPConnectionService() {
         Toolbox.logTxt(this.getLocalClassName(),
                 "startIFMAPConnectionService(...) called");
 
@@ -846,14 +831,13 @@ public class MainActivity extends Activity {
         if (!mPreferences.isPermantConnection()) {
             // gather parameters for local service
             mLocalServicePreferences = new LocalServiceParameters(
-                    LocalServiceParameters.SERVICE_BINDER_TYPE_RENEW_CONNECTION_SERVICE,
                     mPreferences, mDeviceProperties.getSystemProperties()
                     .getLocalIpAddress(), mMessageType, publishReq,
                     mMsgHandler);
 
             // initialize and bind local service
             mConnection = LocalServiceSynchronous.getConnection(
-                    getApplicationContext(), mLocalServicePreferences,
+                    mLocalServicePreferences,
                     new SynchronousRunnable(), Toolbox
                             .generateRequestLogMessageFromPublishRequest(
                                     mMessageType, publishReq));
@@ -863,14 +847,13 @@ public class MainActivity extends Activity {
         } else {
             // gather parameters for permanent connection
             mLocalServicePreferences = new LocalServiceParameters(
-                    LocalServiceParameters.SERVICE_BINDER_TYPE_PERMANENT_CONNECTION_SERVICE,
                     mPreferences, mDeviceProperties.getSystemProperties()
                     .getLocalIpAddress(), mMessageType, publishReq,
                     mMsgHandler);
 
             // initialize and bind local service
             mPermConnection = LocalServicePermanent.getPermConnection(
-                    getApplicationContext(), mLocalServicePreferences,
+                    mLocalServicePreferences,
                     new PermanentRunnable(), Toolbox
                             .generateRequestLogMessageFromPublishRequest(
                                     mMessageType, publishReq));
@@ -962,7 +945,7 @@ public class MainActivity extends Activity {
      * @param responseMsg log-message containing incoming parameters received from
      *                    MAP-Server
      */
-    public void processSRCResponseParameters(byte messageType,
+    private void processSRCResponseParameters(byte messageType,
                                              ResponseParameters msg, LogMessage requestMsg,
                                              LogMessage responseMsg) {
         switch (messageType) {
@@ -1069,8 +1052,6 @@ public class MainActivity extends Activity {
         // set notification about incoming response
         Toolbox.showNotification(
                 getResources().getString(
-                        R.string.main_notification_message_label),
-                getResources().getString(
                         R.string.main_notification_message_message),
                 msg.getParameter(ResponseParameters.RESPONSE_PARAMS_STATUSMSG),
                 getApplicationContext());
@@ -1104,7 +1085,7 @@ public class MainActivity extends Activity {
      * messages
      */
     private Handler mRenewHandler = new Handler();
-    private Runnable mUpdateRenewTimeTask = new Runnable() {
+    private final Runnable mUpdateRenewTimeTask = new Runnable() {
         public void run() {
             sendRenewSessionToServer();
             mRenewHandler.postDelayed(this,
@@ -1115,7 +1096,7 @@ public class MainActivity extends Activity {
     /**
      * Triggers the sending of the renew-session message
      */
-    public void sendRenewSessionToServer() {
+    private void sendRenewSessionToServer() {
         Toolbox.logTxt(this.getLocalClassName(), "sendRenewSession(...) called");
         mMessageType = MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION;
         // generate publish-request-object
@@ -1129,14 +1110,13 @@ public class MainActivity extends Activity {
             // renew-session-connection
             // gather local service parameters
             mLocalServicePreferences = new LocalServiceParameters(
-                    LocalServiceParameters.SERVICE_BINDER_TYPE_RENEW_CONNECTION_SERVICE,
                     mPreferences, mDeviceProperties.getSystemProperties()
                     .getLocalIpAddress(), mMessageType, publishReq,
                     mMsgHandler);
 
             // initialize and bind service
             mConnection = LocalServiceSynchronous.getConnection(
-                    getApplicationContext(), mLocalServicePreferences,
+                    mLocalServicePreferences,
                     new SynchronousRunnable(), Toolbox
                             .generateRequestLogMessageFromPublishRequest(
                                     mMessageType, publishReq));
@@ -1191,7 +1171,7 @@ public class MainActivity extends Activity {
      * Triggers the sending of device characteristics and location-metadata, if
      * a connection to the server is established
      */
-    public void sendMetadataUpdateToServer() {
+    private void sendMetadataUpdateToServer() {
         if (mIsConnected) {
             mMessageType = MessageHandler.MSG_TYPE_METADATA_UPDATE;
             startIFMAPConnectionService();

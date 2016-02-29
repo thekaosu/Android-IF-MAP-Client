@@ -20,8 +20,7 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:gravity="center_vertical"
-    android:minHeight="48dp"
-    android:paddingRight="?android:attr/scrollbarSize">
+    android:minHeight="48dp">
 
     <ImageView
         android:id="@+android:id/icon"
@@ -29,10 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginLeft="6dip"
-        android:layout_marginRight="6dip" />
+        android:layout_marginRight="6dip"
+        android:contentDescription="@string/preferences_header_default_icon_text" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1">
@@ -55,7 +55,7 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:focusable="true"
-        android:padding="10dip"/>
+        android:padding="10dip" />
 
 
 </LinearLayout>

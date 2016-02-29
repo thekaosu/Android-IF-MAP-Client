@@ -21,13 +21,14 @@
 
 package de.simu.decoit.android.decomap.messaging;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.simu.decoit.android.decomap.device.DeviceProperties;
 import de.simu.decoit.android.decomap.device.application.App;
 import de.simu.decoit.android.decomap.device.application.ApplicationProperties;
@@ -48,8 +49,8 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 
 public class EventParameters {
 
-	private DeviceProperties mDeviceProperties;
-	private ApplicationProperties mApplicationProperties;
+	private final DeviceProperties mDeviceProperties;
+	private final ApplicationProperties mApplicationProperties;
 
 	public EventParameters(DeviceProperties deviceProperties) {
 		this.mDeviceProperties = deviceProperties;

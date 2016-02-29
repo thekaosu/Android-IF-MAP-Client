@@ -165,7 +165,7 @@ public class TabLayout extends TabActivity {
      *
      * @return Animation
      */
-    public Animation inFromRightAnimation() {
+    private Animation inFromRightAnimation() {
         Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, +1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
@@ -179,7 +179,7 @@ public class TabLayout extends TabActivity {
      *
      * @return Animation
      */
-    public Animation outToRightAnimation() {
+    private Animation outToRightAnimation() {
         Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, +1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);
@@ -193,7 +193,7 @@ public class TabLayout extends TabActivity {
      *
      * @return Animation
      */
-    public Animation inFromLeftAnimation() {
+    private Animation inFromLeftAnimation() {
 
         Animation inFromRight = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, -1.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
@@ -208,7 +208,7 @@ public class TabLayout extends TabActivity {
      *
      * @return Animation
      */
-    public Animation outToLeftAnimation() {
+    private Animation outToLeftAnimation() {
         Animation outToLeft = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, -1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                 Animation.RELATIVE_TO_PARENT, 0.0f);

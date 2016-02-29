@@ -8,32 +8,21 @@
         android:id="@+id/fileRow"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10px">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/fileIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="5dip"
-                android:src="@drawable/icon" />
+        android:layout_marginTop="3dp">
 
             <TextView
                 android:id="@+id/fileText"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center_vertical"
                 android:padding="5dip"
                 android:singleLine="true"
-                android:text="FILENAME"
+                android:text="@string/file_chooser_lable_file"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:textColor="?android:attr/textColorPrimary"
+                android:drawablePadding="5dp"
+                />
 
-        </LinearLayout>
 
     </TableRow>
 

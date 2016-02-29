@@ -13,14 +13,14 @@
 		<!-- connect button -->
 		<Button android:id="@+id/Connect_Button" android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:textStyle="bold"
-			android:text="@string/main_buttonlabel_connect" android:onClick="@string/main_ButtonHandler">
+			android:text="@string/main_buttonlabel_connect" android:onClick="mainTabButtonHandler">
 		</Button>
 
 		<!-- disconnect button -->
 		<Button android:id="@+id/Disconnect_Button"
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:text="@string/main_buttonlabel_disconnect" android:textStyle="bold"
-			android:onClick="@string/main_ButtonHandler">
+			android:onClick="mainTabButtonHandler">
 		</Button>
 
 		<!-- publish device characteristics button -->
@@ -28,7 +28,7 @@
 			android:layout_width="fill_parent" android:layout_height="wrap_content"
 			android:textStyle="bold"
 			android:text="@string/main_buttonlabel_publishdevicecharacteristics"
-			android:onClick="@string/main_ButtonHandler">
+			android:onClick="mainTabButtonHandler">
 		</Button>
 
 		<!-- subscribe button 
@@ -53,8 +53,8 @@
 		<EditText android:id="@+id/RequestStatus_EditText"
 			android:layout_width="fill_parent" android:layout_height="270dp"
 			android:cursorVisible="false" android:gravity="top"
-			android:scrollbars="vertical" android:layout_marginTop="10px"
-			android:layout_marginLeft="2px" android:layout_marginRight="2px"
+			android:scrollbars="vertical" android:layout_marginTop="5dp"
+			android:layout_marginLeft="2dp" android:layout_marginRight="2dp"
 			android:inputType="textMultiLine|textNoSuggestions" android:clickable="false"
 			android:focusable="false" android:background="@color/backgroundIceLight">
 		</EditText>

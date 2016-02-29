@@ -32,10 +32,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({ "pid", "name", "uid", "mem"})
 public class Process {
 
-	private int pid;
-	private String name;
-	private int uid;
-	private String mem;
+	private final int pid;
+	private final String name;
+	private final int uid;
+	private final String mem;
 
 	public Process(int pid, String name, int uid, String mem) {
 		this.pid = pid;

@@ -20,6 +20,14 @@
  */
 package de.simu.decoit.android.decomap.device.system;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
+import android.content.Context;
+import android.net.TrafficStats;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -34,13 +42,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.MemoryInfo;
-import android.content.Context;
-import android.net.TrafficStats;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.util.Log;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
@@ -53,13 +54,13 @@ import de.simu.decoit.android.decomap.util.Toolbox;
 public class SystemProperties {
 
 	/* application context object */
-	private Context mAppContext;
+	private final Context mAppContext;
 
 	/* initialize start traffic values */
-	private static long mStartRxBytesTotal = TrafficStats.getTotalRxBytes();
-	private static long mStartTxBytesTotal = TrafficStats.getTotalTxBytes();
-	private static long mStartRxBytes3G = TrafficStats.getMobileRxBytes();
-	private static long mStartTxBytes3G = TrafficStats.getMobileTxBytes();
+	private final static long mStartRxBytesTotal = TrafficStats.getTotalRxBytes();
+	private final static long mStartTxBytesTotal = TrafficStats.getTotalTxBytes();
+	private final static long mStartRxBytes3G = TrafficStats.getMobileRxBytes();
+	private final static long mStartTxBytes3G = TrafficStats.getMobileTxBytes();
 	// private static long mStartRxBytesOther = mStartRxBytesTotal -
 	// mStartRxBytes3G;
 	// private static long mStartTxBytesOther = mStartTxBytesTotal -

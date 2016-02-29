@@ -41,6 +41,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 import de.hshannover.f4.trust.ifmapj.messages.PublishRequest;
@@ -61,47 +62,40 @@ import de.simu.decoit.android.decomap.preferences.PreferencesValues;
  */
 public class Toolbox {
 
-    public static NotificationManager mNotificationManager = null;
-    public static final int SIMPLE_NOTFICATION_ID = 1;
+    private static NotificationManager mNotificationManager = null;
+    private static final int SIMPLE_NOTFICATION_ID = 1;
     public static boolean sLogFolderExists = false;
     public static final String CONTENT_SMS = "content://sms";
 
     /**
-     * return IPv4 Regex.-pattern
-     *
-     * @return Pattern
+     * IPv4 Regex.-pattern
      */
-    public static String REGEX_IP4 = "^(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9])[.]){3}(([2]([0-4][0-9]|[5][0-5])|[0-1]?[0-9]?[0-9]))$";
+    private final static String REGEX_IP4 = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
 
     public static Pattern getIpPattern() {
         return Pattern.compile(REGEX_IP4);
     }
 
     /**
-     * return Port Regex.-pattern
-     *
-     * @return Pattern
+     * Port Regex.-pattern
      */
-    public static String REGEX_PORT = "\\d+";
+    private final static String REGEX_PORT = "\\d+";
 
     public static Pattern getPortPattern() {
         return Pattern.compile(REGEX_PORT);
     }
 
     /**
-     * get current time/date as string
-     *
-     * @param predefined
+     * current time/date as string
      * format string
-     * @return current time/date as string
      */
     public static final String DATE_FORMAT_NOW_DEFAULT = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_FORMAT_NOW_EXPORT = "yyyy-MM-dd_HH-mm-ss";
 
     public static String now(String formatString) {
-        if (formatString == DATE_FORMAT_NOW_DEFAULT || formatString == DATE_FORMAT_NOW_EXPORT) {
+        if (formatString.equals(DATE_FORMAT_NOW_DEFAULT) || formatString .equals(DATE_FORMAT_NOW_EXPORT)) {
             Calendar cal = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW_EXPORT);
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW_EXPORT, Locale.getDefault());
             return sdf.format(cal.getTime());
         }
         return null;
@@ -136,7 +130,7 @@ public class Toolbox {
             String result = "";
             ArrayList<HashMap<String, String>> requestStringList = ReadOutMessages.readOutRequest(publishReq);
             for (int i = 0; i < requestStringList.size(); i++) {
-                if (requestStringList.get(i).toString() != null || requestStringList.get(i).toString() != "") {
+                if (requestStringList.get(i).toString() != null || !requestStringList.get(i).toString().equals("")) {
                     result = requestStringList.get(i).toString();
                 }
             }
@@ -153,12 +147,11 @@ public class Toolbox {
     /**
      * show passed in message as notification
      *
-     * @param notifyText
-     * @param displayTitle
-     * @param displayText
-     * @param appContext
+     * @param displayTitle displayed title
+     * @param displayText displayed text
+     * @param appContext context
      */
-    public static void showNotification(String notifyText, String displayTitle,
+    public static void showNotification(String displayTitle,
                                         String displayText, Context appContext) {
 
         // initialize notification manager

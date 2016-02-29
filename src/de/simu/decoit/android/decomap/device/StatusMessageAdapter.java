@@ -20,8 +20,6 @@
  */
 package de.simu.decoit.android.decomap.device;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -29,6 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -40,9 +41,8 @@ import de.simu.decoit.android.decomap.activities.R;
  * @version 0.2
  */
 public class StatusMessageAdapter extends BaseAdapter {
-	public Activity context;
-	public LayoutInflater inflater;
-	ArrayList<ListEntry> listStatusMessage;
+	private final Activity context;
+	private final ArrayList<ListEntry> listStatusMessage;
 
 	/**
 	 * 
@@ -57,7 +57,6 @@ public class StatusMessageAdapter extends BaseAdapter {
 		super();
 		this.context = context;
 		this.listStatusMessage = listStatusMessage;
-		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class StatusMessageAdapter extends BaseAdapter {
 	/**
 	 * add new Item to List
 	 * 
-	 * @param newLogMessage
+	 * @param entry
 	 *            Log-Message to be added to List
 	 */
 	public void addItem(ListEntry entry) {
@@ -111,6 +110,7 @@ public class StatusMessageAdapter extends BaseAdapter {
 	 * @param convertView
 	 *            view to be converted
 	 * @param viewGroup
+	 * 			  gruppp of view
 	 * 
 	 * @return View View-Element from passed in position/index
 	 */
@@ -119,7 +119,7 @@ public class StatusMessageAdapter extends BaseAdapter {
 		if (convertView == null) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.status_listview, null);
+			convertView = inflater.inflate(R.layout.status_listview, viewGroup, false);
 		}
 
 		TextView title = (TextView) convertView

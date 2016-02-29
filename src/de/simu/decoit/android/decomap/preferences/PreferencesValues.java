@@ -93,7 +93,7 @@ public class PreferencesValues {
     private boolean enableRenewRequestLog;
 
     //Session values
-    private HashMap<String, Boolean> camActiv = new HashMap<String, Boolean>();
+    private final HashMap<String, Boolean> camActiv = new HashMap<String, Boolean>();
 
     private static PreferencesValues instance;
 

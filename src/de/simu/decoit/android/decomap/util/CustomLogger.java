@@ -37,9 +37,6 @@ import de.simu.decoit.android.decomap.preferences.PreferencesValues;
  */
 public class CustomLogger {
 
-    // log-file-name
-    private static String sLogFile = "log.txt";
-
     /**
      * output log message to log-file and use the android-logger for showing message on debug-console
      *
@@ -49,8 +46,10 @@ public class CustomLogger {
     public static void logTxt(String tag, String message) {
         if (Toolbox.sLogFolderExists) {
             try {
+                String sLogFileEnding = "log.txt";
+
                 // write log-message to file
-                BufferedWriter bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + PreferencesValues.getInstance().getLogPath() + sLogFile, true));
+                BufferedWriter bw = new BufferedWriter(new FileWriter(Environment.getExternalStorageDirectory() + PreferencesValues.getInstance().getLogPath() + sLogFileEnding, true));
                 bw.write("[" + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT) + "] " + "(" + tag + ") " + message);
                 bw.newLine();
                 bw.close();

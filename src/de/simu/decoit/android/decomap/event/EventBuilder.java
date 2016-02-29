@@ -23,6 +23,7 @@ package de.simu.decoit.android.decomap.event;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Generate event messages for iMonitor
@@ -33,7 +34,6 @@ import java.util.Date;
 public class EventBuilder {
 
 	private final Event mEvent = new Event();
-	private final String sEventType = "Android";
 
 	private String mEventIP;
 
@@ -53,10 +53,11 @@ public class EventBuilder {
      */
     public EventBuilder withHeader(String ip) {
     	// format: 2014-06-17 11:56:05
-		SimpleDateFormat sTimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sTimeformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 		mEvent.setTimestamp(sTimeformat.format(new Date()));
 
 		// set event type
+		String sEventType = "Android";
 		mEvent.setType(sEventType);
 
 		// set event ip

@@ -21,120 +21,132 @@
 
 package de.simu.decoit.android.decomap.util;
 
+import android.util.Log;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.UUID;
-
-import android.util.Log;
 
 /**
  * Utility class that provides cryptographic algorithms.
- * 
+ *
  * @author Ingo Bente, Tobias Ruhe (FHH)
  * @version 0.2
- * 
  */
 public class CryptoUtil {
 
-	/**
-	 * Calculate a hash value for the given {@link String} s with the specified
-	 * algorithm dig.
-	 * 
-	 * @param s
-	 * @param mdId
-	 * @return the hashed value. if problems do occur, the an empty {@link String} is returned 
-	 */
-	private static String hash(String s, MessageDigestId mdId) {
-		StringBuffer buffer = new StringBuffer();
-		MessageDigest md = null;
-		byte[] hash;
-		
-		// check input string
-		if (s == null) {
-			Log.w(CryptoUtil.class.getName(), "Empty String given.");
-			return buffer.toString();
-		}
+    /**
+     * Calculate a hash value for the given {@link String} s with the specified
+     * algorithm dig.
+     *
+     * @param s value to be hashed
+     * @param mdId specified algorithm dig
+     * @return the hashed value. if problems do occur, an empty {@link String} is returned
+     */
+    private static String hash(String s, MessageDigestId mdId) {
+        StringBuffer buffer = new StringBuffer();
+        MessageDigest md;
+        byte[] hash;
 
-		// calculate digest
-		try {
-			md = MessageDigest.getInstance(mdId.toString());
-			buffer = new StringBuffer();
-			hash = md.digest(s.getBytes());
-			for (Byte b : hash) {
-				String hex = Integer.toHexString(0xFF & b);
-				if (hex.length() == 1)
-					buffer.append(0);
-				buffer.append(hex);
-			}
-		} catch (NoSuchAlgorithmException e) {
-			Log.w(CryptoUtil.class.getName(), "Algorithm not found. This really should not happen!" + e.getStackTrace());
-		}
-		
-		return buffer.toString();
-	}
+        // check input string
+        if (s == null) {
+            Log.w(CryptoUtil.class.getName(), "Empty String given.");
+            return buffer.toString();
+        }
 
-	/**
-	 * Get the SHA-1 hash of the given {@link String}
-	 * @param s
-	 * @return
-	 */
-	public static String sha1(String s) {
-		return hash(s, MessageDigestId.SHA1);
-	}
-	
-	/**
-	 * Get the SHA256 hash of the given {@link String}
-	 * @param s
-	 * @return
-	 */
-	public static String sha256(String s) {
-		return hash(s, MessageDigestId.SHA256);
-	}
+        // calculate digest
+        try {
+            md = MessageDigest.getInstance(mdId.toString());
+            buffer = new StringBuffer();
+            hash = md.digest(s.getBytes());
+            for (Byte b : hash) {
+                String hex = Integer.toHexString(0xFF & b);
+                if (hex.length() == 1)
+                    buffer.append(0);
+                buffer.append(hex);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.w(CryptoUtil.class.getName(), "Algorithm not found. This really should not happen!" + Arrays.toString(e.getStackTrace()));
+        }
 
-	/**
-	 * Get the MD5 hash of the given {@link String}
-	 * @param s
-	 * @return
-	 */
-	public static String md5(String s) {
-		return hash(s, MessageDigestId.MD5);
-	}
+        return buffer.toString();
+    }
 
-	
-	/**
-	 * Get a random UUID of the given length
-	 * @param length
-	 * @return null if lenght <= 0
-	 */
-	public static String randomUUID(int length) {
-		if (length > 0) {
-			String uuid = UUID.randomUUID().toString();
-			if (uuid.length() <= length)
-				return uuid;
-			else
-				return uuid.substring(0, length - 1);
-		} else
-			return null;
-	}
+    /**
+     * Get the SHA-1 hash of the given {@link String}
+     *
+     * @param s String which should be a SHA-1 hash
+     * @return SHA-1 hash of given string
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
+    public static String sha1(String s) {
+        return hash(s, MessageDigestId.SHA1);
+    }
 
-	/**
-	 * Identifiers for message digest algorithms.
-	 * 
-	 * @author Ingo Bente (FHH)
-	 * 
-	 */
-	private enum MessageDigestId {
-		SHA256("SHA-256"), MD5("MD5"), SHA1("SHA-1");
+    /**
+     * Get the SHA256 hash of the given {@link String}
+     *
+     * @param s String which should be a SHA256 hash
+     * @return SHA256 hash of given string
+     */
+    public static String sha256(String s) {
+        return hash(s, MessageDigestId.SHA256);
+    }
 
-		private final String name;
+    /**
+     * Get the MD5 hash of the given {@link String}
+     *
+     * @param s String which should be a md5 hash
+     * @return md5 hash of given string
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
+    public static String md5(String s) {
+        return hash(s, MessageDigestId.MD5);
+    }
 
-		private MessageDigestId(String name) {
-			this.name = name;
-		}
 
-		@Override
-		public String toString() {
-			return this.name;
-		}
-	}
+    /**
+     * Get a random UUID of the given length
+     *
+     * @param length max length of UUID
+     * @return UUID and null if lenght <= 0
+     *
+     * @deprecated maybe useful in the future
+     */
+    @Deprecated
+    public static String randomUUID(int length) {
+        if (length > 0) {
+            String uuid = UUID.randomUUID().toString();
+            if (uuid.length() <= length)
+                return uuid;
+            else
+                return uuid.substring(0, length - 1);
+        } else
+            return null;
+    }
+
+    /**
+     * Identifiers for message digest algorithms.
+     *
+     * @author Ingo Bente (FHH)
+     */
+    private enum MessageDigestId {
+        SHA256("SHA-256"), MD5("MD5"), SHA1("SHA-1");
+
+        private final String name;
+
+        MessageDigestId(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+    }
 }
