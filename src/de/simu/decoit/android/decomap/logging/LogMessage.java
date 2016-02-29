@@ -97,6 +97,10 @@ public class LogMessage {
         return mMsg;
     }
 
+    public void setMsg(String msg) {
+        mMsg = msg;
+    }
+
     /**
      * get target IP-Address
      *
