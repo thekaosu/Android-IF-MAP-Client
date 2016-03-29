@@ -49,5 +49,5 @@ public final class LogMessageTbl implements LogMessageColums {
 			+ "WHERE _id= ?";
 
 	public static final String[] ALL_COLUMS = new String[] { ID, TIMESTAMP,
-			MESSAGETYPE, MESSAGECONTENT, TARGET, STATUS };
+			MESSAGETYPE, MESSAGECONTENT, TARGET, STATUS }; 						//maybe usefull later
 }

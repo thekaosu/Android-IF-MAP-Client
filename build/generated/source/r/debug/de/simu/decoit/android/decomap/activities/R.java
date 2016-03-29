@@ -1604,34 +1604,11 @@ containing a value of this type.
         public static final int custom_btn_beige_gray=0x7f02003f;
         public static final int custom_header=0x7f020040;
         public static final int decoit_logo_full=0x7f020041;
-        public static final int details=0x7f020042;
-        public static final int details_button=0x7f020043;
-        public static final int export=0x7f020044;
-        public static final int export_button=0x7f020045;
-        public static final int ic_menu_close_clear_cancel=0x7f020046;
-        public static final int ic_tab_about=0x7f020047;
-        public static final int ic_tab_info=0x7f020048;
-        public static final int ic_tab_log=0x7f020049;
-        public static final int ic_tab_log_selected=0x7f02004a;
-        public static final int ic_tab_log_unselected=0x7f02004b;
-        public static final int ic_tab_main=0x7f02004c;
-        public static final int ic_tab_main_selected=0x7f02004d;
-        public static final int ic_tab_main_unselected=0x7f02004e;
-        public static final int ic_tab_setup=0x7f02004f;
-        public static final int ic_tab_setup_selected=0x7f020050;
-        public static final int ic_tab_setup_unselected=0x7f020051;
-        public static final int ic_tab_status=0x7f020052;
-        public static final int ic_tab_status_selected=0x7f020053;
-        public static final int ic_tab_status_unselected=0x7f020054;
-        public static final int icon=0x7f020055;
-        public static final int notification_template_icon_bg=0x7f02005d;
-        public static final int remove=0x7f020056;
-        public static final int remove_button=0x7f020057;
-        public static final int removeall=0x7f020058;
-        public static final int removeall_button=0x7f020059;
-        public static final int simu_logo_full=0x7f02005a;
-        public static final int sort=0x7f02005b;
-        public static final int sort_button=0x7f02005c;
+        public static final int ic_file=0x7f020042;
+        public static final int ic_folder=0x7f020043;
+        public static final int icon=0x7f020044;
+        public static final int notification_template_icon_bg=0x7f020046;
+        public static final int simu_logo_full=0x7f020045;
     }
     public static final class id {
         public static final int AltitudeLabel_TextView=0x7f0e007f;
@@ -1647,7 +1624,6 @@ containing a value of this type.
         public static final int PublishDeviceCharacteristics_Button=0x7f0e0076;
         public static final int RequestStatus_EditText=0x7f0e0077;
         public static final int ScrollView01=0x7f0e004d;
-        public static final int ScrollViewTab3=0x7f0e007a;
         public static final int TextView01=0x7f0e005a;
         public static final int TextView02=0x7f0e0081;
         public static final int TextView03=0x7f0e0083;
@@ -1758,6 +1734,7 @@ containing a value of this type.
         public static final int status_listview_layout=0x7f0e0070;
         public static final int status_listview_title=0x7f0e0071;
         public static final int status_listview_value=0x7f0e0072;
+        public static final int status_tab=0x7f0e007a;
         public static final int submit_area=0x7f0e0049;
         public static final int switchWidget=0x7f0e006f;
         public static final int tabMode=0x7f0e000b;
