@@ -77,15 +77,6 @@ public class Toolbox {
     }
 
     /**
-     * Port Regex.-pattern
-     */
-    private final static String REGEX_PORT = "\\d+";
-
-    public static Pattern getPortPattern() {
-        return Pattern.compile(REGEX_PORT);
-    }
-
-    /**
      * current time/date as string
      * format string
      */
@@ -93,7 +84,7 @@ public class Toolbox {
     public static final String DATE_FORMAT_NOW_EXPORT = "yyyy-MM-dd_HH-mm-ss";
 
     public static String now(String formatString) {
-        if (formatString.equals(DATE_FORMAT_NOW_DEFAULT) || formatString .equals(DATE_FORMAT_NOW_EXPORT)) {
+        if (formatString.equals(DATE_FORMAT_NOW_DEFAULT) || formatString.equals(DATE_FORMAT_NOW_EXPORT)) {
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW_EXPORT, Locale.getDefault());
             return sdf.format(cal.getTime());
@@ -148,8 +139,8 @@ public class Toolbox {
      * show passed in message as notification
      *
      * @param displayTitle displayed title
-     * @param displayText displayed text
-     * @param appContext context
+     * @param displayText  displayed text
+     * @param appContext   context
      */
     public static void showNotification(String displayTitle,
                                         String displayText, Context appContext) {
@@ -216,7 +207,7 @@ public class Toolbox {
         try {
             objectMapper.writeValue(mJSON, input);
         } catch (Exception e) {
-            e.printStackTrace();
+            logTxt("error", "Error while parsing JSON. Error Message: " + e);
         }
 
         return mJSON.toString();
@@ -231,19 +222,26 @@ public class Toolbox {
     public static String getMACAddress(String interfaceName) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
+            for (NetworkInterface netInterf : interfaces) {
                 if (interfaceName != null) {
-                    if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
+                    if (!netInterf.getName().equalsIgnoreCase(interfaceName)) continue;
                 }
-                byte[] mac = intf.getHardwareAddress();
-                if (mac == null) return "UNKNOWN EMULATOR";
+                byte[] mac = netInterf.getHardwareAddress();
+
+                if (mac == null) {
+                    return "UNKNOWN EMULATOR";
+                }
                 StringBuilder buf = new StringBuilder();
-                for (int idx = 0; idx < mac.length; idx++)
-                    buf.append(String.format("%02X:", mac[idx]));
-                if (buf.length() > 0) buf.deleteCharAt(buf.length() - 1);
+                for (byte aMac : mac) {
+                    buf.append(String.format("%02X:", aMac));
+                }
+                if (buf.length() > 0) {
+                    buf.deleteCharAt(buf.length() - 1);
+                }
                 return buf.toString();
             }
         } catch (Exception ex) {
+            return "UNKNOWN EMULATOR";
         }
         return "UNKNOWN EMULATOR";
     }

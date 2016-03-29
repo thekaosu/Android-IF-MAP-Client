@@ -125,7 +125,7 @@ public class SyncConnectionThread implements Runnable {
             }
 
             // build response
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             if (responseMsg != null) {
                 for (int i = 0; i < responseMsg.size(); i++) {
                     sb.append(responseMsg.get(i).toString().trim());
@@ -148,14 +148,7 @@ public class SyncConnectionThread implements Runnable {
             } else {
                 mCallback.handleServerResponse(mMessageType, e.getErrorString());
             }
-        } catch (IfmapException e) {
-            mMessageType = MessageHandler.MSG_TYPE_ERRORMSG;
-            if (mIsPermConection) {
-                mPermCallback.handleServerResponse(mMessageType, e.getMessage());
-            } else {
-                mCallback.handleServerResponse(mMessageType, e.getMessage());
-            }
-        } catch (NullPointerException e) {
+        } catch (IfmapException | NullPointerException e) {
             mMessageType = MessageHandler.MSG_TYPE_ERRORMSG;
             if (mIsPermConection) {
                 mPermCallback.handleServerResponse(mMessageType, e.getMessage());

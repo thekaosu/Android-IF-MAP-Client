@@ -29,10 +29,10 @@ package de.simu.decoit.android.decomap.logging;
 public class LogMessage {
     private int mId;
     private String mMsg;
-    private String mTimestamp;
-    private String mMsgType;
-    private String mTarget;
-    private String mStatus;
+    private final String mTimestamp;
+    private final String mMsgType;
+    private final String mTarget;
+    private final String mStatus;
 
 
     /**

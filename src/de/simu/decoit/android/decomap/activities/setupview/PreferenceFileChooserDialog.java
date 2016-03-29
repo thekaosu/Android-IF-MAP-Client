@@ -30,7 +30,7 @@ import de.simu.decoit.android.decomap.activities.R;
  * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
-public class PreferenceFileChooserDialog extends Dialog {
+class PreferenceFileChooserDialog extends Dialog {
 
     private static final String PARENT_DIR = "..";
     private ArrayList<String> fileList;
@@ -144,33 +144,15 @@ public class PreferenceFileChooserDialog extends Dialog {
             File choosenFile = getChosenFile(file);
             TextView fileView = ((TextView) row.findViewById(R.id.fileText));
             if (choosenFile.isDirectory()) {
-                fileView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_tab_log_unselected), null, null, null);
+                fileView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_folder), null, null, null);
             } else {
-                fileView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_tab_status_unselected), null, null, null);
+                fileView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_file), null, null, null);
             }
             fileView.setText(file);
 
             row.setOnTouchListener(new OnTouchRow());
             row.setOnClickListener(new OnClickRow(choosenFile));
         }
-    }
-
-    public boolean isOnlyDir() {
-        return onlyDir;
-    }
-
-    public void setOnlyDir(boolean onlyDir) {
-        this.onlyDir = onlyDir;
-    }
-
-    public void setFileEnding(String fileEnding) {
-        if (fileEnding != null) {
-            this.fileEnding = fileEnding.toLowerCase();
-        }
-    }
-
-    public String getFileEnding() {
-        return fileEnding;
     }
 
     private File getChosenFile(String fileChosen) {

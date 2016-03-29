@@ -67,7 +67,8 @@ public class CryptoUtil {
                 buffer.append(hex);
             }
         } catch (NoSuchAlgorithmException e) {
-            Log.w(CryptoUtil.class.getName(), "Algorithm not found. This really should not happen!" + Arrays.toString(e.getStackTrace()));
+            Toolbox.logTxt(CryptoUtil.class.getClass().getName(),
+                    "Algorithm not found. This really should not happen!" + Arrays.toString(e.getStackTrace()));
         }
 
         return buffer.toString();

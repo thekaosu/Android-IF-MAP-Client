@@ -20,10 +20,11 @@
  */
 package de.simu.decoit.android.decomap.services.binder;
 
-import de.simu.decoit.android.decomap.util.Toolbox;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ServiceConnection;
+
+import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Class for detaching connection and time counting services
@@ -52,8 +53,7 @@ public class UnbinderClass {
                 Toolbox.logTxt(UnbinderClass.class.getName(), "dismissed progress-dialog");
             }
         } else {
-            Toolbox.logTxt(UnbinderClass.class.getName(), "not unbounded Service " + serviceConnection.getClass().getName()
-                    + " because it is not bound or is null!");
+                Toolbox.logTxt(UnbinderClass.class.getName(), "not unbounded Service because it is not bound or is null!");
         }
         
         return false;

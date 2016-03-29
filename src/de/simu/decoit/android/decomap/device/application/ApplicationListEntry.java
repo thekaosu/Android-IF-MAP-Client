@@ -30,11 +30,11 @@ import java.util.ArrayList;
  */
 public class ApplicationListEntry {
 
-    private String name;
+    private final String name;
     private String versionName;
     private int versionCode;
     private String installerPackageName;
-    private ArrayList<Permission> permissions = new ArrayList<>();
+    private final ArrayList<Permission> permissions = new ArrayList<>();
     private boolean isCurrentlyRunning = false;
 
     /**

@@ -40,7 +40,7 @@ public class PreferenceFileChooserDialogPreference extends Preference {
     protected void onClick() {
         super.onClick();
         if (onlyDir) {
-            new PreferenceFileChooserDialog(getContext(), onlyDir, getKey(), defaultValue).show();
+            new PreferenceFileChooserDialog(getContext(), true, getKey(), defaultValue).show();
         } else {
             new PreferenceFileChooserDialog(getContext(), fileEnding, getKey(), defaultValue).show();
         }

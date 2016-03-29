@@ -48,15 +48,6 @@ public class ResponseParameters {
 	}
 	
 	/**
-	 * get all device properties
-	 * 
-	 * @return	string[][]	list of device properties
-	 */
-	public String[] getParameters(){
-		return mParams;
-	}
-	
-	/**
 	 * get a parameter specified by passed in byte
 	 * 
 	 * @param parameter	desired parameter

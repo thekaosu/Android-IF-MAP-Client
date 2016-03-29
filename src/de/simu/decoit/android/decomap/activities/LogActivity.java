@@ -35,7 +35,7 @@ import java.util.List;
 import de.simu.decoit.android.decomap.database.LoggingDatabase;
 import de.simu.decoit.android.decomap.logging.LogMessage;
 import de.simu.decoit.android.decomap.logging.LogMessageAdapter;
-import de.simu.decoit.android.decomap.logging.LogMessageDialog;
+import de.simu.decoit.android.decomap.dialogs.MessageDialog;
 import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
@@ -131,7 +131,7 @@ public class LogActivity extends Activity {
      * @param msg message to show
      */
     public void showLogMessage(String msg) {
-        LogMessageDialog dialog = new LogMessageDialog(this, msg);
+        MessageDialog dialog = new MessageDialog(this, msg);
         dialog.show();
     }
 
@@ -217,7 +217,7 @@ public class LogActivity extends Activity {
         // prepare export
         BufferedWriter bw;
         ArrayList<LogMessage> exportList;
-        LogMessageDialog dialog;
+        MessageDialog dialog;
 
 
         try {
@@ -256,15 +256,15 @@ public class LogActivity extends Activity {
                 bw.close();
 
                 // show quick success-message
-                dialog = new LogMessageDialog(this,
+                dialog = new MessageDialog(this,
                         "Messages have been successfully exported as \"" + exportFileName + "\" to the log directory " + mPreferences.getLogPath());
             } catch (Exception e) {
-                dialog = new LogMessageDialog(this, "Export failed! \nReason: " + e.getMessage(), LogMessageDialog.WARNING_MESSAGE);
+                dialog = new MessageDialog(this, "Export failed! \nReason: " + e.getMessage(), MessageDialog.WARNING_MESSAGE);
             }
 
 
         } catch (Exception e) {
-            dialog = new LogMessageDialog(this, "Failed to create missing directory! \nReason: " + e.getMessage(), LogMessageDialog.WARNING_MESSAGE);
+            dialog = new MessageDialog(this, "Failed to create missing directory! \nReason: " + e.getMessage(), MessageDialog.WARNING_MESSAGE);
         }
         dialog.show();
     }

@@ -24,9 +24,9 @@ package de.simu.decoit.android.decomap.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
- 
+
+import de.simu.decoit.android.decomap.preferences.PreferencesValues;
+
 /**
  * broadcast-receiver, automatically starts the application
  * 
@@ -37,12 +37,11 @@ public class MyStartupIntentReceiver extends BroadcastReceiver {
   
         @Override
         public void onReceive(Context context, Intent intent) {
- 
-            // get the preferences.xml preferences
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
+            PreferencesValues preferences = PreferencesValues.getInstance();
 
             // get autostart-preferences
-            boolean sApplicationFileLogging = prefs.getBoolean("autostartPreferences", false);
+            boolean sApplicationFileLogging = preferences.isAutostart();
             
             if (sApplicationFileLogging){
                 /* Create intent which will finally start the Main-Activity. */

@@ -35,10 +35,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import de.simu.decoit.android.decomap.device.DeviceProperties;
-import de.simu.decoit.android.decomap.device.DevicePropertiesDialog;
 import de.simu.decoit.android.decomap.device.ListEntry;
 import de.simu.decoit.android.decomap.device.StatusMessageAdapter;
 import de.simu.decoit.android.decomap.device.system.SystemProperties;
+import de.simu.decoit.android.decomap.dialogs.MessageDialog;
 import de.simu.decoit.android.decomap.observer.battery.BatteryReceiver;
 import de.simu.decoit.android.decomap.observer.camera.CameraReceiver;
 import de.simu.decoit.android.decomap.observer.sms.SMSObserver;
@@ -142,8 +142,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
                 sLongitudeValue = (String) super.getParent().getIntent().getExtras().get("longitude");
             }
         } catch (NullPointerException e) {
-            e.printStackTrace();
-            Toolbox.logTxt(this.getClass().getName(), "StatusActivity.onResume(...) getExtras() " + e.getMessage());
+            Toolbox.logTxt(this.getClass().getName(), "StatusActivity.onResume(...) getExtras() " + e);
         }
         initValues();
         initListAdapter();
@@ -250,8 +249,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         updateEntry(mDeviceProperties.getSystemProperties().getFormattedCurCpuLoadPercent(), LIST_POSITION_CPU_LOAD);
         updateEntry(mDeviceProperties.getSystemProperties().getFormattedFreeRam(), LIST_POSITION_RAM_FREE);
         updateEntry(String.valueOf(mDeviceProperties.getApplicationProperties().getRuningProcCount()), LIST_POSITION_PROCESS_COUNT);
-        mStatusAdapter = new StatusMessageAdapter(this, mListArray);
-        mList.setAdapter(mStatusAdapter);
+        mStatusAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -355,8 +353,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
             break;
         }
         mListArray.set(position, mEntry);
-        mStatusAdapter = new StatusMessageAdapter(this, mListArray);
-        mList.setAdapter(mStatusAdapter);
+        mStatusAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -401,7 +398,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
                 sb.append("\n");
             }
             msgToShow = sb.toString();
-            DevicePropertiesDialog dialog = new DevicePropertiesDialog(this, title, msgToShow);
+            MessageDialog dialog = new MessageDialog(this, msgToShow, title);
             dialog.show();
         }
     }
@@ -460,33 +457,6 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         sLatitudeValue = Double.valueOf(latitude).toString();
         sLongitudeValue = Double.valueOf(longitude).toString();
         sAltitudeValue = Double.valueOf(altitude).toString();
-    }
-
-    /**
-     * get current longitude
-     *
-     * @return longitude-textview
-     */
-    public TextView getmLocationLongitude() {
-        return sLocationLongitude;
-    }
-
-    /**
-     * get current latitude
-     *
-     * @return latitude-textview
-     */
-    public TextView getmLocationLatitude() {
-        return sLocationLatitude;
-    }
-
-    /**
-     * get current altitude
-     *
-     * @return altitude-textview
-     */
-    public TextView getmLocationAltitude() {
-        return sLocationAltitude;
     }
 
     /**

@@ -45,6 +45,9 @@ public class PreferencesValues {
     private boolean autoUpdate = false;
     private long updateInterval = 60000;
 
+    //timeout
+    private final int connectionTimeout = 12000;
+
 
     // path for files
     private String logPath;
@@ -77,14 +80,12 @@ public class PreferencesValues {
     // connection-settings
     private boolean allowUnsafeSSLPreference;
     private boolean isPermantConnection;
-    private Long renewIntervalPreference;
-    private long renewRequestMinInterval = 10000; // default minimum
+    private long renewIntervalPreference;
+    private final long renewRequestMinInterval = 10000; // default minimum
 
     // logging-settings
     private boolean applicationFileLogging = false;
     private boolean enableNewAndEndSessionLog;
-    private boolean enableSubscribe;
-    private boolean enablePollLog;
 
     private boolean enableLocationTrackingLog;
     private boolean enablePublishCharacteristicsLog;
@@ -93,7 +94,7 @@ public class PreferencesValues {
     private boolean enableRenewRequestLog;
 
     //Session values
-    private final HashMap<String, Boolean> camActiv = new HashMap<String, Boolean>();
+    private final HashMap<String, Boolean> camActiv = new HashMap<>();
 
     private static PreferencesValues instance;
 
@@ -323,8 +324,8 @@ public class PreferencesValues {
         return renewRequestMinInterval;
     }
 
-    public void setRenewRequestMinInterval(long renewRequestMinInterval) {
-        this.renewRequestMinInterval = renewRequestMinInterval;
+    public int getConnectionTimeout(){
+        return connectionTimeout;
     }
 
     public boolean isApplicationFileLogging() {
@@ -341,22 +342,6 @@ public class PreferencesValues {
 
     public void setEnableNewAndEndSessionLog(boolean enableNewAndEndSessionLog) {
         this.enableNewAndEndSessionLog = enableNewAndEndSessionLog;
-    }
-
-    public boolean isEnableSubscribe() {
-        return enableSubscribe;
-    }
-
-    public void setEnableSubscribe(boolean enableSubscribe) {
-        this.enableSubscribe = enableSubscribe;
-    }
-
-    public boolean isEnablePollLog() {
-        return enablePollLog;
-    }
-
-    public void setEnablePollLog(boolean enablePollLog) {
-        this.enablePollLog = enablePollLog;
     }
 
     public boolean isEnableLocationTrackingLog() {
@@ -403,13 +388,9 @@ public class PreferencesValues {
         camActiv.put(camId, isCamActiv);
     }
 
-    public boolean isCamActiv(String camId) {
-        return camActiv.get(camId);
-    }
-
-    public boolean isAnyCamActiv(){
-        for(String key : camActiv.keySet()){
-            if(camActiv.get(key)){
+    public boolean isAnyCamActiv() {
+        for (String key : camActiv.keySet()) {
+            if (camActiv.get(key)) {
                 return true;
             }
         }

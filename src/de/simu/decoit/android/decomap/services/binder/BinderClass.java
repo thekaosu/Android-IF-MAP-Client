@@ -39,23 +39,20 @@ public class BinderClass {
      */
     public static boolean doBindRenewConnectionService(Context applicationContext, ServiceConnection connectionService) {
         Toolbox.logTxt(UnbinderClass.class.getName(), "Binding Service: RenewConnectionService");
-        applicationContext.bindService(
+        return applicationContext.bindService(
                 new Intent(applicationContext, RenewConnectionService.class),
                 connectionService, Context.BIND_AUTO_CREATE);
-        return true;
     }
     
     public static boolean doBindPermConnectionService(Context applicationContext, ServiceConnection connectionService) {
         Toolbox.logTxt(UnbinderClass.class.getName(), "Binding Service: PermanentConnectionService");
-        applicationContext.bindService(new Intent(applicationContext, PermanentConnectionService.class), connectionService,
+        return applicationContext.bindService(new Intent(applicationContext, PermanentConnectionService.class), connectionService,
                 Context.BIND_AUTO_CREATE);
-        return true;
     }
 
     public static boolean doBindNscaService(Context applicationContext, ServiceConnection connectionService) {
         Toolbox.logTxt(UnbinderClass.class.getName(), "Binding Service: NscaService");
-        applicationContext.bindService(new Intent(applicationContext, NscaService.class), connectionService,
+        return applicationContext.bindService(new Intent(applicationContext, NscaService.class), connectionService,
                 Context.BIND_AUTO_CREATE);
-        return true;
     }
 }

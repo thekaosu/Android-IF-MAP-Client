@@ -4,7 +4,7 @@
 
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/logoColorDarker"></solid>
+            <solid android:color="@color/logoColorDarker"/>
 
         </shape>
     </item>
@@ -16,7 +16,7 @@
         <shape android:shape="rectangle">
             <solid
                 android:color="@color/logoColorLighter"
-                android:angle="270"></solid>
+                android:angle="270"/>
         </shape>
 
     </item>

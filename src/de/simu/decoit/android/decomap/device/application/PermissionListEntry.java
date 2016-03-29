@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * @version 0.2
  * @author Dennis Dunekacke, Decoit GmbH
  */
-public class PermissionListEntry {
+class PermissionListEntry {
 	
     private String permissionName = null;
 
@@ -42,11 +42,9 @@ public class PermissionListEntry {
      * 
      * @param name
      *            permission-name
-     * @param permissionType
-     * 			  type of permission
      */
     public PermissionListEntry(String name) {
-        permissionApplications = new ArrayList<String>();
+        permissionApplications = new ArrayList<>();
         permissionName = name;
     }
 
@@ -58,26 +56,10 @@ public class PermissionListEntry {
     }
 
     /**
-     * @param permissionName
-     *            the permissionName to set
-     */
-    public void setPermissionName(String permissionName) {
-        this.permissionName = permissionName;
-    }
-
-    /**
      * @return the permissionApplications
      */
     public ArrayList<String> getPermissionApplications() {
         return permissionApplications;
-    }
-
-    /**
-     * @param permissionApplications
-     *            the permissionApplications to set
-     */
-    public void setPermissionApplications(ArrayList<String> permissionApplications) {
-        this.permissionApplications = permissionApplications;
     }
 
     public void addApplication(String name) {

@@ -5,5 +5,5 @@
         android:entries="@array/preferences_auth_types"
         android:entryValues="@array/preferences_auth_types"
         android:summary="@string/preferences_summary_auth"
-        android:title="Authentication Type"></ListPreference>
+        android:title="Authentication Type"/>
 </PreferenceScreen>

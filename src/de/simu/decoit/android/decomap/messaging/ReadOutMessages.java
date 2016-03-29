@@ -30,7 +30,6 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Locale;
 
 import de.hshannover.f4.trust.ifmapj.messages.PublishElement;
@@ -44,8 +43,6 @@ import de.hshannover.f4.trust.ifmapj.messages.PublishUpdate;
  * @version 0.2
  */
 public class ReadOutMessages extends ArrayList<HashMap<String, String>> {
-
-    private static final long serialVersionUID = -2402232115753747461L;
 
     /**
      * constructor
@@ -63,19 +60,16 @@ public class ReadOutMessages extends ArrayList<HashMap<String, String>> {
      */
     public static ArrayList<HashMap<String, String>> readOutRequest(PublishRequest request) {
         ReadOutMessages requestList = null;
-        HashMap<String, String> tempEventData = new HashMap<String, String>();
+        HashMap<String, String> tempEventData = new HashMap<>();
 
         if (request != null) {
             requestList = new ReadOutMessages();
             Collection<PublishElement> pECol = request.getPublishElements();
-            Iterator<PublishElement> pEColIt = pECol.iterator();
 
-            while (pEColIt.hasNext()) {
-                PublishElement pE = pEColIt.next();
-                PublishUpdate pU = null;
+            for (PublishElement pE : pECol) {
 
                 if (pE.toString().toLowerCase(Locale.ENGLISH).contains("update")) {
-                    pU = (PublishUpdate) pE;
+                    PublishUpdate pU = (PublishUpdate) pE;
 
                     Collection<Document> metaData = pU.getMetadata();
 

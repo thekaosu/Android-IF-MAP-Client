@@ -28,7 +28,7 @@ package de.simu.decoit.android.decomap.device;
  */
 public class ListEntry {
 	
-	private String mTitle;
+	private final String mTitle;
 	private String mValue;
 	
 	

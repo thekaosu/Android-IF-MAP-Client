@@ -139,7 +139,7 @@ public class RenewConnectionService extends Service {
 
 		// get message from incoming server response
 		ResponseParameters responseParams = MessageHandler.getInstance().getResponseParameters(responseMessageType,
-				msg, false, getApplicationContext());
+				msg, getApplicationContext());
 
 		Toolbox.logTxt("RenewConnectionService", "incoming message: " + msg);
 

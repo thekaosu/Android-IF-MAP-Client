@@ -37,7 +37,7 @@ public abstract class PhoneProperties {
     public Context mAppContext;
     
     /* telephony manager */
-    public TelephonyManager mTelephonyMgr;
+    TelephonyManager mTelephonyMgr;
    
     
     /**
@@ -108,7 +108,7 @@ public abstract class PhoneProperties {
     /**
      * check current microphone state
      * 
-     * @return
+     * @return is micro activ
      */
     public abstract String getMicrophoneActiveString();
 

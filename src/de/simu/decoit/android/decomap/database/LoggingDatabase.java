@@ -54,7 +54,7 @@ public class LoggingDatabase extends SQLiteOpenHelper {
 	/**
 	 * executed when no database exists
 	 * 
-	 * @param SQLLiteDatase
+	 * @param db
 	 *            database-connection to perform delete on
 	 */
 	@Override
@@ -68,7 +68,7 @@ public class LoggingDatabase extends SQLiteOpenHelper {
 	 * 
 	 * drop all tables in database and recreate the database
 	 * 
-	 * @param SQLLiteDatase
+	 * @param db
 	 *            database-connection to perform delete on
 	 * @param oldVersion
 	 *            old version number of database
@@ -85,7 +85,7 @@ public class LoggingDatabase extends SQLiteOpenHelper {
 	/**
 	 * delete log message from database determined by passed in in
 	 * 
-	 * @param SQLLiteDatase
+	 * @param db
 	 *            database-connection to perform delete on
 	 * @param id
 	 *            index of table-row to delete

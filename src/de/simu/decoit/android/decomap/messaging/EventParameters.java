@@ -62,11 +62,10 @@ public class EventParameters {
 	 * generate InfoEvent
 	 */
 	public String genInfoEvent() {
-		Event mEvent = null;
 		String eventIP = mDeviceProperties.getSystemProperties()
 				.getLocalIpAddress();
 
-		mEvent = new EventBuilder().withHeader(eventIP).Class("info")
+		Event mEvent = new EventBuilder().withHeader(eventIP).Class("info")
 				.data(genInfoData()).create();
 
 		return Toolbox.toJSON(mEvent);
@@ -76,11 +75,10 @@ public class EventParameters {
 	 * generate MonitorEvent
 	 */
 	public String genMonitorEvent() {
-		Event mEvent = null;
 		String eventIP = mDeviceProperties.getSystemProperties()
 				.getLocalIpAddress();
 
-		mEvent = new EventBuilder().withHeader(eventIP).Class("monitor")
+		Event mEvent = new EventBuilder().withHeader(eventIP).Class("monitor")
 				.data(genMonitorData()).create();
 
 		return Toolbox.toJSON(mEvent);
@@ -90,7 +88,7 @@ public class EventParameters {
 	 * generate Liste of AppEvents
 	 */
 	public List<String> genAppEvents() {
-		List<String> mEventList = new ArrayList<String>();
+		List<String> mEventList = new ArrayList<>();
 		String eventIP = mDeviceProperties.getSystemProperties()
 				.getLocalIpAddress();
 
@@ -159,7 +157,7 @@ public class EventParameters {
 	 * generate app data on install/remove
 	 */
 	private List<EventData> genAppData() {
-		List<EventData> mAppDataList = new ArrayList<EventData>();
+		List<EventData> mAppDataList = new ArrayList<>();
 
 		for (App mApp : getInstalledApps()) {
 			AppData mAppData = new AppData();
@@ -181,21 +179,24 @@ public class EventParameters {
 		// get a list of installed apps.
 		List<ApplicationInfo> packages = mPackageManager
 				.getInstalledApplications(PackageManager.GET_META_DATA);
-		List<App> appList = new ArrayList<App>();
+		List<App> appList = new ArrayList<>();
 
 		for (ApplicationInfo app : packages) {
 			PackageInfo pInfo = null;
 			try {
-				pInfo = mPackageManager.getPackageInfo(app.packageName.toString(),
+				pInfo = mPackageManager.getPackageInfo(app.packageName,
 						PackageManager.GET_PERMISSIONS);
 			} catch (NameNotFoundException e) {
-				e.printStackTrace();
+				Toolbox.logTxt(this.getClass().getName(),
+						"installed app-name not found: " + e);
 			}
-			appList.add(new App(pInfo.packageName, mPackageManager.getApplicationLabel(
-					pInfo.applicationInfo).toString(), pInfo.versionName,
-					mApplicationProperties.runningProcessNamesListContainsStartWith(pInfo.packageName),
-					pInfo.firstInstallTime, pInfo.lastUpdateTime,
-					pInfo.requestedPermissions));
+			if (pInfo != null) {
+				appList.add(new App(pInfo.packageName, mPackageManager.getApplicationLabel(
+                        pInfo.applicationInfo).toString(), pInfo.versionName,
+                        mApplicationProperties.runningProcessNamesListContainsStartWith(pInfo.packageName),
+                        pInfo.firstInstallTime, pInfo.lastUpdateTime,
+                        pInfo.requestedPermissions));
+			}
 		}
 		return appList;
 	}

@@ -22,8 +22,8 @@ import de.simu.decoit.android.decomap.activities.setupview.PreferenceFileChooser
  */
 public abstract class AbstractPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    protected int fragmentID;
-    protected final ArrayList<String> dynamicSummaryKeys = new ArrayList<String>();
+    int fragmentID;
+    final ArrayList<String> dynamicSummaryKeys = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
         }
     }
 
-    protected void updateAllSummarys() {
+    void updateAllSummarys() {
         for (String key : dynamicSummaryKeys) {
             updateSummary(findPreference(key));
         }

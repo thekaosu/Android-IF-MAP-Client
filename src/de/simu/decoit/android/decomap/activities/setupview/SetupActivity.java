@@ -32,7 +32,6 @@ import java.util.List;
 
 import de.simu.decoit.android.decomap.activities.R;
 import de.simu.decoit.android.decomap.preferences.PreferenceInitializer;
-import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
@@ -47,11 +46,9 @@ public class SetupActivity extends PreferenceActivity {
     private List<Header> headers;
     private String setupMode;
 
-    private final List<Header> mainHeader = new ArrayList<Header>();
-    private final List<Header> iMonitorHeaderList = new ArrayList<Header>();
-    private final List<Header> ifMapHeaderList = new ArrayList<Header>();
-
-    private PreferencesValues mPreferences = PreferencesValues.getInstance();
+    private final List<Header> mainHeader = new ArrayList<>();
+    private final List<Header> iMonitorHeaderList = new ArrayList<>();
+    private final List<Header> ifMapHeaderList = new ArrayList<>();
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -90,7 +87,7 @@ public class SetupActivity extends PreferenceActivity {
 
     public void refreshHeaders() {
         String mode = PreferenceManager.getDefaultSharedPreferences(this).getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", "IF-MAP");
-        if (mode != null && !mode.equals(setupMode)) {
+        if (!mode.equals(setupMode)) {
             setupMode = mode;
             headers.clear();
             headers.addAll(mainHeader);
@@ -142,7 +139,7 @@ public class SetupActivity extends PreferenceActivity {
         int i, count;
 
         if (headers == null && adapter != null) {
-            headers = new ArrayList<Header>();
+            headers = new ArrayList<>();
 
             count = adapter.getCount();
             for (i = 0; i < count; ++i) {

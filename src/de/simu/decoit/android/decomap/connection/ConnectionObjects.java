@@ -24,6 +24,7 @@ package de.simu.decoit.android.decomap.connection;
 import de.hshannover.f4.trust.ifmapj.channel.ARC;
 import de.hshannover.f4.trust.ifmapj.channel.SSRC;
 import de.hshannover.f4.trust.ifmapj.exception.InitializationException;
+import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Container-Class for ConnectionObjects from ifmapj
@@ -35,13 +36,13 @@ public class ConnectionObjects {
 
     // channel-connection objects
     private static SSRC sSsrcConnection = null;
-    private static ARC sArcConnection = null;
+    private static ARC sArcConnection = null; //maybe usefull in the future
 
     /**
      * Sets the SSRC object and generates an ARC object If the delivered object
      * is null, this method sets the ARC object to null
      * 
-     * @param sSsrcConnection
+     * @param ssrcConnection
      *            the mSsrcConnection to set
      */
     public static void setSsrcConnection(SSRC ssrcConnection) {
@@ -53,7 +54,8 @@ public class ConnectionObjects {
                 setArcConnection(null);
             }
         } catch (InitializationException e) {
-            e.printStackTrace();
+            Toolbox.logTxt(ConnectionObjects.class.getName(),
+                    "error while connecting: " + e);
         }
     }
 

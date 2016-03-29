@@ -23,8 +23,8 @@ package de.simu.decoit.android.decomap.activities;
 
 import android.app.TabActivity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
@@ -72,43 +72,37 @@ public class TabLayout extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        Resources res = getResources(); // Resource object to get Drawables
         mTabHost = getTabHost(); // The activity TabHost
 
         // main-tab
         Intent intent = new Intent(this, MainActivity.class);
         mTabHost.addTab(mTabHost
                 .newTabSpec(getResources().getString(R.string.tablayout_tabname_mainactivty))
-                .setIndicator(getResources().getString(R.string.tablayout_tabname_mainactivty),
-                        res.getDrawable(R.drawable.ic_tab_main)).setContent(intent));
+                .setIndicator(getResources().getString(R.string.tablayout_tabname_mainactivty)).setContent(intent));
 
         // setup-tab
         Intent intent2 = new Intent(this, SetupActivity.class);
         mTabHost.addTab(mTabHost
                 .newTabSpec(getResources().getString(R.string.tablayout_tabname_setupactivity))
-                .setIndicator(getResources().getString(R.string.tablayout_tabname_setupactivity),
-                        res.getDrawable(R.drawable.ic_tab_setup)).setContent(intent2));
+                .setIndicator(getResources().getString(R.string.tablayout_tabname_setupactivity)).setContent(intent2));
 
         // device-status-tab
         Intent intent3 = new Intent(this, StatusActivity.class);
         mTabHost.addTab(mTabHost
                 .newTabSpec(getResources().getString(R.string.tablayout_tabname_statusactivity))
-                .setIndicator(getResources().getString(R.string.tablayout_tabname_statusactivity),
-                        res.getDrawable(R.drawable.ic_tab_status)).setContent(intent3));
+                .setIndicator(getResources().getString(R.string.tablayout_tabname_statusactivity)).setContent(intent3));
 
         // log-messages-tab
         Intent intent4 = new Intent(this, LogActivity.class);
         mTabHost.addTab(mTabHost
                 .newTabSpec(getResources().getString(R.string.tablayout_tabname_logactivity))
-                .setIndicator(getResources().getString(R.string.tablayout_tabname_logactivity),
-                        res.getDrawable(R.drawable.ic_tab_log)).setContent(intent4));
+                .setIndicator(getResources().getString(R.string.tablayout_tabname_logactivity)).setContent(intent4));
         Intent intent5 = new Intent(this, InfoActivity.class);
 
         // about/info-tab
         mTabHost.addTab(mTabHost
                 .newTabSpec(getResources().getString(R.string.tablayout_tabname_aboutactivity))
-                .setIndicator(getResources().getString(R.string.tablayout_tabname_aboutactivity),
-                        res.getDrawable(R.drawable.ic_tab_about)).setContent(intent5));
+                .setIndicator(getResources().getString(R.string.tablayout_tabname_aboutactivity)).setContent(intent5));
 
         // set start tab
         mTabHost.setCurrentTab(0);
@@ -152,7 +146,7 @@ public class TabLayout extends TabActivity {
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
         if (mGestureScanner != null) {
             if (mGestureScanner.onTouchEvent(ev))
                 return true;

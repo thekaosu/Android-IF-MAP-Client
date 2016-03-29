@@ -52,7 +52,7 @@ public class PhonePropertiesLegacy extends PhoneProperties{
      */
     @Override
     public String getManufacturer() {
-        return Build.MANUFACTURER.toString();
+        return Build.MANUFACTURER;
     }
 
     /**
@@ -82,7 +82,7 @@ public class PhonePropertiesLegacy extends PhoneProperties{
      */
     @Override
     public String getBranding() {
-        return Build.BRAND.toString();
+        return Build.BRAND;
     }
 
     /**
@@ -93,7 +93,7 @@ public class PhonePropertiesLegacy extends PhoneProperties{
     @Override
     public String getPhonenumber() {
         if (mTelephonyMgr.getLine1Number() != null && mTelephonyMgr.getLine1Number().length() > 0) {
-            return mTelephonyMgr.getLine1Number().toString();
+            return mTelephonyMgr.getLine1Number();
         }
         return null;
     }
@@ -105,7 +105,7 @@ public class PhonePropertiesLegacy extends PhoneProperties{
      */
     @Override
     public String getModel() {
-        return Build.MODEL.toString();
+        return Build.MODEL;
     }
 
     /**
@@ -141,9 +141,8 @@ public class PhonePropertiesLegacy extends PhoneProperties{
      */
     @Override
     public boolean isBluetoothActive() {
-        BluetoothAdapter bt = null;
         if (BluetoothAdapter.getDefaultAdapter() != null) {
-            bt = BluetoothAdapter.getDefaultAdapter();
+            BluetoothAdapter bt = BluetoothAdapter.getDefaultAdapter();
             return bt.isEnabled();
         } else {
             return false;
@@ -153,7 +152,7 @@ public class PhonePropertiesLegacy extends PhoneProperties{
     /**
      * check current microphone state
      * 
-     * @return
+     * @return is micro activ
      */
     @Override
     public String getMicrophoneActiveString() {

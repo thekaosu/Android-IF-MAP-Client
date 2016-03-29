@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
     private ProgressDialog myProgressDialog = null;
 
     // current if-map session and publisher id
-    public String mCurrentSessionId; //TODO: damit was anfangen?
+    public String mCurrentSessionId;
 
     // application/connection states
     private boolean mIsConnected = false;
@@ -133,8 +133,6 @@ public class MainActivity extends Activity {
     // local services
     private ServiceConnection mConnection;
     private ServiceConnection mPermConnection;
-
-    private final int timeout = 12000; //TODO into config!
 
     // local services states
     private boolean mIsBound;
@@ -161,10 +159,10 @@ public class MainActivity extends Activity {
     // message-parameter-generator
     private MessageParametersGenerator<PublishRequest> parameters;
 
-    private BatteryReceiver mBatteryReciever = null; //vielleicht noch nützlich!
+    private BatteryReceiver mBatteryReciever = null; //maybe useful later!
 
     // receiver for pictures taken with the camera
-    private CameraReceiver mCameraReceiver = null; //vielleicht noch nützlich!
+    private CameraReceiver mCameraReceiver = null; //maybe useful later!
 
     // -------------------------------------------------------------------------
     // ACTIVITY LIFECYCLE HANDLING
@@ -204,13 +202,10 @@ public class MainActivity extends Activity {
 
                 public void onCameraAvailable(String cameraId) {
                     mPreferences.setCamActiv(cameraId, false);
-                    Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is not in use!");
                 }
 
                 public void onCameraUnavailable(String cameraId) {
                     mPreferences.setCamActiv(cameraId, true);
-                    Toolbox.logTxt(MainActivity.this.getLocalClassName(), "Camera is in use!");
-
                 }
             };
 
@@ -219,7 +214,7 @@ public class MainActivity extends Activity {
         // autoconnect at Startup
         if (mPreferences.isAutoconnect()) {
             // start connection service if all required preferences are set
-            if (!validatePreferences()) {
+            if (incorrectPreferencesConfiguration()) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
@@ -317,7 +312,11 @@ public class MainActivity extends Activity {
             try {
                 mLocManager.removeUpdates(mLocListener);
             } catch (NullPointerException e) {
-                e.printStackTrace();
+                Toolbox.logTxt(this.getClass().getName(),
+                        "error on destroy: " + e);
+                mStatusMessageField.append("\n"
+                        + getResources().getString(
+                        R.string.main_status_message_errorprefix) + " " + e);
             }
         }
 
@@ -429,7 +428,7 @@ public class MainActivity extends Activity {
                             "https://"
                                     + mPreferences.getIFMAPServerIpPreference() + ":"
                                     + mPreferences.getIFMAPServerPortPreference(), mPreferences.getUsernamePreference(), mPreferences
-                            .getPasswordPreference(), trustManagers, timeout);
+                            .getPasswordPreference(), trustManagers, mPreferences.getConnectionTimeout());
                 } else {
                     // create ssrc-connection using certificates
                     Toolbox.logTxt(this.getLocalClassName(),
@@ -438,16 +437,20 @@ public class MainActivity extends Activity {
                             mPreferences.getKeystorePassword());
                     sSsrcConnection = new SsrcImpl("https://"
                             + mPreferences.getIFMAPServerIpPreference() + ":"
-                            + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, timeout);
+                            + mPreferences.getIFMAPServerPortPreference(), keyManagers, trustManagers, mPreferences.getConnectionTimeout());
                 }
 
                 mResponseType = 0;
             } catch (InitializationException e) {
+                Toolbox.logTxt(this.getClass().getName(),
+                        "error on connection initialization: " + e);
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix) + " " + e.getMessage());
                 return false;
             } catch (NotFoundException e) {
+                Toolbox.logTxt(this.getClass().getName(),
+                        "not found error while initialization of connection: " + e);
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix) + " " + e.getMessage());
@@ -559,7 +562,7 @@ public class MainActivity extends Activity {
 
     private void connectNSCA() {
         // start connection service if all required preferences are set
-        if (!validatePreferences()) {
+        if (incorrectPreferencesConfiguration()) {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)
@@ -658,7 +661,7 @@ public class MainActivity extends Activity {
         }
 
         // start connection service if all required preferences are set
-        if (!validatePreferences()) {
+        if (incorrectPreferencesConfiguration()) {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)
@@ -687,27 +690,27 @@ public class MainActivity extends Activity {
     /**
      * check if the preference values are valid
      */
-    private boolean validatePreferences() {
+    private boolean incorrectPreferencesConfiguration() {
 
         if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
             // validate password (defaults always to "icinga")
             if (mPreferences.getNscaPassPreference() == null
-                    || !(mPreferences.getNscaPassPreference().length() > 0)) {
+                    || mPreferences.getNscaPassPreference().length() == 0) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
                         + " NSCA Password is null or empty!");
-                return false;
+                return true;
             }
 
             // validate ip-setting from preferences
             if (mPreferences.getIMonitorServerIpPreference() == null
-                    || !(mPreferences.getIMonitorServerIpPreference().length() > 0)) {
+                    || mPreferences.getIMonitorServerIpPreference().length() == 0) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
                         + " iMonitor ip is null or empty!");
-                return false;
+                return true;
             } else {
                 Matcher ipMatcher = Toolbox.getIpPattern().matcher(
                         mPreferences.getIMonitorServerIpPreference());
@@ -716,24 +719,24 @@ public class MainActivity extends Activity {
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " iMonitor ip is not valid!");
-                    return false;
+                    return true;
                 }
             }
             // validate portnumber
             if (mPreferences.getIMonitorServerPortPreference() == null ||
-                    !(mPreferences.getIMonitorServerPortPreference().length() > 0)) {
+                    mPreferences.getIMonitorServerPortPreference().length() == 0) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
                         + " iMonitor port is null or empty!");
-                return false;
+                return true;
             } else {
                 if (!TextUtils.isDigitsOnly(mPreferences.getIMonitorServerPortPreference())) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " iMonitor port is not a number!");
-                    return false;
+                    return true;
                 }
             }
         } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("IF-MAP")) {
@@ -741,32 +744,32 @@ public class MainActivity extends Activity {
             if (mPreferences.isUseBasicAuth()) {
                 // validate username
                 if (mPreferences.getUsernamePreference() == null
-                        || !(mPreferences.getUsernamePreference().length() > 0)) {
+                        || mPreferences.getUsernamePreference().length() == 0) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " basic auth username is null or empty!");
-                    return false;
+                    return true;
                 }
                 // validate password
                 if (mPreferences.getPasswordPreference() == null
-                        || !(mPreferences.getPasswordPreference().length() > 0)) {
+                        || mPreferences.getPasswordPreference().length() == 0) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " basic auth password is null or empty!");
-                    return false;
+                    return true;
                 }
             }
 
             // validate ip-setting from preferences
             if (mPreferences.getIFMAPServerIpPreference() == null
-                    || !(mPreferences.getIFMAPServerIpPreference().length() > 0)) {
+                    || mPreferences.getIFMAPServerIpPreference().length() == 0) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
                         + " IF-MAP ip is null or empty!");
-                return false;
+                return true;
             } else {
                 Matcher ipMatcher = Toolbox.getIpPattern().matcher(
                         mPreferences.getIFMAPServerIpPreference());
@@ -775,24 +778,24 @@ public class MainActivity extends Activity {
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " IF-MAP ip is not valid!");
-                    return false;
+                    return true;
                 }
             }
             // validate portnumber
             if (mPreferences.getIFMAPServerPortPreference() == null ||
-                    !(mPreferences.getIFMAPServerPortPreference().length() > 0)) {
+                    mPreferences.getIFMAPServerPortPreference().length() == 0) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
                         + " IF-MAP port is null or empty!");
-                return false;
+                return true;
             } else {
                 if (!TextUtils.isDigitsOnly(mPreferences.getIFMAPServerPortPreference())) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
                             + " IF-MAP port is not a number!");
-                    return false;
+                    return true;
                 }
             }
         } else {
@@ -800,10 +803,10 @@ public class MainActivity extends Activity {
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)
                     + " Monitoring-mode is unknown!");
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -1157,7 +1160,7 @@ public class MainActivity extends Activity {
      * location to the map-server
      */
     private Handler mUpdateHandler = new Handler();
-    private Runnable mUpdateTimeTask = new Runnable() {
+    private final Runnable mUpdateTimeTask = new Runnable() {
         public void run() {
             if (mPreferences.isAutoUpdate()) {
                 sendMetadataUpdateToServer();
@@ -1186,7 +1189,7 @@ public class MainActivity extends Activity {
      * create service connection
      * send InfoEvent and AppEvent on first connect
      */
-    private ServiceConnection mNscaConnection = new ServiceConnection() {
+    private final ServiceConnection mNscaConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
@@ -1231,7 +1234,7 @@ public class MainActivity extends Activity {
     /**
      * receive (local) intents to generate and publish new events or drop connection
      */
-    private BroadcastReceiver mMonitorEventReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mMonitorEventReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             EventParameters eP = new EventParameters(mDeviceProperties);

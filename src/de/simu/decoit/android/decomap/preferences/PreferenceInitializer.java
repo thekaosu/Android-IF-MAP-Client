@@ -60,10 +60,6 @@ public class PreferenceInitializer {
                 "allowUnsafeSSLPreference", true));
         mPreferences.setEnableNewAndEndSessionLog(prefs.getBoolean(
                 "logNewsessionRequest", false));
-        mPreferences
-                .setEnablePollLog(prefs.getBoolean("logPollRequest", false));
-        mPreferences.setEnableSubscribe(prefs.getBoolean("logSubscripeRequest",
-                false));
         mPreferences.setEnableLocationTrackingLog(prefs.getBoolean(
                 "logLocationTracking", false));
         mPreferences.setEnablePublishCharacteristicsLog(prefs.getBoolean(

@@ -12,7 +12,7 @@
         android:key="logPath"
         android:summary="@string/preferences_summary_logpath"
         android:title="Log Directory"
-        attr:onlyDirectory="true"></de.simu.decoit.android.decomap.activities.setupview.PreferenceFileChooserDialogPreference>
+        attr:onlyDirectory="true"/>
 
     <SwitchPreference
         android:defaultValue="true"
@@ -20,35 +20,17 @@
         android:summary="@string/preferences_summary_lognewsessionrequest"
         android:title="@string/preferences_title_lognewsessionrequest" />
 
-    <!--
-    <CheckBoxPreference android:title="@string/preferences_title_logpollrequest"
-    android:defaultValue="true" android:summary="@string/preferences_summary_logpollrequest"
-    android:key="logPollRequest" />-->
-
-    <!--
-    <CheckBoxPreference android:title="@string/preferences_title_logsubscripe"
-    android:defaultValue="true" android:summary="@string/preferences_summary_logsubscribe"
-    android:key="logSubscripeRequest" />-->
-
     <SwitchPreference
         android:defaultValue="false"
         android:key="logRenewRequest"
         android:summary="@string/preferences_summary_logrenewrequest"
         android:title="@string/preferences_title_logrenewrequest" />
 
-    <!--  CheckBoxPreference android:title="@string/preferences_title_logsearch"
-    android:defaultValue="true" android:summary="@string/preferences_summary_logsearch"
-    android:key="logSearch" /-->
-
     <SwitchPreference
         android:defaultValue="true"
         android:key="logLocationTracking"
         android:summary="@string/preferences_summary_loglocationtracking"
         android:title="@string/preferences_title_loglocationtracking" />
-
-    <!-- CheckBoxPreference android:title="@string/preferences_title_logdeletelocation"
-    android:defaultValue="true" android:summary="@string/preferences_summary_logdeletelocation"
-    android:key="logDeleteLocation" /-->
 
     <SwitchPreference
         android:defaultValue="true"

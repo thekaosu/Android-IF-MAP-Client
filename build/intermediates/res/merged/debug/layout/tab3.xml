@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><!-- main tab -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ScrollViewTab3"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/status_tab"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:fillViewport="true">
@@ -10,18 +10,16 @@
         android:id="@+id/statusTabLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="5dip"
-        android:paddingRight="5dip"
-        android:paddingTop="5dip">
+        android:orientation="vertical">
 
         <!-- Device Properties -->
         <ListView
             android:id="@+id/status_ListView"
             android:layout_width="fill_parent"
-            android:layout_height="1800dip"
+            android:layout_height="fill_parent"
             android:minHeight="?android:attr/listPreferredItemHeight"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_weight="1"/>
 
         <!-- Location properties -->
         <TextView
@@ -57,10 +55,11 @@
             android:layout_height="wrap_content"
             android:onClick="updateStatusButtonHandler"
             android:text="@string/status_lable_update_status"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_weight="0"/>
 
     </LinearLayout>
 
 
-</ScrollView>
+</LinearLayout>
 <!-- From: file:/C:/Users/lschwenke/android/Android-IF-MAP-Client/res/layout/tab3.xml -->

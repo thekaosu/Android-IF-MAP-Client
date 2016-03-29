@@ -134,7 +134,7 @@ public class PermanentConnectionService extends Service {
 
 		// get message from incoming server response
 		ResponseParameters responseParams = MessageHandler.getInstance().getResponseParameters(responseMessageType,
-				msg, false, getApplicationContext());
+				msg, getApplicationContext());
 
 		Toolbox.logTxt("PermanetConnectionService", "incoming message: " + msg);
 	    Toolbox.logTxt("PermanetConnectionService", "END OF incoming message!! ");

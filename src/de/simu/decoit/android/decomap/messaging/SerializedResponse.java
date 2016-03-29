@@ -31,7 +31,7 @@ import de.simu.decoit.android.decomap.activities.R;
  * @author Dennis Dunekacke, DECOIT GmbH
  * @version 0.2
  */
-public class SerializedResponse {
+class SerializedResponse {
 
     private String mSerializedMsg = null;
     private String mStatusMsg = null;
@@ -95,7 +95,7 @@ public class SerializedResponse {
 
             default:
                 // convert server-message
-                String message[] = response.trim().split("\\,");
+                String message[] = response.trim().split(",");
                 for (String aMessage : message) {
                     if (aMessage.startsWith("session-id")) {
                         setSessionID(aMessage.substring("session-id".length()));

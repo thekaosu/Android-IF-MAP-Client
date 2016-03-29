@@ -143,7 +143,8 @@ public class MessageParametersGenerator<T> {
         try {
             mDocumentBuilder = mDocumentBuilderFactory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();
+            Toolbox.logTxt(this.getClass().getName(),
+                    "error while parsing parameters: " + e);
             throw new RuntimeException(e);
         }
     }
@@ -168,7 +169,7 @@ public class MessageParametersGenerator<T> {
         // (changes due to demonstrator - usecase3)
         if (deviceProperties.getSystemProperties().getMAC() == null) {
             String mac = Toolbox.getMACAddress("eth0");
-            if (mac == null || mac.equals("UNKNOWN EMULATOR")) {
+            if (mac.equals("UNKNOWN EMULATOR")) {
                 mac = Toolbox.getMACAddress("wlan0");
             }
             deviceIdentifier = Identifiers.createDev(mac);
@@ -215,7 +216,7 @@ public class MessageParametersGenerator<T> {
 
                 // also append esukom-specific data if related option is set
                 if (useNonConformMetadata) {
-                    createEsukomSpecificDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, simpledateformat, nowTime,
+                    createEsukomSpecificDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, nowTime,
                             deviceProperties, dontSendAppInfos, dontSendGoogleApps);
                 }
 
@@ -232,7 +233,7 @@ public class MessageParametersGenerator<T> {
 
                     // build publish-location-update-request
                     publishLocationUpdate.setIdentifier1(ipAddress);
-                    List<LocationInformation> locationInfoList = new ArrayList<LocationInformation>();
+                    List<LocationInformation> locationInfoList = new ArrayList<>();
                     LocationInformation locationInformation = new LocationInformation(mPreferences.getLocationTrackingType(),
                             MainActivity.sLatitude + " " + MainActivity.sLongitude);
                     locationInfoList.add(locationInformation);
@@ -257,7 +258,7 @@ public class MessageParametersGenerator<T> {
 
                 // also append esukom-specific data if related option is set
                 if (useNonConformMetadata) {
-                    createEsukomSpecificDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, simpledateformat, nowTime,
+                    createEsukomSpecificDeviceCharacteristicsMetadataGraph(publishRequest, deviceIdentifier, nowTime,
                             deviceProperties, dontSendAppInfos, dontSendGoogleApps);
                 }
 
@@ -307,7 +308,7 @@ public class MessageParametersGenerator<T> {
      * @param ipAddress        IP-Identifier
      */
     private void createDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdentifier,
-                                                         DeviceProperties deviceProperties, SimpleDateFormat simpledateformat, Date nowTime, IpAddress ipAddress) {
+                                                          DeviceProperties deviceProperties, SimpleDateFormat simpledateformat, Date nowTime, IpAddress ipAddress) {
         Document document = createStdSingleElementDocument("device-characteristic", Cardinality.multiValue);
         Element root = (Element) document.getFirstChild();
 
@@ -329,20 +330,17 @@ public class MessageParametersGenerator<T> {
     /**
      * create metadata-graph for esukom-specific metadata
      *
-     * @param publishRequest   publish-request to send
-     * @param deviceIdent      root-identifier for the device
-     * @param simpledateformat date-formatter
-     * @param nowTime          current time
-     * @param devProps         device-properties object containing device-related informations to be appended to the metadata-graph
+     * @param publishRequest publish-request to send
+     * @param deviceIdent    root-identifier for the device
+     * @param nowTime        current time
+     * @param devProps       device-properties object containing device-related informations to be appended to the metadata-graph
      */
     private void createEsukomSpecificDeviceCharacteristicsMetadataGraph(PublishRequest publishRequest, Device deviceIdent,
-                                                                       SimpleDateFormat simpledateformat, Date nowTime, DeviceProperties devProps, boolean dontSendAppInfos, boolean dontSendGoogleApps) {
+                                                                        Date nowTime, DeviceProperties devProps, boolean dontSendAppInfos, boolean dontSendGoogleApps) {
 
         // feature-document and current time
-        Document fe = null;
-        String time = simpledateformat.format(nowTime);
-        // hack to include colon in timezone
-        time = DateUtil.getTimestampXsd(nowTime.getTime());
+        Document fe;
+        String time = DateUtil.getTimestampXsd(nowTime.getTime());
 
         // republish informations-flag
         boolean locationChanged = false;
@@ -538,7 +536,6 @@ public class MessageParametersGenerator<T> {
                 Identity phoneAppCat = createCategory("smartphone.android.app:" + i, deviceIdent.getName());
 
                 boolean appEntryExists = (mLastAppList != null && i < mLastAppList.size() && mLastAppList.get(i) != null);
-
                 /*
                  * if the name of the application differs from last application-list, then the application seems to have changed and
                  * therefore we need to (re)publish all application-informations
@@ -555,15 +552,13 @@ public class MessageParametersGenerator<T> {
                 }
 
                 // smartphone.android.app.Installer
-                if (!sInitialDevCharWasSend || entryNameChanged || locationChanged
-                        || (appEntryExists && !mLastAppList.get(i).getInstallerPackageName().equals(currentAppList.get(i).getInstallerPackageName()))) {
+                if (!sInitialDevCharWasSend || entryNameChanged || (appEntryExists && !mLastAppList.get(i).getInstallerPackageName().equals(currentAppList.get(i).getInstallerPackageName()))) {
                     fe = createFeature("Installer", time, currentAppList.get(i).getInstallerPackageName(), ARBIT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
                 }
 
                 // smartphone.android.app.VersionName and VersionCode
-                if (!sInitialDevCharWasSend || entryNameChanged || locationChanged
-                        || (appEntryExists && !mLastAppList.get(i).getVersionName().equals(currentAppList.get(i).getVersionName()))) {
+                if (!sInitialDevCharWasSend || entryNameChanged || (appEntryExists && !mLastAppList.get(i).getVersionName().equals(currentAppList.get(i).getVersionName()))) {
                     fe = createFeature("VersionName", time, currentAppList.get(i).getVersionName(), ARBIT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
                     fe = createFeature("VersionCode", time, currentAppList.get(i).getVersionCode() + "", QUANT);
@@ -571,8 +566,7 @@ public class MessageParametersGenerator<T> {
                 }
 
                 // smartphone.android.app.IsRunning
-                if (!sInitialDevCharWasSend || entryNameChanged || locationChanged
-                        || (appEntryExists && !mLastAppList.get(i).isCurrentlyRunning() == currentAppList.get(i).isCurrentlyRunning())) {
+                if (!sInitialDevCharWasSend || entryNameChanged || (appEntryExists && !mLastAppList.get(i).isCurrentlyRunning() == currentAppList.get(i).isCurrentlyRunning())) {
                     fe = createFeature("IsRunning", time,
                             String.valueOf(currentAppList.get(i).isCurrentlyRunning()), ARBIT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
@@ -586,8 +580,7 @@ public class MessageParametersGenerator<T> {
                 ArrayList<Permission> newPermissionList = currentAppList.get(i).getPermissions();
 
                 for (int j = 0; j < newPermissionList.size(); j++) {
-                    if (!sInitialDevCharWasSend || entryNameChanged || locationChanged
-                            || (!appEntryExists || !oldPermissionList.contains(newPermissionList.get(j)))) {
+                    if (!sInitialDevCharWasSend || entryNameChanged || (!appEntryExists || !oldPermissionList.contains(newPermissionList.get(j)))) {
 
                         // smartphone.android.app.permission
                         Identity phoneAppPermCat = createCategory("smartphone.android.app:" + i + ".permission:" + j,
@@ -635,7 +628,7 @@ public class MessageParametersGenerator<T> {
                         mPreferences.setCamActiv(camIdx + "", false);
                         cam.release();
                     } catch (RuntimeException e) {
-                        Toolbox.logTxt("SystemProperties",
+                        Toolbox.logTxt(this.getClass().getName(),
                                 "Camera failed to open: "
                                         + e.getLocalizedMessage());
                         mPreferences.setCamActiv(camIdx + "", true);
@@ -648,7 +641,7 @@ public class MessageParametersGenerator<T> {
                         mPreferences.setCamActiv(camIdx + "", false);
                         cam.release();
                     } catch (RuntimeException e) {
-                        Toolbox.logTxt("SystemProperties",
+                        Toolbox.logTxt(this.getClass().getName(),
                                 "Camera failed to open: "
                                         + e.getLocalizedMessage());
                         mPreferences.setCamActiv(camIdx + "", true);
@@ -671,10 +664,9 @@ public class MessageParametersGenerator<T> {
      * @param doDelete         flag to decide if an automatic delete request is appended
      */
     private void addToUpdateRequest(PublishRequest request, Identifier ident1, Identifier ident2, Document metadata,
-                                   MetadataLifetime metadataLifeTime, boolean doDelete) {
+                                    MetadataLifetime metadataLifeTime, boolean doDelete) {
         // add publish-update to request
         PublishUpdate publishUpdate = Requests.createPublishUpdate();
-        publishUpdate = Requests.createPublishUpdate();
         publishUpdate.setIdentifier1(ident1);
         if (ident2 != null) {
             publishUpdate.setIdentifier2(ident2);
@@ -768,9 +760,9 @@ public class MessageParametersGenerator<T> {
     /**
      * Helper to create an {@link Element} without a namespace in {@link Document} doc and append it to the {@link Element} given by parent.
      *
-     * @param doc
-     * @param elName
-     * @return element
+     * @param doc    Document to create with
+     * @param elName node to add
+     * @return element parent element to add onto
      */
     private Element createAndAppendElement(Document doc, Element parent, String elName) {
         Element el = doc.createElementNS(null, elName);
@@ -858,8 +850,8 @@ public class MessageParametersGenerator<T> {
     /**
      * Anonymize the given input String by using a cryptographic hash.
      *
-     * @param input
-     * @return
+     * @param input string to encrypte
+     * @return sha256 encrypted string
      */
     private String anonymize(String input) {
         String salt = CryptoUtil.sha256(input);

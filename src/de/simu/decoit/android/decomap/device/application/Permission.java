@@ -55,26 +55,10 @@ public class Permission {
 	}
 
 	/**
-	 * @param permissionName
-	 *            the permissionName to set
-	 */
-	public void setPermissionName(String permissionName) {
-		this.permissionName = permissionName;
-	}
-
-	/**
 	 * @return the permissionType
 	 */
 	public byte getPermissionType() {
 		return permissionType;
-	}
-
-	/**
-	 * @param permissionType
-	 *            the permissionType to set
-	 */
-	public void setPermissionType(byte permissionType) {
-		this.permissionType = permissionType;
 	}
 
 	@Override

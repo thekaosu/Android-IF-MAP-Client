@@ -27,7 +27,7 @@ package de.simu.decoit.android.decomap.database.dao;
  * @version 0.1.4.2
  * @author Dennis Dunekacke, Decoit GmbH
  */
-public interface LogMessageColums {
+interface LogMessageColums {
 	String ID = "_id";
 	String TIMESTAMP = "timestamp";
 	String MESSAGETYPE = "msgtype";

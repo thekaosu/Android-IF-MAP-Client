@@ -37,7 +37,7 @@ import de.simu.decoit.android.decomap.activities.R;
  * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
-public class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSelectedListener {
+class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSelectedListener {
     private final Context context;
     private final String key;
     private final ArrayAdapter<CharSequence> spinnerAdapter;

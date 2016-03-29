@@ -35,7 +35,7 @@ import de.simu.decoit.android.decomap.preferences.PreferencesValues;
  * @author Dennis Dunekacke, Decoit GmbH
  * @version 0.2
  */
-public class CustomLogger {
+class CustomLogger {
 
     /**
      * output log message to log-file and use the android-logger for showing message on debug-console
@@ -54,7 +54,8 @@ public class CustomLogger {
                 bw.newLine();
                 bw.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                Toolbox.logTxt(CustomLogger.class.getName(),
+                        "error while logging with custom logger: " + e);
             }
         } else {
             Toolbox.sLogFolderExists = Toolbox.createDirIfNotExists(PreferencesValues.getInstance().getLogPath());

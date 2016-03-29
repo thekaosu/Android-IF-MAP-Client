@@ -32,8 +32,8 @@ import java.util.ArrayList;
  */
 public class PermanentlyConnectionManager {
 
-    private final ArrayList<Runnable> mActive = new ArrayList<Runnable>();
-    private final ArrayList<Runnable> mQueue = new ArrayList<Runnable>();
+    private final ArrayList<Runnable> mActive = new ArrayList<>();
+    private final ArrayList<Runnable> mQueue = new ArrayList<>();
 
     private static PermanentlyConnectionManager instance;
 

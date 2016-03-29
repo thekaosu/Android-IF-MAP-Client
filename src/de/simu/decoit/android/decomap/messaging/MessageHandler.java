@@ -35,13 +35,13 @@ public class MessageHandler {
     // message types
     public static final byte MSG_TYPE_REQUEST_NEWSESSION = 1;
     public static final byte MSG_TYPE_REQUEST_ENDSESSION = 2;
-    public static final byte MSG_TYPE_SUBSCRIPE_REQUEST_TESTCASE1 = 3;
-    public static final byte MSG_TYPE_POLL_REQUEST = 4;
+    //public static final byte MSG_TYPE_SUBSCRIPE_REQUEST_TESTCASE1 = 3;
+    //public static final byte MSG_TYPE_POLL_REQUEST = 4;
     public static final byte MSG_TYPE_REQUEST_RENEWSESSION = 5;
     public static final byte MSG_TYPE_METADATA_UPDATE = 6;
-    public static final byte MSG_TYPE_DELETE_LOCATION = 7;
+    //public static final byte MSG_TYPE_DELETE_LOCATION = 7;
     public static final byte MSG_TYPE_PUBLISH_CHARACTERISTICS = 8;
-    public static final byte MSG_TYPE_SEARCH = 9;
+    //public static final byte MSG_TYPE_SEARCH = 9;
     public static final byte MSG_TYPE_ERRORMSG = 99;
     public static final byte MSG_TYPE_INVALID_RESPONSE = 100;
 
@@ -69,14 +69,12 @@ public class MessageHandler {
      *            identifier for desired message type
      * @param response
      *            array containing the response as byte stream
-     * @param stripLineBreaks
-     *            strip all linebreaks in string before returning,
      * @param serviceContext
      *            application context from service witch is calling this method. This is necessary to get access to the String-Resources
      * 
      * @return String
      */
-    public ResponseParameters getResponseParameters(byte msgType, String response, boolean stripLineBreaks, Context serviceContext) {
+    public ResponseParameters getResponseParameters(byte msgType, String response, Context serviceContext) {
         ResponseParameters responseParams = new ResponseParameters();
         SerializedResponse serResponse = new SerializedResponse();
         serResponse.setSerializedMsg(response, msgType, serviceContext);

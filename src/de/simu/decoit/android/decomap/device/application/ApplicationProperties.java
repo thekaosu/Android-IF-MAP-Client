@@ -33,6 +33,8 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.simu.decoit.android.decomap.util.Toolbox;
+
 /**
  * class for reading out several properties from applications which are installed on the device
  * 
@@ -70,7 +72,7 @@ public class ApplicationProperties {
      */
     public ArrayList<ApplicationListEntry> getApplicationList(boolean excludeNativeApplications, boolean includeVersionNumber,
             boolean includePermissions, boolean includeCurrentRunStatus) {
-        ArrayList<ApplicationListEntry> returnList = new ArrayList<ApplicationListEntry>();
+        ArrayList<ApplicationListEntry> returnList = new ArrayList<>();
         final PackageManager pm = mAppContext.getPackageManager();
         final List<ResolveInfo> resolves = pm
                 .queryIntentActivities(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER), 0);
@@ -83,7 +85,8 @@ public class ApplicationProperties {
                 try {
                     packageInfo = pm.getPackageInfo(resolveInfo.activityInfo.applicationInfo.packageName, PackageManager.GET_PERMISSIONS);
                 } catch (NameNotFoundException e) {
-                    e.printStackTrace();
+                    Toolbox.logTxt(this.getClass().getName(),
+                            "package name not found: " + e);
                 }
             }
 
@@ -98,7 +101,7 @@ public class ApplicationProperties {
                 curEntry.setInstallerPackageName(pm.getInstallerPackageName(resolveInfo.activityInfo.applicationInfo.packageName));
             }
 
-            if (curEntry != null) {
+            if (curEntry != null && packageInfo != null) {
 
                 /* include version name and code */
                 if (includeVersionNumber) {
@@ -108,7 +111,7 @@ public class ApplicationProperties {
 
                 /* include is currently running flag */
                 if (includeCurrentRunStatus) {
-                    curEntry.setCurrentlyRunning(runningProcessNamesListContainsStartWith(resolveInfo.activityInfo.name.toString()));
+                    curEntry.setCurrentlyRunning(runningProcessNamesListContainsStartWith(resolveInfo.activityInfo.name));
                 }
 
                 /* include permissions */
@@ -144,7 +147,7 @@ public class ApplicationProperties {
      */
     public ArrayList<String> getFormattedApplicationList(boolean excludeNativeApplications, boolean includeVersionNumber,
             boolean includePermissions, boolean includeCurrentRunStatus) {
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
 
         ArrayList<ApplicationListEntry> applicationList = getApplicationList(excludeNativeApplications, includeVersionNumber,
                 includePermissions, includeCurrentRunStatus);
@@ -191,7 +194,7 @@ public class ApplicationProperties {
      */
     private ArrayList<PermissionListEntry> getPermissionsList() {
         // gather all permissions and the applications that uses them
-        ArrayList<PermissionListEntry> permissionAppList = new ArrayList<PermissionListEntry>();
+        ArrayList<PermissionListEntry> permissionAppList = new ArrayList<>();
 
         final PackageManager pm = mAppContext.getPackageManager();
         final List<ResolveInfo> resolves = pm
@@ -203,10 +206,11 @@ public class ApplicationProperties {
             try {
                 packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS);
             } catch (NameNotFoundException e) {
-                e.printStackTrace();
+                Toolbox.logTxt(this.getClass().getName(),
+                        "package name not found: " + e);
             }
 
-            if (packageInfo.requestedPermissions != null) {
+            if (packageInfo != null && packageInfo.requestedPermissions != null) {
                 for (String permissionInfo : packageInfo.requestedPermissions) {
 
                     // add current permission to permission-list
@@ -234,7 +238,7 @@ public class ApplicationProperties {
      * @return string list of permission-informations
      */
     public ArrayList<String> getFormattedPermissionsList() {
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
         ArrayList<PermissionListEntry> permissionList = getPermissionsList();
         for (PermissionListEntry currentEntry : permissionList) {
             returnList.add(currentEntry.getPermissionName());
@@ -279,7 +283,7 @@ public class ApplicationProperties {
      * @return string-list of containing all running process names
      */
     private ArrayList<String> getRunningAppProcessNamesAsStrings() {
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
         for (ActivityManager.RunningAppProcessInfo currentEntry : getRunningProcNames()) {
             returnList.add(currentEntry.processName);
         }
@@ -309,7 +313,7 @@ public class ApplicationProperties {
      */
     public ArrayList<String> getFormattedRunningAppProcessNamesList() {
         List<ActivityManager.RunningAppProcessInfo> processList = getRunningProcNames();
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
         if (processList != null) {
             for (int i = 0; i < processList.size(); ++i) {
                 returnList.add(processList.get(i).processName);
@@ -344,20 +348,23 @@ public class ApplicationProperties {
 			String[] splitMem = meminfo.readLine().split(" ");
 			totalMem = splitMem[splitMem.length -  2];
 		} catch (Exception e) {
-			e.printStackTrace();
+            Toolbox.logTxt(this.getClass().getName(),
+                    "error while getting memory of Pid: " + e);
 		} finally {
 			if (statm != null) {
 				try {
 					statm.close();
 				} catch (IOException ex) {
-					ex.printStackTrace();
+                    Toolbox.logTxt(this.getClass().getName(),
+                            "error while closing stream: " + ex);
 				}
 			}
 			if (meminfo != null) {
 				try {
 					meminfo.close();
 				} catch (IOException ex) {
-					ex.printStackTrace();
+                    Toolbox.logTxt(this.getClass().getName(),
+                            "error while closing stream: " + ex);
 				}
 			}
 		}
@@ -378,7 +385,7 @@ public class ApplicationProperties {
      */
 	public List<Process> getProcesses() {
 		List<ActivityManager.RunningAppProcessInfo> processList = getRunningProcNames();
-		List<Process> returnList = new ArrayList<Process>();
+		List<Process> returnList = new ArrayList<>();
 		
 		for(ActivityManager.RunningAppProcessInfo pInfo: processList) {
 			returnList.add(new Process(pInfo.pid, pInfo.processName, pInfo.uid, getMemOfPid(pInfo.pid)));

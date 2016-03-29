@@ -93,16 +93,6 @@ public class StatusMessageAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * add new Item to List
-	 * 
-	 * @param entry
-	 *            Log-Message to be added to List
-	 */
-	public void addItem(ListEntry entry) {
-		listStatusMessage.add(entry);
-	}
-
-	/**
 	 * get View-Element from passed position
 	 * 
 	 * @param position

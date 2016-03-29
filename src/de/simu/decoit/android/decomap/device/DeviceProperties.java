@@ -23,13 +23,13 @@ package de.simu.decoit.android.decomap.device;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import java.lang.reflect.Constructor;
 
 import de.simu.decoit.android.decomap.device.application.ApplicationProperties;
 import de.simu.decoit.android.decomap.device.phone.PhoneProperties;
 import de.simu.decoit.android.decomap.device.system.SystemProperties;
+import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * class for reading out device properties
@@ -60,7 +60,7 @@ public class DeviceProperties {
          */
 
         int sdkVersion = Build.VERSION.SDK_INT;
-        String className = null;
+        String className;
         if (sdkVersion < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             className = "de.simu.decoit.android.decomap.device.phone.PhonePropertiesLegacy";
         } else {
@@ -76,7 +76,8 @@ public class DeviceProperties {
             Constructor<?> constructor = myClass.getConstructor(Context.class);
             phoneProperties = (PhoneProperties) constructor.newInstance(appContext);
         } catch (Exception e) {
-            Log.d("!!!", "error while loading PhoneProperties-Implementation using reflection");
+            Toolbox.logTxt(this.getClass().getName(),
+                    "error while loading PhoneProperties-Implementation using reflection: " + e);
         }
     }
 

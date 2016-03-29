@@ -17,7 +17,7 @@ import de.simu.decoit.android.decomap.activities.setupview.SwitchPreferenceHandl
  */
 public abstract class AbstractSwitchFragment extends AbstractPreferenceFragment {
 
-    protected long keyID;
+    long keyID;
 
     private SwitchPreferenceHandler switchPreferenceHandler;
 
