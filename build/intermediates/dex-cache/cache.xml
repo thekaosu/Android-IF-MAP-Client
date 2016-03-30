@@ -2,18 +2,81 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\commons-lang\commons-lang\2.6\ce1edb914c94ebc388f086c6827e8bdeec71ac2\commons-lang-2.6.jar"
+        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="0ce1edb914c94ebc388f086c6827e8bdeec71ac2">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\commons-lang-2.6-c90bc0886bebbea936d9ae6f9964ceffdb2a29ea.jar" />
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\classes-44f5091cd278f73084be01286e63559c87e81965.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-009f2e267123a59c0338588fa3e68cc6fde70577.jar" />
     </item>
     <item
         jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.googlecode.jsendnsca\jsendnsca\2.1\756727a0ba7c6775789bd775e25db600dcb06ad4\jsendnsca-2.1.jar"
         jumboMode="false"
         revision="23.0.0"
         sha1="756727a0ba7c6775789bd775e25db600dcb06ad4">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\build\intermediates\pre-dexed\debug\jsendnsca-2.1-6f72b9fe677904999ff2eb31a202df8dd146f9a1.jar" />
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\jsendnsca-2.1-6f72b9fe677904999ff2eb31a202df8dd146f9a1.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.6.1\892d15011456ea3563319b27bdd612dbc89bb776\jackson-core-2.6.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="892d15011456ea3563319b27bdd612dbc89bb776">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\jackson-core-2.6.1-7dfc81a3bdbc7ee7966b5c7fd5b7ebf7dae4c39c.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.6.1\45c37a03be19f3e0db825fd7814d0bbec40b9e0\jackson-databind-2.6.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="045c37a03be19f3e0db825fd7814d0bbec40b9e0">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\jackson-databind-2.6.1-69f7b92ac9250c555cb9f58d78f959dd800dd377.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.6.0\a0990e2e812ac6639b6ce955c91b13228500476e\jackson-annotations-2.6.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="a0990e2e812ac6639b6ce955c91b13228500476e">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\jackson-annotations-2.6.0-78949dc4e0ac6632b53ad7ec78d9e51d44326ad8.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\commons-lang\commons-lang\2.6\ce1edb914c94ebc388f086c6827e8bdeec71ac2\commons-lang-2.6.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="0ce1edb914c94ebc388f086c6827e8bdeec71ac2">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\commons-lang-2.6-c90bc0886bebbea936d9ae6f9964ceffdb2a29ea.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\de.hshannover.f4.trust\ifmapj\2.3.0\34f87dfe7cce0c195c07c7ee099408be6cce037d\ifmapj-2.3.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="34f87dfe7cce0c195c07c7ee099408be6cce037d">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\ifmapj-2.3.0-7e56a75c0e4ba713536d99ec336a66f7d714ccb9.jar" />
+    </item>
+    <item
+        jar="I:\eclipse\android sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-90d34bf9f0548801ce93e6d221fcc2c7660bd44e.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.4.1\f5aa318bda4c6c8d688c9d00b90681dcd82ce636\httpcore-4.4.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="f5aa318bda4c6c8d688c9d00b90681dcd82ce636">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\httpcore-4.4.1-cb3bf75c15dea6789f680d41461f0f064ab095f9.jar" />
+    </item>
+    <item
+        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\pre-dexed\debug\classes-b643ad84831a4d39864ee7a86f1b3e45be4be5d1.jar" />
     </item>
 
 </items>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string-array name="preferences_auth_types">
+		<item>Basic-Auth</item>
+		<item>Keystore</item>
+	</string-array>
+	<string-array name="preferences_value_serverForm">
+		<item>iMonitor</item>
+		<item>IF-MAP</item>
+	</string-array>
+	<string-array name="preferences_display_cryptForm">
+		<item>None</item>
+		<item>Simple XOR (default)</item>
+		<item>3DES</item>
+	</string-array>
+	<string-array name="preferences_value_cryptForm">
+		<item>0</item>
+		<item>1</item>
+		<item>2</item>
+	</string-array>
+	
+</resources>
