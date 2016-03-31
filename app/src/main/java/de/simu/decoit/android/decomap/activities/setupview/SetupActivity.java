@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.simu.decoit.android.decomap.activities.R;
+import de.simu.decoit.android.decomap.activities.setupview.fragments.AutomationSettingsFragment;
 import de.simu.decoit.android.decomap.preferences.PreferenceInitializer;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
@@ -57,6 +58,9 @@ public class SetupActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getClass().getName(), "SetupActivity.OnCreate(...) called");
+        if(onIsMultiPane()) {
+            getIntent().putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, AutomationSettingsFragment.class.getName());
+        }
         super.onCreate(savedInstanceState);
 //        getFragmentManager().beginTransaction().replace(android.R.id.content, new SetupFragment()).commit();
 //        addPreferencesFromResource(R.xml.preferences);
@@ -86,14 +90,14 @@ public class SetupActivity extends PreferenceActivity {
     }
 
     public void refreshHeaders() {
-        String mode = PreferenceManager.getDefaultSharedPreferences(this).getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", "IF-MAP");
+        String mode = PreferenceManager.getDefaultSharedPreferences(this).getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString());
         if (!mode.equals(setupMode)) {
             setupMode = mode;
             headers.clear();
             headers.addAll(mainHeader);
-            if (mode.equals("IF-MAP")) {
+            if (mode.equals(getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString())) {
                 headers.addAll(ifMapHeaderList);
-            } else if (mode.equals("iMonitor")) {
+            } else if (mode.equals(getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
                 headers.addAll(iMonitorHeaderList);
             }
             super.setListAdapter(new SetupAdapter(this, headers));

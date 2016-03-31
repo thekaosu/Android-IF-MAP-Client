@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:attr="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="applicatiologging"
         android:summary="@string/preferences_summary_applicationlogging"
         android:title="@string/preferences_title_applicationlogging" />
@@ -11,8 +11,8 @@
         android:defaultValue="/ifmap-client/keystore/keystore"
         android:key="logPath"
         android:summary="@string/preferences_summary_logpath"
-        android:title="Log Directory"
-        attr:onlyDirectory="true"/>
+        android:title="@string/preferences_title_logdirectory"
+        attr:onlyDirectory="true" />
 
     <SwitchPreference
         android:defaultValue="true"
@@ -21,7 +21,7 @@
         android:title="@string/preferences_title_lognewsessionrequest" />
 
     <SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="logRenewRequest"
         android:summary="@string/preferences_summary_logrenewrequest"
         android:title="@string/preferences_title_logrenewrequest" />

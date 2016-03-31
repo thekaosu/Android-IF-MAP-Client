@@ -73,9 +73,9 @@ public class AuthSettingsFragment extends AbstractPreferenceFragment {
             authType.setValueIndex(0);
         }
 
-        if (authType.getValue().equals("Basic-Auth")) {
+        if (authType.getValue().equals(getResources().getStringArray(R.array.preferences_auth_types)[0])) {
             addPreferencesFromResource(R.xml.preferences_basicauth_fragment);
-        } else if (authType.getValue().equals("Keystore")) {
+        } else if (authType.getValue().equals(getResources().getStringArray(R.array.preferences_auth_types)[1])) {
             addPreferencesFromResource(R.xml.preferences_keystoreauth_fragment);
         }
 

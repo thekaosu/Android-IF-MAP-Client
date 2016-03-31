@@ -23,31 +23,30 @@ package de.simu.decoit.android.decomap.database.dao;
 /**
  * class containing some static predefined values and sql-querys
  * for the log-message table
- * 
- * @author 	Dennis Dunekacke, Decoit GmH
+ *
+ * @author Dennis Dunekacke, Decoit GmH
  * @version 0.2
  */
 public final class LogMessageTbl implements LogMessageColums {
 
-	private static final String TABLE_NAME = "logmessages";
+    public static final String TABLE_NAME = "logmessages";
 
-	public static final String SQL_CREATE = "CREATE TABLE logmessages ("
-			+ "_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-			+ "timestamp TEXT NOT NULL," + "msgtype TEXT NOT NULL,"
-			+ "msgcontent TEXT," + "target TEXT,"
-			+ "status TEXT"
-			+ ");";
+    public static final String SQL_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
+            + ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + TIMESTAMP + " TEXT NOT NULL," + MESSAGETYPE + " TEXT NOT NULL,"
+            + MESSAGECONTENT + " TEXT," + TARGET + " TEXT,"
+            + STATUS + " TEXT" + ");";
 
-	public static final String SQL_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME;
+    public static final String SQL_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME;
 
-	public static final String STMT_LOGMESSAGE_INSERT = "INSERT INTO logmessages "
-			+ "(timestamp,msgtype,msgcontent,target,status) " + "VALUES (?,?,?,?,?)";
+    public static final String STMT_LOGMESSAGE_INSERT = "INSERT INTO " + TABLE_NAME
+            + " (" + TIMESTAMP + "," + MESSAGETYPE + "," + MESSAGECONTENT + "," + TARGET + "," + STATUS + ") " + "VALUES (?,?,?,?,?)";
 
-	public static final String STMT_LOGMESSAGE_DELETE = "DELETE FROM logmessages ";
+    public static final String STMT_LOGMESSAGE_DELETE = "DELETE FROM " + TABLE_NAME;
 
-	public static final String STMT_LOGMESSAGE_DELETE_BY_ID = "DELETE FROM logmessages "
-			+ "WHERE _id= ?";
+    public static final String STMT_LOGMESSAGE_DELETE_BY_ID = "DELETE FROM " + TABLE_NAME
+            + " WHERE " + ID + "= ?";
 
-	public static final String[] ALL_COLUMS = new String[] { ID, TIMESTAMP,
-			MESSAGETYPE, MESSAGECONTENT, TARGET, STATUS }; 						//maybe usefull later
+    public static final String[] ALL_COLUMS = new String[]{ID, TIMESTAMP,
+            MESSAGETYPE, MESSAGECONTENT, TARGET, STATUS};                        //maybe usefull later
 }

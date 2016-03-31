@@ -31,11 +31,39 @@
     <string name="main_default_wrongconfig_message">error while validating preferences…please check them</string>
     <string name="main_default_connectionerror_nsca">Connection Error - Check your connection preferences!</string>
     <string name="main_default_connectionerror_nsca_status">Connection Error</string>
+    <string name="main_default_connection_closed">Connection Closed</string>
+    <string name="main_default_publish_passiv_nsca_check">Published Passive NSCA Check</string>
+    <string name="main_default_sending_monitorevent">Sending MonitorEvent</string>
+    <string name="main_default_sending_appevent">Sending AppEvent</string>
+    <string name="main_default_connection_established">Established Connection</string>
     <string name="main_progressbar_message_srcrequest_1">Please Wait…</string>
     <string name="main_progressbar_message_srcrequest_2">Executing Request</string>
     <string name="main_default_status_message">Waiting for User Input</string>
     <string name="main_status_message_prefix">[msg]</string>
     <string name="main_status_message_errorprefix">[error]</string>
+    <string name="main_status_message_connection_established">Connection established</string>
+    <string name="main_status_message_preparing_data">preparing data for request</string>
+    <string name="main_status_message_monitoring_unknwon">" Monitoring-mode is unknown!"</string>
+    <string name="main_status_message_ifmap_port_not_a_numer">" IF-MAP port is not a number!"</string>
+    <string name="main_status_message_ifmap_port_null">" IF-MAP port is null or empty!"</string>
+    <string name="main_status_message_ifmap_ip_not_valid">" IF-MAP ip is not valid!"</string>
+    <string name="main_status_message_ifmap_ip_null">" IF-MAP ip is null or empty!"</string>
+    <string name="main_status_message_basic_auth_password_null">" basic auth password is null or empty!"</string>
+    <string name="main_status_message_basic_auth_username_null">" basic auth username is null or empty!"</string>
+    <string name="main_status_message_imonitor_port_not_number">" iMonitor port is not a number!"</string>
+    <string name="main_status_message_imonitor_port_null">" iMonitor port is null or empty!"</string>
+    <string name="main_status_message_imonitor_ip_not_valid">" iMonitor ip is not valid!"</string>
+    <string name="main_status_message_imonitor_ip_null">" iMonitor ip is null or empty!"</string>
+    <string name="main_status_message_nsca_password_null">" NSCA Password is null or empty!"</string>
+    <string name="main_status_message_addition_sending_request_to">"Sending Request to "</string>
+    <string name="main_status_message_addition_disconnected">"disconnected."</string>
+    <string name="main_status_message_addition_sending_Data">"Sending data to "</string>
+    <string name="main_status_message_invalid_monitoring_mode">" monitoring mode is invalid!"</string>
+    <string name="main_status_message_addition_sending_request">"Sending Request to "</string>
+    <string name="main_status_message_esukom_metadata_not_supportet">"logging of esukom specific metadata is currently not supported!\n"</string>
+
+
+
 
     <!-- Strings from Message-Handler that will be shown in Main-Status-Output-Textfield -->
     <string name="messagehandler_mainstatus_message_newsession">new session established</string>
@@ -48,6 +76,7 @@
     <!-- Preferences-Tab -->
     <string name="preferences_kategoryheader_applicationSettings">Application Settings</string>
     <string name="preferences_kategoryheader_connectionSettings">Connection Settings</string>
+    <string name="preferences_header_default_icon_text">icon</string>
     <string name="preferences_header_esukomMetadataSettings">ESUKOM-Metadata Settings</string>
     <string name="preferences_header_automationSettings">Automation Settings</string>
     <string name="preferences_header_serverSettings">Server Settings</string>
@@ -77,7 +106,6 @@
     <string name="preferences_summary_permanentlyConnection">Enables a permanent connection with the MAP-Server. If disabled, the client will periodically send "renew" requests to keep the session alive.</string>
     <string name="preferences_summary_logrenewrequest">Enable logging of renew-request messages</string>
     <string name="preferences_summary_lognewsessionrequest">Enable logging of new-session-/end-session messages</string>
-
     <string name="preferences_summary_loglocationtracking">Enable logging of metadata-update messages</string>
     <string name="preferences_summary_logerrormessage">Enable logging of error-message messages</string>
     <string name="preferences_summary_loginvalidresponse">Enable logging of invalid-response messages</string>
@@ -90,6 +118,8 @@
     <string name="preferences_title_serverPref">Monitoring-Mode</string>
     <string name="preferences_title_serverip">Server IP-Address</string>
     <string name="preferences_title_serverport">Server Port-Number</string>
+    <string name="preferences_title_keystore_path">Keystore Path</string>
+    <string name="preferences_title_keystore_password">Keystore Password</string>
     <string name="preferences_title_username">Username</string>
     <string name="preferences_title_password">Password</string>
     <string name="preferences_title_allowunsafe">allow unsafe SSL</string>
@@ -98,6 +128,7 @@
     <string name="preferences_title_permanentlyConnection">Connection-Type</string>
     <string name="preferences_title_updateinterval">Auto-Update Interval (in ms)</string>
     <string name="preferences_title_applicationlogging">Log to file</string>
+    <string name="preferences_title_logdirectory">Log Directory</string>
     <string name="preferences_title_logrenewrequest">Enable renew-session logging</string>
     <string name="preferences_title_lognewsessionrequest">Enable new/end-session logging</string>
     <string name="preferences_title_loglocationtracking">Enable auto-update logging</string>
@@ -105,57 +136,74 @@
     <string name="preferences_title_logerrormessage">Enable error-message logging</string>
     <string name="preferences_title_loginvalidresponse">Enable invalid-response logging</string>
     <string name="preferences_title_autoupdate">Enable auto-update</string>
-    <string name="preferences_header_default_icon_text">icon</string>
-
+    <string name="preferences_values_novalue">"&lt;no value&gt;"</string>
 
     <!--Status-Tab -->
     <string name="status_lable_update_status">update status information</string>
     <string name="status_default_undetected">not detected</string>
     <string name="status_default_undetected_updatable">not detected, touch to update</string>
-    <string name="info_label_value_ip">IP-Address: </string>
-    <string name="info_label_value_mac">MAC-Address: </string>
-    <string name="info_label_value_cpu_load">CPU-Load: </string>
-    <string name="info_label_value_ram_free">Free Ram: </string>
-    <string name="info_label_value_process_count">Process Count: </string>
-    <string name="info_label_value_running_process_names">Running Processes Details: </string>
-    <string name="info_label_value_deviceimei">IMEI: </string>
-    <string name="info_label_value_deviceimsi">IMSI: </string>
-    <string name="info_label_value_kernelversion">Kernel-Version: </string>
-    <string name="info_label_value_version">Firmware-Version: </string>
-    <string name="info_label_value_buildnumber">Build-Number: </string>
-    <string name="info_label_value_basebandversion">Baseband-Version: </string>
-    <string name="info_label_value_branding">Device-Branding: </string>
-    <string name="info_label_value_manufacturer">Device-Manufacturer: </string>
-    <string name="info_label_value_phonenumber">Device-Phonenumber: </string>
-    <string name="info_label_value_smscount">SMS-Count(incoming): </string>
-    <string name="info_label_value_smscount_out">SMS-Count(outgoing): </string>
-    <string name="info_label_value_smscount_lastsend">Last SMS sent at: </string>
-    <string name="info_label_value_camera_lastused">Last Camera use: </string>
-    <string name="info_label_value_bluetooth">Bluetooth:</string>
-    <string name="info_label_value_microphone">Microphone:</string>
-    <string name="info_label_value_battery">Battery Status:</string>
-    <string name="info_label_value_received_total_bytes">Received KBytes:</string>
-    <string name="info_label_value_transferred_total_bytes">Transferred KBytes:</string>
-    <string name="info_label_longitude">Longitude: </string>
-    <string name="info_label_latitude">Latitude: </string>
-    <string name="info_label_altitude">Altitude: </string>
-    <string name="info_label_apps">Applications: </string>
-    <string name="info_label_appswithperms">Application Details: </string>
-    <string name="info_label_perms">Permissions: </string>
+    <string name="info_label_value_ip">"IP-Address: "</string>
+    <string name="info_label_value_mac">"MAC-Address: "</string>
+    <string name="info_label_value_cpu_load">"CPU-Load: "</string>
+    <string name="info_label_value_ram_free">"Free Ram: "</string>
+    <string name="info_label_value_process_count">"Process Count: "</string>
+    <string name="info_label_value_running_process_names">"Running Processes Details: "</string>
+    <string name="info_label_value_deviceimei">"IMEI: "</string>
+    <string name="info_label_value_deviceimsi">"IMSI: "</string>
+    <string name="info_label_value_kernelversion">"Kernel-Version: "</string>
+    <string name="info_label_value_version">"Firmware-Version: "</string>
+    <string name="info_label_value_buildnumber">"Build-Number: "</string>
+    <string name="info_label_value_basebandversion">"Baseband-Version: "</string>
+    <string name="info_label_value_branding">"Device-Branding: "</string>
+    <string name="info_label_value_manufacturer">"Device-Manufacturer: "</string>
+    <string name="info_label_value_phonenumber">"Device-Phonenumber: "</string>
+    <string name="info_label_value_smscount">"SMS-Count(incoming): "</string>
+    <string name="info_label_value_smscount_out">"SMS-Count(outgoing): "</string>
+    <string name="info_label_value_smscount_lastsend">"Last SMS sent at: "</string>
+    <string name="info_label_value_camera_lastused">"Last Camera use: "</string>
+    <string name="info_label_value_bluetooth">"Bluetooth: "</string>
+    <string name="info_label_value_microphone">"Microphone: "</string>
+    <string name="info_label_value_battery">"Battery Status: "</string>
+    <string name="info_label_value_received_total_bytes">"Received KBytes: "</string>
+    <string name="info_label_value_transferred_total_bytes">"Transferred KBytes: "</string>
+    <string name="info_label_longitude">"Longitude: "</string>
+    <string name="info_label_latitude">"Latitude: "</string>
+    <string name="info_label_altitude">"Altitude: "</string>
+    <string name="info_label_apps">"Applications: "</string>
+    <string name="info_label_appswithperms">"Application Details:" </string>
+    <string name="info_label_perms">"Permissions: "</string>
+    <string name="info_application_properties_activityinfo_google">com.google</string>
+    <string name="info_application_properties_activityinfo_android">com.android</string>
+    <string name="info_application_properties_installe_package">"Installer Package: "</string>
+    <string name="info_application_properties_version_name">"Version Name: "</string>
+    <string name="info_application_properties_version_code">"Version Code: "</string>
+    <string name="info_application_properties_is_running">"is running: "</string>
+    <string name="info_application_properties_granted">"GRANTED:  "</string>
+    <string name="info_application_properties_required">"REQUIRED: "</string>
+    <string name="info_application_properties_not_detected">none detected!</string>
 
 
     <!-- Log Tab -->
     <string name="log_tab_label_details">DETAILS</string>
     <string name="log_tab_label_remove">REMOVE</string>
     <string name="log_tab_label_remove_type">REMOVE TYPE</string>
-    <string name="log_tab_label_type">Type: </string>
-    <string name="log_tab_label_target">Target: </string>
+    <string name="log_tab_label_type">"Type: "</string>
+    <string name="log_tab_label_target">"Target: "</string>
     <string name="log_tab_label_export">EXPORT</string>
     <string name="log_tab_label_removeall">REMOVE ALL</string>
     <string name="log_tab_placeholder_timestemp">timestemp placeholder</string>
     <string name="log_tab_placeholder_type">type placeholder</string>
     <string name="log_tab_placeholder_target">target placeholder</string>
     <string name="log_tab_placeholder_status">status placeholder</string>
+    <string name="log_tab_standard_log_name">message_export_</string>
+    <string name="log_tab_standard_log_ending">.txt</string>
+    <string name="log_tab_logcolum_type">"Type:   "</string>
+    <string name="log_tab_logcolum_target">"Target: "</string>
+    <string name="log_tab_logcolum_time">"Time:   "</string>
+    <string name="log_tab_export_dialog_success_part1">Messages have been successfully exported as \"</string>
+    <string name="log_tab_export_dialog_success_part2">"\" to the log directory "</string>
+    <string name="log_tab_export_dialog_fail">"Export failed! "\nReason: </string>
+    <string name="log_tab_export_dir_creation_fail">"Failed to create missing directory! \nReason: "</string>
 
 
     <!-- Log-Message-Dialog -->
@@ -199,11 +247,16 @@
     <string name="serialized_response_errormsg_other">unclassified error occurred</string>
     <string name="serialized_response_errormsg_unreachable">target network is unreachable</string>
     <string name="serialized_response_errormsg_forbidden">HTTP Code 403 - Forbidden</string>
+    <string name="illegalFragmentID">fragmentID need to be initialized with a valid fragment id!</string>
+    <string name="error_message">"Error Message"</string>
 
     <!-- location messages -->
-    <string name="location_disabled">"Location Service is disabled!"</string>
+    <string name="location_disabled">Location Service is disabled!</string>
 
     <!-- enable/cancel -->
-    <string name="enable">"Enable"</string>
-    <string name="cancel">"Cancel"</string>
+    <string name="enable">Enable</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- project website -->
+    <string name="project_url">http://simu-project.de</string>
 </resources>

@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/logoColorDarker"/>
-
+            <solid android:color="@color/logoColorDarker" />
         </shape>
     </item>
 
     <item
-        android:top="3px"
-        android:bottom="10px">
-
+        android:bottom="10px"
+        android:top="3px">
         <shape android:shape="rectangle">
             <solid
-                android:color="@color/logoColorLighter"
-                android:angle="270"/>
+                android:angle="270"
+                android:color="@color/logoColorLighter" />
         </shape>
-
     </item>
-
 
 </layer-list>

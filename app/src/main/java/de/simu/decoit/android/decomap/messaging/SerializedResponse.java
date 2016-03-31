@@ -68,6 +68,9 @@ class SerializedResponse {
                 String mIfMapJNetworkUnreachable = "unreachable";
                 String mIfMapJForbidden = "403";
 
+                if(response == null){
+                    response = "no error message";
+                }
                 // detect error-type and set relating error-message
                 if (response.contains(mIfMapJNull)) {
                     mSerializedMsg = context.getResources().getString(R.string.serialized_response_errormsg_null);

@@ -22,6 +22,7 @@
 package de.simu.decoit.android.decomap.util;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -54,7 +55,7 @@ class CustomLogger {
                 bw.newLine();
                 bw.close();
             } catch (Exception e) {
-                Toolbox.logTxt(CustomLogger.class.getName(),
+                Log.w(CustomLogger.class.getName(),
                         "error while logging with custom logger: " + e);
             }
         } else {

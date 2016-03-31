@@ -9,7 +9,7 @@
         android:title="@string/preferences_title_username" />
     <EditTextPreference
         android:name="Password"
-        android:defaultValue="pass"
+        android:defaultValue=""
         android:inputType="textPassword"
         android:key="passwordPreference"
         android:summary="@string/preferences_summary_password"

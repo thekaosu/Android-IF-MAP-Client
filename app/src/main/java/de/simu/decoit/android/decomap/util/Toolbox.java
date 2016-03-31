@@ -118,7 +118,7 @@ public class Toolbox {
     public static void showError(Context context, String tag, String activity) {
         logTxt(tag, activity);
         new AlertDialog.Builder(context)
-                .setTitle("Error Message")
+                .setTitle(context.getString(R.string.error_message))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         cancelNotification();

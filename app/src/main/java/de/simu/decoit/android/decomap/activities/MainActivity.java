@@ -222,12 +222,12 @@ public class MainActivity extends Activity {
                         + getResources().getString(
                         R.string.main_default_wrongconfig_message));
             } else if (mPreferences.getMonitoringPreference()
-                    .equalsIgnoreCase("IF-MAP")) {
+                    .equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString())) {
                 // set status message to-text-output-field
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_prefix) + " "
-                        + "Sending Request to "
+                        + getResources().getString(R.string.main_status_message_addition_sending_request)
                         + mPreferences.getIFMAPServerIpPreference() + ":"
                         + mPreferences.getIFMAPServerPortPreference());
 
@@ -236,13 +236,13 @@ public class MainActivity extends Activity {
                 if (initIFMAPConnection()) {
                     startIFMAPConnectionService();
                 }
-            } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
+            } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
                 connectNSCA();
             } else {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
-                        + " monitoring mode is invalid!");
+                        + getResources().getString(R.string.main_status_message_invalid_monitoring_mode));
             }
         }
 
@@ -529,15 +529,15 @@ public class MainActivity extends Activity {
      * @param view element that originated the call
      */
     public void mainTabButtonHandler(View view) {
-        if (mPreferences.getMonitoringPreference().equalsIgnoreCase("IF-MAP")) {
+        if (mPreferences.getMonitoringPreference().equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString())) {
             mainTabButtonHandlerIfmap(view);
-        } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
+        } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
             mainTabButtonHandlerIMonitor(view);
         } else {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)
-                    + " monitoring mode is invalid!");
+                    + getResources().getString(R.string.main_status_message_invalid_monitoring_mode));
         }
     }
 
@@ -575,7 +575,7 @@ public class MainActivity extends Activity {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_prefix) + " "
-                    + "Sending data to "
+                    + getResources().getString(R.string.main_status_message_addition_sending_Data)
                     + mPreferences.getIMonitorServerIpPreference() + ":"
                     + mPreferences.getIMonitorServerPortPreference());
 
@@ -588,7 +588,7 @@ public class MainActivity extends Activity {
 //                    true, new DialogInterface.OnCancelListener() {
 //                        @Override
 //                        public void onCancel(DialogInterface dialog) {
-//                            if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase("iMonitor")) {
+//                            if (PreferencesValues.sMonitoringPreference.equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
 //                                disconnectNSCA();
 //                            }
 //                        }
@@ -620,7 +620,7 @@ public class MainActivity extends Activity {
         mStatusMessageField.append("\n"
                 + getResources().getString(
                 R.string.main_status_message_prefix) + " "
-                + "disconnected.");
+                + getResources().getString(R.string.main_status_message_addition_disconnected));
         Toolbox.showNotification(
                 getResources().getString(R.string.notification_nsca_label),
                 getResources().getString(R.string.notification_disconnect),
@@ -673,7 +673,7 @@ public class MainActivity extends Activity {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_prefix) + " "
-                    + "Sending Request to "
+                    + getResources().getString(R.string.main_status_message_addition_sending_request_to)
                     + mPreferences.getIFMAPServerIpPreference() + ":"
                     + mPreferences.getIFMAPServerPortPreference());
             if (initIFMAPConnection()) {
@@ -692,14 +692,13 @@ public class MainActivity extends Activity {
      */
     private boolean incorrectPreferencesConfiguration() {
 
-        if (mPreferences.getMonitoringPreference().equalsIgnoreCase("iMonitor")) {
+        if (mPreferences.getMonitoringPreference().equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
             // validate password (defaults always to "icinga")
-            if (mPreferences.getNscaPassPreference() == null
-                    || mPreferences.getNscaPassPreference().length() == 0) {
+            if (mPreferences.getNscaPassPreference() == null) {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
-                        + " NSCA Password is null or empty!");
+                        + getResources().getString(R.string.main_status_message_nsca_password_null));
                 return true;
             }
 
@@ -709,7 +708,7 @@ public class MainActivity extends Activity {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
-                        + " iMonitor ip is null or empty!");
+                        + getResources().getString(R.string.main_status_message_imonitor_ip_null));
                 return true;
             } else {
                 Matcher ipMatcher = Toolbox.getIpPattern().matcher(
@@ -718,7 +717,7 @@ public class MainActivity extends Activity {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
-                            + " iMonitor ip is not valid!");
+                            + getResources().getString(R.string.main_status_message_imonitor_ip_not_valid));
                     return true;
                 }
             }
@@ -728,18 +727,18 @@ public class MainActivity extends Activity {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
-                        + " iMonitor port is null or empty!");
+                        + getResources().getString(R.string.main_status_message_imonitor_port_null));
                 return true;
             } else {
                 if (!TextUtils.isDigitsOnly(mPreferences.getIMonitorServerPortPreference())) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
-                            + " iMonitor port is not a number!");
+                            + getResources().getString(R.string.main_status_message_imonitor_port_not_number));
                     return true;
                 }
             }
-        } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase("IF-MAP")) {
+        } else if (mPreferences.getMonitoringPreference().equalsIgnoreCase(getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString())) {
 
             if (mPreferences.isUseBasicAuth()) {
                 // validate username
@@ -748,16 +747,15 @@ public class MainActivity extends Activity {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
-                            + " basic auth username is null or empty!");
+                            + getResources().getString(R.string.main_status_message_basic_auth_username_null));
                     return true;
                 }
                 // validate password
-                if (mPreferences.getPasswordPreference() == null
-                        || mPreferences.getPasswordPreference().length() == 0) {
+                if (mPreferences.getPasswordPreference() == null) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
-                            + " basic auth password is null or empty!");
+                            + getResources().getString(R.string.main_status_message_basic_auth_password_null));
                     return true;
                 }
             }
@@ -768,7 +766,7 @@ public class MainActivity extends Activity {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
-                        + " IF-MAP ip is null or empty!");
+                        + getResources().getString(R.string.main_status_message_ifmap_ip_null));
                 return true;
             } else {
                 Matcher ipMatcher = Toolbox.getIpPattern().matcher(
@@ -777,7 +775,7 @@ public class MainActivity extends Activity {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
-                            + " IF-MAP ip is not valid!");
+                            + getResources().getString(R.string.main_status_message_ifmap_ip_not_valid));
                     return true;
                 }
             }
@@ -787,14 +785,14 @@ public class MainActivity extends Activity {
                 mStatusMessageField.append("\n"
                         + getResources().getString(
                         R.string.main_status_message_errorprefix)
-                        + " IF-MAP port is null or empty!");
+                        + getResources().getString(R.string.main_status_message_ifmap_port_null));
                 return true;
             } else {
                 if (!TextUtils.isDigitsOnly(mPreferences.getIFMAPServerPortPreference())) {
                     mStatusMessageField.append("\n"
                             + getResources().getString(
                             R.string.main_status_message_errorprefix)
-                            + " IF-MAP port is not a number!");
+                            + getResources().getString(R.string.main_status_message_ifmap_port_not_a_numer));
                     return true;
                 }
             }
@@ -802,7 +800,7 @@ public class MainActivity extends Activity {
             mStatusMessageField.append("\n"
                     + getResources().getString(
                     R.string.main_status_message_errorprefix)
-                    + " Monitoring-mode is unknown!");
+                    + getResources().getString(R.string.main_status_message_monitoring_unknwon));
             return true;
         }
 
@@ -823,7 +821,7 @@ public class MainActivity extends Activity {
 
         mStatusMessageField.append("\n"
                 + getResources().getString(R.string.main_status_message_prefix)
-                + " " + "preparing data for request");
+                + " " + getResources().getString(R.string.main_status_message_preparing_data));
 
         PublishRequest publishReq = parameters.generateSRCRequestParamteres(
                 mMessageType, mDeviceProperties,
@@ -949,8 +947,8 @@ public class MainActivity extends Activity {
      *                    MAP-Server
      */
     private void processSRCResponseParameters(byte messageType,
-                                             ResponseParameters msg, LogMessage requestMsg,
-                                             LogMessage responseMsg) {
+                                              ResponseParameters msg, LogMessage requestMsg,
+                                              LogMessage responseMsg) {
         switch (messageType) {
 
             // -----> NEW SESSION RESPONSE <-----
@@ -1067,9 +1065,9 @@ public class MainActivity extends Activity {
             // so for now we disable logging in this case
             if (mPreferences.isUseNonConformMetadata()) {
                 requestMsg
-                        .setMsg("logging of esukom specific metadata is currently not supported!\n");
+                        .setMsg(getResources().getString(R.string.main_status_message_esukom_metadata_not_supportet));
                 responseMsg
-                        .setMsg("logging of esukom specific metadata is currently not supported!\n");
+                        .setMsg(getResources().getString(R.string.main_status_message_esukom_metadata_not_supportet));
             }
         }
         LogMessageHelper.getInstance().logMessage(messageType, requestMsg,
@@ -1222,7 +1220,7 @@ public class MainActivity extends Activity {
 
             mStatusMessageField.append("\n"
                     + getResources().getString(R.string.main_status_message_prefix)
-                    + " " + "Connection established");
+                    + " " + getResources().getString(R.string.main_status_message_connection_established));
             myProgressDialog.dismiss();
         }
 
@@ -1244,7 +1242,7 @@ public class MainActivity extends Activity {
             if (type != null) {
                 switch (type) {
                     case "CONNECTION READY":
-                        status = "Established Connection";
+                        status = getResources().getString(R.string.main_default_connection_established);
                         responseType = MessageHandler.MSG_TYPE_REQUEST_NEWSESSION;
                         break;
                     case "APP EVENT":
@@ -1253,7 +1251,7 @@ public class MainActivity extends Activity {
                                 + getResources().getString(
                                 R.string.main_status_message_prefix) + " "
                                 + "AppEvent sent.");
-                        status = "Sending AppEvent";
+                        status = getResources().getString(R.string.main_default_sending_appevent);
                         responseType = MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS;
                         break;
                     case "MONITOR EVENT":
@@ -1262,11 +1260,11 @@ public class MainActivity extends Activity {
                                 + getResources().getString(
                                 R.string.main_status_message_prefix) + " "
                                 + "MonitorEvent sent.");
-                        status = "Sending MonitorEvent";
+                        status = getResources().getString(R.string.main_default_sending_monitorevent);
                         responseType = MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS;
                         break;
                     case "PUBLISH SUCCESS":
-                        status = "Published Passive NSCA Check";
+                        status = getResources().getString(R.string.main_default_publish_passiv_nsca_check);
                         responseType = MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS;
                         break;
                     case "CONNECTION ERROR":
@@ -1281,7 +1279,7 @@ public class MainActivity extends Activity {
                         disconnectNSCA();
                         break;
                     case "CONNECTION CLOSED":
-                        status = "Connection closed";
+                        status = getResources().getString(R.string.main_default_connection_closed);
                         responseType = MessageHandler.MSG_TYPE_REQUEST_ENDSESSION;
                         break;
                     default:

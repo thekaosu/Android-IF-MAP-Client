@@ -12,6 +12,7 @@ import android.text.InputType;
 
 import java.util.ArrayList;
 
+import de.simu.decoit.android.decomap.activities.R;
 import de.simu.decoit.android.decomap.activities.setupview.fragments.preferences.PreferenceFileChooserDialogPreference;
 
 /**
@@ -30,7 +31,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
         super.onCreate(savedInstanceState);
 
         if (fragmentID == 0) {
-            throw new IllegalArgumentException("fragmentID need to be initialized with a valid fragment id!");
+            throw new IllegalArgumentException(getString(R.string.illegalFragmentID));
         }
         addPreferencesFromResource(fragmentID);
 
@@ -72,7 +73,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
         } else if (p instanceof EditTextPreference) {
             EditTextPreference editTextPref = (EditTextPreference) p;
             if (editTextPref.getText() == null || editTextPref.getText().trim().length() == 0) {
-                String DEFAULTSUMMARY = "<no value>";
+                String DEFAULTSUMMARY = getString(R.string.preferences_values_novalue);
                 p.setSummary(DEFAULTSUMMARY);
             } else if (editTextPref.getEditText().getInputType() == (InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD)) {

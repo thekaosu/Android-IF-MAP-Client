@@ -99,9 +99,9 @@ public class SpinnerSetupModePreferenceHandler implements AdapterView.OnItemSele
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         try {
-            return prefs.getString(key, "IF-MAP");
+            return prefs.getString(key, context.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString());
         } catch (ClassCastException e){
-            return "IF-MAP";
+            return context.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString();
         }
     }
 

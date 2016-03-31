@@ -33,6 +33,7 @@ import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.simu.decoit.android.decomap.activities.R;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
@@ -87,7 +88,8 @@ public class ApplicationProperties {
 
             /* exclude "native" application */
             if (excludeNativeApplications) {
-                if (!resolveInfo.activityInfo.name.startsWith("com.google") && !resolveInfo.activityInfo.name.startsWith("com.android")) {
+                if (!resolveInfo.activityInfo.name.startsWith(mAppContext.getString(R.string.info_application_properties_activityinfo_google))
+                        && !resolveInfo.activityInfo.name.startsWith(mAppContext.getString(R.string.info_application_properties_activityinfo_android))) {
                     curEntry = new ApplicationListEntry(resolveInfo.activityInfo.name);
                     curEntry.setInstallerPackageName(pm.getInstallerPackageName(resolveInfo.activityInfo.applicationInfo.packageName));
                 }
@@ -147,17 +149,17 @@ public class ApplicationProperties {
             returnList.add(currentEntry.getName());
             
             /* installer package name */
-            returnList.add("Installer Package: " + currentEntry.getInstallerPackageName());
+            returnList.add(mAppContext.getString(R.string.info_application_properties_installe_package) + currentEntry.getInstallerPackageName());
 
             /* version number and code */
             if (includeVersionNumber) {
-                returnList.add("Version Name: " + currentEntry.getVersionName());
-                returnList.add("Version Code: " + currentEntry.getVersionCode());
+                returnList.add(mAppContext.getString(R.string.info_application_properties_version_name) + currentEntry.getVersionName());
+                returnList.add(mAppContext.getString(R.string.info_application_properties_version_code) + currentEntry.getVersionCode());
             }
 
             /* current running flag */
             if (includeCurrentRunStatus) {
-                returnList.add("is running: " + currentEntry.isCurrentlyRunning());
+                returnList.add(mAppContext.getString(R.string.info_application_properties_is_running) + currentEntry.isCurrentlyRunning());
             }
 
             returnList.add(lineSeperator);
@@ -166,9 +168,9 @@ public class ApplicationProperties {
             if (includePermissions) {
                 for (Permission currentPermissionEntry : currentEntry.getPermissions()) {
                     if (currentPermissionEntry.getPermissionType() == Permission.PERMISSIONTYPE_GRANTED) {
-                        returnList.add("GRANTED:  " + currentPermissionEntry.getPermissionName());
+                        returnList.add(mAppContext.getString(R.string.info_application_properties_granted) + currentPermissionEntry.getPermissionName());
                     } else {
-                        returnList.add("REQUIRED: " + currentPermissionEntry.getPermissionName());
+                        returnList.add(mAppContext.getString(R.string.info_application_properties_required) + currentPermissionEntry.getPermissionName());
                     }
                 }
                 returnList.add(lineSeperator);
@@ -309,7 +311,7 @@ public class ApplicationProperties {
                 returnList.add(lineSeperator);
             }
         } else {
-            returnList.add("none detected!");
+            returnList.add(mAppContext.getString(R.string.info_application_properties_not_detected));
         }
 
         return returnList;

@@ -32,9 +32,9 @@ public class PreferenceInitializer {
         try {
             // set preferences
             mPreferences.setApplicationFileLogging(prefs.getBoolean(
-                    "applicatiologging", false));
+                    "applicatiologging", true));
             mPreferences.setMonitoringPreference(prefs.getString(
-                    R.id.monitoringModeSettings + "", "IF-MAP"));
+                    R.id.monitoringModeSettings + "", windowContext.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString()));
             mPreferences.setLocationTrackingType(prefs.getString(
                     "locationPref", "GPS"));
             mPreferences.setEnableLocationTracking(prefs.getBoolean(
@@ -42,7 +42,7 @@ public class PreferenceInitializer {
 
             mPreferences.setLogPath(prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/"));
 
-            mPreferences.setAutoUpdate(prefs.getBoolean("autoUpdate", false));
+            mPreferences.setAutoUpdate(prefs.getBoolean("autoUpdate", true));
 
             mPreferences.setKeystorePath(prefs.getString("KeystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
             mPreferences.setKeystorePassword(prefs.getString("keystorepw", ""));
@@ -61,27 +61,27 @@ public class PreferenceInitializer {
             mPreferences.setAllowUnsafeSSLPreference(prefs.getBoolean(
                     "allowUnsafeSSLPreference", true));
             mPreferences.setEnableNewAndEndSessionLog(prefs.getBoolean(
-                    "logNewsessionRequest", false));
+                    "logNewsessionRequest", true));
             mPreferences.setEnableLocationTrackingLog(prefs.getBoolean(
-                    "logLocationTracking", false));
+                    "logLocationTracking", true));
             mPreferences.setEnablePublishCharacteristicsLog(prefs.getBoolean(
-                    "logPublishCharacteristics", false));
+                    "logPublishCharacteristics", true));
             mPreferences.setEnableErrorMessageLog(prefs.getBoolean(
-                    "logErrorMessage", false));
+                    "logErrorMessage", true));
             mPreferences.setEnableInvalideResponseLog(prefs.getBoolean(
-                    "logInvalideResponse", false));
+                    "logInvalideResponse", true));
             mPreferences.setEnableRenewRequestLog(prefs.getBoolean(
-                    "logRenewRequest", false));
+                    "logRenewRequest", true));
             mPreferences.setUsernamePreference(prefs.getString(
                     "usernamePreference", "user"));
             mPreferences.setPasswordPreference(prefs.getString(
-                    "passwordPreference", "password"));
+                    "passwordPreference", ""));
             mPreferences.setIFMAPServerIpPreference(prefs.getString(
-                    "IF-MAPServeripPreference", ""));
+                    "IF-MAPServeripPreference", "127.0.0.1"));
             mPreferences.setIFMAPServerPortPreference(prefs.getString(
                     "IF-MAPServerportPreference", "8443"));
             mPreferences.setIMonitorServerIpPreference(prefs.getString(
-                    "iMonitorServeripPreference", ""));
+                    "iMonitorServeripPreference", "127.0.0.1"));
             mPreferences.setIMonitorServerPortPreference(prefs.getString(
                     "iMonitorServerportPreference", "5667"));
             mPreferences.setNscaEncPreference(prefs.getString(
@@ -92,7 +92,7 @@ public class PreferenceInitializer {
                     "permanantlyConectionPreferences", true));
 
             //mPreferences.setIsUseBasicAuth(prefs.getString("auth", "Basic-Authentication"));
-            mPreferences.setUseBasicAuth(prefs.getString("authType", "Basic-Auth").equals("Basic-Auth"));
+            mPreferences.setUseBasicAuth(prefs.getString("authType", windowContext.getResources().getTextArray(R.array.preferences_auth_types)[0].toString()).equals(windowContext.getResources().getTextArray(R.array.preferences_auth_types)[0].toString()));
 
             // set update interval
             mPreferences.setUpdateInterval(Long.parseLong(prefs.getString(
@@ -123,12 +123,12 @@ public class PreferenceInitializer {
                     "Error while loading preferences! Loading default values! \n\nError:\n" + e.getMessage());
 
             //set default values!
-            mPreferences.setApplicationFileLogging(false);
-            mPreferences.setMonitoringPreference("IF-MAP");
+            mPreferences.setApplicationFileLogging(true);
+            mPreferences.setMonitoringPreference(windowContext.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString());
             mPreferences.setLocationTrackingType("GPS");
             mPreferences.setEnableLocationTracking(false);
             mPreferences.setLogPath(Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
-            mPreferences.setAutoUpdate(false);
+            mPreferences.setAutoUpdate(true);
             mPreferences.setKeystorePath(Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore");
             mPreferences.setKeystorePassword("");
             mPreferences.setUseNonConformMetadata(false);
@@ -137,23 +137,23 @@ public class PreferenceInitializer {
             mPreferences.setAutoconnect(false);
             mPreferences.setDontSendGoogleApps(true);
             mPreferences.setAllowUnsafeSSLPreference(true);
-            mPreferences.setEnableNewAndEndSessionLog(false);
-            mPreferences.setEnableLocationTrackingLog(false);
-            mPreferences.setEnablePublishCharacteristicsLog(false);
-            mPreferences.setEnableErrorMessageLog(false);
-            mPreferences.setEnableInvalideResponseLog(false);
-            mPreferences.setEnableRenewRequestLog(false);
+            mPreferences.setEnableNewAndEndSessionLog(true);
+            mPreferences.setEnableLocationTrackingLog(true);
+            mPreferences.setEnablePublishCharacteristicsLog(true);
+            mPreferences.setEnableErrorMessageLog(true);
+            mPreferences.setEnableInvalideResponseLog(true);
+            mPreferences.setEnableRenewRequestLog(true);
             mPreferences.setUsernamePreference("user");
-            mPreferences.setPasswordPreference("password");
-            mPreferences.setIFMAPServerIpPreference("");
+            mPreferences.setPasswordPreference("");
+            mPreferences.setIFMAPServerIpPreference("127.0.0.1");
             mPreferences.setIFMAPServerPortPreference("8443");
-            mPreferences.setIMonitorServerIpPreference("");
+            mPreferences.setIMonitorServerIpPreference("127.0.0.1");
             mPreferences.setIMonitorServerPortPreference("5667");
             mPreferences.setNscaEncPreference("1");
             mPreferences.setNscaPassPreference("");
             mPreferences.setIsPermantConnection(true);
             mPreferences.setUseBasicAuth(true);
-            mPreferences.setUpdateInterval(600000);
+            mPreferences.setUpdateInterval(600000L);
             mPreferences.setRenewIntervalPreference(10000L);
         }
     }

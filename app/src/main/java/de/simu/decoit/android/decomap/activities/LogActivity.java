@@ -33,9 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.simu.decoit.android.decomap.database.LoggingDatabase;
+import de.simu.decoit.android.decomap.database.dao.LogMessageTbl;
+import de.simu.decoit.android.decomap.dialogs.MessageDialog;
 import de.simu.decoit.android.decomap.logging.LogMessage;
 import de.simu.decoit.android.decomap.logging.LogMessageAdapter;
-import de.simu.decoit.android.decomap.dialogs.MessageDialog;
 import de.simu.decoit.android.decomap.preferences.PreferencesValues;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
@@ -148,8 +149,8 @@ public class LogActivity extends Activity {
         // get db content
         Cursor resultCursor = null;
         try {
-            resultCursor = mLogDB.getReadableDatabase().query(false, "logmessages",
-                    new String[]{"_id", "timestamp", "msgtype", "msgcontent", "target", "status"}, null, null, null,
+            resultCursor = mLogDB.getReadableDatabase().query(false, LogMessageTbl.TABLE_NAME,
+                    LogMessageTbl.ALL_COLUMS, null, null, null,
                     null, null, null);
 
             while (resultCursor.moveToNext()) {
@@ -212,7 +213,9 @@ public class LogActivity extends Activity {
     public void exportLogEntrys(View view) {
 // name for export file
 
-        String exportFileName = "message_export_" + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT) + ".txt";
+        String exportFileName = getString(R.string.log_tab_standard_log_name)
+                + Toolbox.now(Toolbox.DATE_FORMAT_NOW_EXPORT)
+                + getString(R.string.log_tab_standard_log_ending);
 
         // prepare export
         BufferedWriter bw;
@@ -242,11 +245,11 @@ public class LogActivity extends Activity {
                     bw.newLine();
                     bw.write("----------------------------------------------");
                     bw.newLine();
-                    bw.write("Type:   " + exportList.get(i).getMsgType());
+                    bw.write(getString(R.string.log_tab_logcolum_type) + exportList.get(i).getMsgType());
                     bw.newLine();
-                    bw.write("Target: " + exportList.get(i).getTarget());
+                    bw.write(getString(R.string.log_tab_logcolum_target) + exportList.get(i).getTarget());
                     bw.newLine();
-                    bw.write("Time:   " + exportList.get(i).getTimestamp());
+                    bw.write(getString(R.string.log_tab_logcolum_time) + exportList.get(i).getTimestamp());
                     bw.newLine();
                     bw.write("----------------------------------------------");
                     bw.newLine();
@@ -257,14 +260,14 @@ public class LogActivity extends Activity {
 
                 // show quick success-message
                 dialog = new MessageDialog(this,
-                        "Messages have been successfully exported as \"" + exportFileName + "\" to the log directory " + mPreferences.getLogPath());
+                        getString(R.string.log_tab_export_dialog_success_part1) + exportFileName + getString(R.string.log_tab_export_dialog_success_part2) + mPreferences.getLogPath());
             } catch (Exception e) {
-                dialog = new MessageDialog(this, "Export failed! \nReason: " + e.getMessage(), MessageDialog.WARNING_MESSAGE);
+                dialog = new MessageDialog(this, getString(R.string.log_tab_export_dir_creation_fail) + e.getMessage(), MessageDialog.WARNING_MESSAGE);
             }
 
 
         } catch (Exception e) {
-            dialog = new MessageDialog(this, "Failed to create missing directory! \nReason: " + e.getMessage(), MessageDialog.WARNING_MESSAGE);
+            dialog = new MessageDialog(this, getString(R.string.log_tab_export_dir_creation_fail) + e.getMessage(), MessageDialog.WARNING_MESSAGE);
         }
         dialog.show();
     }

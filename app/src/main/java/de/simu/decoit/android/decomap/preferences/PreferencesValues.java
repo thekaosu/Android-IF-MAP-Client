@@ -42,7 +42,7 @@ public class PreferencesValues {
     private boolean enableLocationTracking = false;
 
     // auto update
-    private boolean autoUpdate = false;
+    private boolean autoUpdate = true;
     private long updateInterval = 60000;
 
     //timeout
