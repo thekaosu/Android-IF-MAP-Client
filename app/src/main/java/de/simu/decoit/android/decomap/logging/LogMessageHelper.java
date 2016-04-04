@@ -176,7 +176,7 @@ public class LogMessageHelper {
             db.insertMessage(db.getWritableDatabase(), logMsg);
         } else if (responseType == MessageHandler.MSG_TYPE_REQUEST_RENEWSESSION && prefs.isEnableRenewRequestLog()) {
             db.insertMessage(db.getWritableDatabase(), logMsg);
-        } else if (responseType == MessageHandler.MSG_TYPE_METADATA_UPDATE && prefs.isEnableLocationTrackingLog()) {
+        } else if (responseType == MessageHandler.MSG_TYPE_METADATA_UPDATE && prefs.isEnableUpdateConnectionLog()) {
             db.insertMessage(db.getWritableDatabase(), logMsg);
         } else if (responseType == MessageHandler.MSG_TYPE_PUBLISH_CHARACTERISTICS
                 && prefs.isEnablePublishCharacteristicsLog()) {

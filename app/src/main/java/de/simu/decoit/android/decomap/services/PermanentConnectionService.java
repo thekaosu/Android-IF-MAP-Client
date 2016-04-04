@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+
 import de.hshannover.f4.trust.ifmapj.messages.PublishRequest;
 import de.simu.decoit.android.decomap.activities.MainActivity;
 import de.simu.decoit.android.decomap.connection.SyncConnectionThread;

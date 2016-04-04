@@ -106,7 +106,7 @@
     <string name="preferences_summary_permanentlyConnection">Enables a permanent connection with the MAP-Server. If disabled, the client will periodically send "renew" requests to keep the session alive.</string>
     <string name="preferences_summary_logrenewrequest">Enable logging of renew-request messages</string>
     <string name="preferences_summary_lognewsessionrequest">Enable logging of new-session-/end-session messages</string>
-    <string name="preferences_summary_loglocationtracking">Enable logging of metadata-update messages</string>
+    <string name="preferences_summary_logupdate">Enable logging of metadata-update messages</string>
     <string name="preferences_summary_logerrormessage">Enable logging of error-message messages</string>
     <string name="preferences_summary_loginvalidresponse">Enable logging of invalid-response messages</string>
     <string name="preferences_summary_applicationlogging">Write logging-messages to file</string>
@@ -131,7 +131,7 @@
     <string name="preferences_title_logdirectory">Log Directory</string>
     <string name="preferences_title_logrenewrequest">Enable renew-session logging</string>
     <string name="preferences_title_lognewsessionrequest">Enable new/end-session logging</string>
-    <string name="preferences_title_loglocationtracking">Enable auto-update logging</string>
+    <string name="preferences_title_logautoupdate">Enable auto-update logging</string>
     <string name="preferences_title_logpublishcharacteristics">Enable publish-characteristics logging</string>
     <string name="preferences_title_logerrormessage">Enable error-message logging</string>
     <string name="preferences_title_loginvalidresponse">Enable invalid-response logging</string>

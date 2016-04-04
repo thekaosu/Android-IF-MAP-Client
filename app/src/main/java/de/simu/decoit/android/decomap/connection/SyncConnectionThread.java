@@ -43,11 +43,11 @@ import de.simu.decoit.android.decomap.services.RenewConnectionService;
 public class SyncConnectionThread implements Runnable {
 
     // connection object
-    private static SSRC sSsrcConnection;
+    private SSRC sSsrcConnection;
 
     // request-parameters
-    private static String sSessionId;
-    private static String sPublisherId;
+    private String sSessionId; //maybe someday gone be useful
+    private String sPublisherId; //maybe someday gone be useful
 
     // service that started the Connection-Thread,
     // used for Callback when Thread finishes
@@ -73,9 +73,9 @@ public class SyncConnectionThread implements Runnable {
         mPermCallback = callback;
         mMessageType = msgType;
         mIsPermConection = true;
-        PermanentlyConnectionManager.getInstance().push(this);
         sSsrcConnection = ConnectionObjects.getSsrcConnection();
         mMessagePublish = msg;
+        PermanentlyConnectionManager.getInstance().push(this);
     }
 
     /**
@@ -123,7 +123,6 @@ public class SyncConnectionThread implements Runnable {
                     sSsrcConnection.publish(mMessagePublish);
                     break;
             }
-
             // build response
             StringBuilder sb = new StringBuilder();
             if (responseMsg != null) {

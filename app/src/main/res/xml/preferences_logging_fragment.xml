@@ -28,9 +28,9 @@
 
     <SwitchPreference
         android:defaultValue="true"
-        android:key="logLocationTracking"
-        android:summary="@string/preferences_summary_loglocationtracking"
-        android:title="@string/preferences_title_loglocationtracking" />
+        android:key="logUpdateConnection"
+        android:summary="@string/preferences_summary_logupdate"
+        android:title="@string/preferences_title_logautoupdate" />
 
     <SwitchPreference
         android:defaultValue="true"

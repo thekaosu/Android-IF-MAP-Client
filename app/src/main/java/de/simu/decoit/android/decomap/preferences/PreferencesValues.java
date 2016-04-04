@@ -87,7 +87,7 @@ public class PreferencesValues {
     private boolean applicationFileLogging = false;
     private boolean enableNewAndEndSessionLog;
 
-    private boolean enableLocationTrackingLog;
+    private boolean enableUpdateConnectionLog;
     private boolean enablePublishCharacteristicsLog;
     private boolean enableErrorMessageLog;
     private boolean enableInvalideResponseLog;
@@ -344,12 +344,12 @@ public class PreferencesValues {
         this.enableNewAndEndSessionLog = enableNewAndEndSessionLog;
     }
 
-    public boolean isEnableLocationTrackingLog() {
-        return enableLocationTrackingLog;
+    public boolean isEnableUpdateConnectionLog() {
+        return enableUpdateConnectionLog;
     }
 
-    public void setEnableLocationTrackingLog(boolean enableLocationTrackingLog) {
-        this.enableLocationTrackingLog = enableLocationTrackingLog;
+    public void setUpdateConnectionLog(boolean enableLocationTrackingLog) {
+        this.enableUpdateConnectionLog = enableLocationTrackingLog;
     }
 
     public boolean isEnablePublishCharacteristicsLog() {

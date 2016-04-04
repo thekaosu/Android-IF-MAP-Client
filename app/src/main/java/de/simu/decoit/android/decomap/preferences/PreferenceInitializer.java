@@ -62,8 +62,8 @@ public class PreferenceInitializer {
                     "allowUnsafeSSLPreference", true));
             mPreferences.setEnableNewAndEndSessionLog(prefs.getBoolean(
                     "logNewsessionRequest", true));
-            mPreferences.setEnableLocationTrackingLog(prefs.getBoolean(
-                    "logLocationTracking", true));
+            mPreferences.setUpdateConnectionLog(prefs.getBoolean(
+                    "logUpdateConnection", true));
             mPreferences.setEnablePublishCharacteristicsLog(prefs.getBoolean(
                     "logPublishCharacteristics", true));
             mPreferences.setEnableErrorMessageLog(prefs.getBoolean(
@@ -138,7 +138,7 @@ public class PreferenceInitializer {
             mPreferences.setDontSendGoogleApps(true);
             mPreferences.setAllowUnsafeSSLPreference(true);
             mPreferences.setEnableNewAndEndSessionLog(true);
-            mPreferences.setEnableLocationTrackingLog(true);
+            mPreferences.setUpdateConnectionLog(true);
             mPreferences.setEnablePublishCharacteristicsLog(true);
             mPreferences.setEnableErrorMessageLog(true);
             mPreferences.setEnableInvalideResponseLog(true);

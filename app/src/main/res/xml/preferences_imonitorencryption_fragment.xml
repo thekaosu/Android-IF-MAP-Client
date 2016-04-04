@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference
         android:name="Password"
-        android:defaultValue="icinga"
+        android:defaultValue=""
         android:inputType="textPassword"
         android:key="nscaPassPreference"
         android:summary="@string/preferences_summary_imonitorpassword"

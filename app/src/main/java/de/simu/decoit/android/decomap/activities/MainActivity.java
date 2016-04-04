@@ -829,13 +829,13 @@ public class MainActivity extends Activity {
                 mPreferences.isDontSendApplicationsInfos(),
                 mPreferences.isDontSendGoogleApps());
 
-        if (!mPreferences.isPermantConnection()) {
-            // gather parameters for local service
-            mLocalServicePreferences = new LocalServiceParameters(
-                    mPreferences, mDeviceProperties.getSystemProperties()
-                    .getLocalIpAddress(), mMessageType, publishReq,
-                    mMsgHandler);
+        // gather parameters for connection
+        mLocalServicePreferences = new LocalServiceParameters(
+                mPreferences, mDeviceProperties.getSystemProperties()
+                .getLocalIpAddress(), mMessageType, publishReq,
+                mMsgHandler);
 
+        if (!mPreferences.isPermantConnection()) {
             // initialize and bind local service
             mConnection = LocalServiceSynchronous.getConnection(
                     mLocalServicePreferences,
@@ -846,12 +846,6 @@ public class MainActivity extends Activity {
                     getApplicationContext(), mConnection);
 
         } else {
-            // gather parameters for permanent connection
-            mLocalServicePreferences = new LocalServiceParameters(
-                    mPreferences, mDeviceProperties.getSystemProperties()
-                    .getLocalIpAddress(), mMessageType, publishReq,
-                    mMsgHandler);
-
             // initialize and bind local service
             mPermConnection = LocalServicePermanent.getPermConnection(
                     mLocalServicePreferences,
