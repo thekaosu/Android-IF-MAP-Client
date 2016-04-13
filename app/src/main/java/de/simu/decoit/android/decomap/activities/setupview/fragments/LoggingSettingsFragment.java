@@ -1,5 +1,5 @@
 /*
- * BasicAuthSettingsFragment.java        0.2 2015-03-08
+ * LoggingSettingsFragment.java        0.2 2015-03-08
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,6 +21,8 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.os.Bundle;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -33,6 +35,11 @@ public class LoggingSettingsFragment extends AbstractPreferenceFragment {
 
     public LoggingSettingsFragment() {
         fragmentID = R.xml.preferences_logging_fragment;
-        dynamicSummaryKeys.add("logPath");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_logpath));
+        super.onCreate(savedInstanceState);
     }
 }

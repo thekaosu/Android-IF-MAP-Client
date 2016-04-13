@@ -21,6 +21,8 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.os.Bundle;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -33,8 +35,13 @@ public class IMonitorEncryptionSettingsFragment extends AbstractPreferenceFragme
 
     public IMonitorEncryptionSettingsFragment(){
         fragmentID = R.xml.preferences_imonitorencryption_fragment;
-        dynamicSummaryKeys.add("nscaPassPreference");
-        dynamicSummaryKeys.add("nscaEncPref");
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_nsca_password));
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_nsca_encryption));
+        super.onCreate(savedInstanceState);
     }
 }
 

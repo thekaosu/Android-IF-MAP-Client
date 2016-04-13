@@ -73,8 +73,7 @@ public abstract class AbstractPreferenceFragment extends PreferenceFragment impl
         } else if (p instanceof EditTextPreference) {
             EditTextPreference editTextPref = (EditTextPreference) p;
             if (editTextPref.getText() == null || editTextPref.getText().trim().length() == 0) {
-                String DEFAULTSUMMARY = getString(R.string.preferences_values_novalue);
-                p.setSummary(DEFAULTSUMMARY);
+                p.setSummary(getString(R.string.preferences_values_novalue));
             } else if (editTextPref.getEditText().getInputType() == (InputType.TYPE_CLASS_TEXT |
                     InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
                 StringBuilder stars = new StringBuilder();

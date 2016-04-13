@@ -40,15 +40,15 @@ public class ServerSettingsFragment extends AbstractPreferenceFragment {
     public void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getActivity());
-        String mode = prefs.getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", "IF-MAP");
-        if (mode.equals("IF-MAP")) {
+        String mode = prefs.getString(SetupAdapter.MONITORINGMODE_VIEW_ID + "", getActivity().getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString());
+        if (mode.equals(getActivity().getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString())) {
             fragmentID = R.xml.preferences_server_fragment_ifmap;
-            dynamicSummaryKeys.add("IF-MAPServeripPreference");
-            dynamicSummaryKeys.add("IF-MAPServerportPreference");
-        } else if (mode.equals("iMonitor")) {
+            dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_ifmap_mapserver_ip));
+            dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_ifmap_mapserver_port));
+        } else if (mode.equals(getActivity().getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
             fragmentID = R.xml.preferences_server_fragment_imonitor;
-            dynamicSummaryKeys.add("iMonitorServeripPreference");
-            dynamicSummaryKeys.add("iMonitorServerportPreference");
+            dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_imonitor_server_ip));
+            dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_imonitor_server_port));
         }
         super.onCreate(savedInstanceState);
     }

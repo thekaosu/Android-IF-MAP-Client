@@ -2,51 +2,51 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:attr="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="applicatiologging"
+        android:defaultValue="@bool/preferences_default_values_application_file_logging"
+        android:key="@string/preferences_keys_applicatiologging"
         android:summary="@string/preferences_summary_applicationlogging"
         android:title="@string/preferences_title_applicationlogging" />
 
     <de.simu.decoit.android.decomap.activities.setupview.fragments.preferences.PreferenceFileChooserDialogPreference
-        android:defaultValue="/ifmap-client/keystore/keystore"
-        android:key="logPath"
+        android:defaultValue="@string/preferences_default_values_logpath"
+        android:key="@string/preferences_keys_logpath"
         android:summary="@string/preferences_summary_logpath"
         android:title="@string/preferences_title_logdirectory"
         attr:onlyDirectory="true" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="logNewsessionRequest"
+        android:defaultValue="@bool/preferences_default_values_log_new_and_end_seassion"
+        android:key="@string/preferences_keys_logNewsessionRequest"
         android:summary="@string/preferences_summary_lognewsessionrequest"
         android:title="@string/preferences_title_lognewsessionrequest" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="logRenewRequest"
+        android:defaultValue="@bool/preferences_default_values_log_renew_request"
+        android:key="@string/preferences_keys_logRenewRequest"
         android:summary="@string/preferences_summary_logrenewrequest"
         android:title="@string/preferences_title_logrenewrequest" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="logUpdateConnection"
+        android:defaultValue="@bool/preferences_default_values_log_update"
+        android:key="@string/preferences_keys_log_update_connection"
         android:summary="@string/preferences_summary_logupdate"
         android:title="@string/preferences_title_logautoupdate" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="logPublishCharacteristics"
+        android:defaultValue="@bool/preferences_default_values_log_publish"
+        android:key="@string/preferences_keys_log_publish_characteristics"
         android:summary="@string/preferences_summary_logpublishcharacteristics"
         android:title="@string/preferences_title_logpublishcharacteristics" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="logErrorMessage"
+        android:defaultValue="@bool/preferences_default_values_log_error_messages"
+        android:key="@string/preferences_keys_log_error_message"
         android:summary="@string/preferences_summary_logerrormessage"
         android:title="@string/preferences_title_logerrormessage" />
 
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="logInvalideResponse"
+        android:defaultValue="@bool/preferences_default_values_log_invalid_response"
+        android:key="@string/preferences_keys_log_invalide_response"
         android:summary="@string/preferences_summary_loginvalidresponse"
         android:title="@string/preferences_title_loginvalidresponse" />
 </PreferenceScreen>

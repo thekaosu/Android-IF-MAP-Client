@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="autostartPreferences"
+        android:defaultValue="@bool/preferences_default_values_autostart"
+        android:key="@string/preferences_keys_autostart"
         android:summary="@string/preferences_summary_autostart"
         android:title="@string/preferences_title_autostart" />
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="autoconnectPreferences"
+        android:defaultValue="@bool/preferences_default_values_autostart"
+        android:key="@string/preferences_keys_autoconnect"
         android:summary="@string/preferences_summary_autoconnect"
         android:title="@string/preferences_title_autoconnect" />
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="autoUpdate"
+        android:defaultValue="@bool/preferences_default_values_autoupdate"
+        android:key="@string/preferences_keys_automatic_update"
         android:summary="@string/preferences_summary_autoupdate"
         android:title="@string/preferences_title_autoupdate" />
     <EditTextPreference
-        android:name="Update Interval"
-        android:defaultValue="60000"
-        android:key="updateInterval"
+        android:defaultValue="@string/preferences_default_values_update_interval"
+        android:key="@string/preferences_keys_updateinterval"
         android:inputType="number"
         android:summary="@string/preferences_summary_updateinterval"
         android:title="@string/preferences_title_updateinterval"
-        android:dependency="autoUpdate"/>
+        android:dependency="@string/preferences_keys_automatic_update"/>
 </PreferenceScreen>

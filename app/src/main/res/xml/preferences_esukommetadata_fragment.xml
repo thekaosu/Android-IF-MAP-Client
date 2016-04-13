@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-        android:defaultValue="false"
-        android:key="sendNoAppsPreferences"
+        android:defaultValue="@bool/preferences_default_values_dont_send_application_infos"
+        android:key="@string/preferences_keys_send_no_Apps"
         android:summary="@string/preferences_summary_sendesukomspecificapps"
         android:title="@string/preferences_title_sendesukomspecificapps" />
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="sendNoGoogleAppsPreferences"
+        android:defaultValue="@bool/preferences_default_values_use_non_conform_metadata"
+        android:key="@string/preferences_keys_send_no_google_apps_preferences"
         android:summary="@string/preferences_summary_dontsendgoogleapps"
         android:title="@string/preferences_title_dontsendgoogleapps" />
 </PreferenceScreen>

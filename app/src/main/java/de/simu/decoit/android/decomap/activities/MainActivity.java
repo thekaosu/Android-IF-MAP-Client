@@ -372,7 +372,7 @@ public class MainActivity extends Activity {
         Toolbox.logTxt(this.getLocalClassName(), "initValues(...) called");
 
         mPreferences = PreferencesValues.getInstance();
-        PreferenceInitializer.initPreferences(this, getBaseContext());
+        PreferenceInitializer.initPreferences(this);
 
         // create new database connection
         mLogDB = new LoggingDatabase(this);

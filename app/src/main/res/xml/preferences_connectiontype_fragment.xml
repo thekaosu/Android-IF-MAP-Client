@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="allowUnsafeSSLPreference"
+        android:defaultValue="@bool/preferences_default_values_allow_unsafe_ssl"
+        android:key="@string/preferences_keys_allow_unsafe_ssl"
         android:summary="@string/preferences_summary_allowunsafe"
         android:title="@string/preferences_title_allowunsafe" />
     <SwitchPreference
-        android:defaultValue="true"
-        android:key="permanantlyConectionPreferences"
+        android:defaultValue="@bool/preferences_default_values_permanent_connection"
+        android:key="@string/preferences_keys_permanent_connection"
         android:summary="@string/preferences_summary_permanentlyConnection"
         android:title="@string/preferences_title_permanentlyConnection"
         android:disableDependentsState="true"/>
     <EditTextPreference
-        android:name="RenewInterval"
-        android:defaultValue="12000"
+        android:defaultValue="@string/preferences_default_values_renew_interval"
         android:inputType="number"
-        android:key="renewInterval"
+        android:key="@string/preferences_keys_renew_intervall"
         android:summary="@string/preferences_title_renewinterval"
         android:title="@string/preferences_title_renewinterval"
         android:dependency="permanantlyConectionPreferences"/>

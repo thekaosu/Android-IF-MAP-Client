@@ -26,7 +26,7 @@ public class PreferenceFileChooserDialogPreference extends Preference {
     public PreferenceFileChooserDialogPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         String ANDROID_DNS = "http://schemas.android.com/apk/res/android";
-        String defValue = attrs.getAttributeValue(ANDROID_DNS, "defaultValue");
+        String defValue = attrs.getAttributeValue(ANDROID_DNS, "");
         if (defValue == null) {
             defaultValue = Environment.getExternalStorageDirectory().getAbsolutePath();
         } else {

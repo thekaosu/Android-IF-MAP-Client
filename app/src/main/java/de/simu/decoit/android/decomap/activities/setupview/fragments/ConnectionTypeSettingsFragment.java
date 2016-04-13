@@ -21,6 +21,8 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.os.Bundle;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -33,6 +35,12 @@ public class ConnectionTypeSettingsFragment extends AbstractPreferenceFragment {
 
     public ConnectionTypeSettingsFragment(){
         fragmentID = R.xml.preferences_connectiontype_fragment;
-        dynamicSummaryKeys.add("renewInterval");
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_renew_intervall));
+        super.onCreate(savedInstanceState);
     }
 }

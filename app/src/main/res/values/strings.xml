@@ -136,7 +136,74 @@
     <string name="preferences_title_logerrormessage">Enable error-message logging</string>
     <string name="preferences_title_loginvalidresponse">Enable invalid-response logging</string>
     <string name="preferences_title_autoupdate">Enable auto-update</string>
+    <string name="preferences_title_authenticationtype">Authentication Type</string>
     <string name="preferences_values_novalue">"&lt;no value&gt;"</string>
+
+    <!-- Preferences-Keys and default values -->
+    <string name="preferences_keys_authentication_type">"authType"</string>
+    <string name="preferences_keys_keystore_path">"keystorePath"</string>
+    <string name="preferences_keys_keystore_password">"keystorePassword"</string>
+    <string name="preferences_keys_password">"passwordPreference"</string>
+    <string name="preferences_keys_username">"usernamePreference"</string>
+    <string name="preferences_keys_updateinterval">"updateInterval"</string>
+    <string name="preferences_keys_automatic_update">"autoUpdate"</string>
+    <string name="preferences_keys_autostart">"autostartPreferences"</string>
+    <string name="preferences_keys_autoconnect">"autoconnectPreferences"</string>
+    <string name="preferences_keys_renew_intervall">"renewInterval"</string>
+    <string name="preferences_keys_nsca_password">"nscaPassPreference"</string>
+    <string name="preferences_keys_nsca_encryption">"nscaEncPref"</string>
+    <string name="preferences_keys_ifmap_mapserver_ip">"IF-MAPServeripPreference"</string>
+    <string name="preferences_keys_ifmap_mapserver_port">"IF-MAPServerportPreference"</string>
+    <string name="preferences_keys_imonitor_server_ip">"iMonitorServeripPreference"</string>
+    <string name="preferences_keys_imonitor_server_port">"iMonitorServerportPreference"</string>
+    <string name="preferences_keys_logpath">"logPath"</string>
+    <string name="preferences_keys_applicatiologging">"applicatiologging"</string>
+    <string name="preferences_keys_logNewsessionRequest">"logNewsessionRequest"</string>
+    <string name="preferences_keys_logRenewRequest">"logRenewRequest"</string>
+    <string name="preferences_keys_log_update_connection">"logUpdateConnection"</string>
+    <string name="preferences_keys_log_publish_characteristics">"logPublishCharacteristics"</string>
+    <string name="preferences_keys_log_error_message">"logErrorMessage"</string>
+    <string name="preferences_keys_log_invalide_response">"logInvalideResponse"</string>
+    <string name="preferences_keys_send_no_google_apps_preferences">"sendNoGoogleAppsPreferences"</string>
+    <string name="preferences_keys_location_type">"locationPref"</string>
+    <string name="preferences_keys_location_tracking_enabled">"enableLocationTracking"</string>
+    <string name="preferences_keys_send_no_Apps">"sendNoAppsPreferences"</string>
+    <string name="preferences_keys_allow_unsafe_ssl">"allowUnsafeSSLPreference"</string>
+    <string name="preferences_keys_permanent_connection">"permanantlyConectionPreferences"</string>
+
+    <!--preferences default values -->
+    <bool name="preferences_default_values_application_file_logging">true</bool>
+    <string name="preferences_default_values_location_tracking">GPS</string>
+    <bool name="preferences_default_values_enabled_location_tracking">false</bool>
+    <string name="preferences_default_values_logpath">"/ifmap-client/logs/"</string>
+    <bool name="preferences_default_values_autoupdate">true</bool>
+    <string name="preferences_default_values_keystore_path">"/ifmap-client/keystore/keystore"</string>
+    <string name="preferences_default_values_keystore_password">""</string>
+    <bool name="preferences_default_values_use_non_conform_metadata">false</bool>
+    <bool name="preferences_default_values_dont_send_application_infos">false</bool>
+    <bool name="preferences_default_values_autostart">false</bool>
+    <bool name="preferences_default_values_autoconnect">false</bool>
+    <bool name="preferences_default_values_dont_send_google_apps">true</bool>
+    <bool name="preferences_default_values_allow_unsafe_ssl">true</bool>
+    <bool name="preferences_default_values_log_new_and_end_seassion">true</bool>
+    <bool name="preferences_default_values_log_update">true</bool>
+    <bool name="preferences_default_values_log_publish">true</bool>
+    <bool name="preferences_default_values_log_error_messages">true</bool>
+    <bool name="preferences_default_values_log_invalid_response">true</bool>
+    <bool name="preferences_default_values_log_renew_request">true</bool>
+    <string name="preferences_default_values_username">"user"</string>
+    <string name="preferences_default_values_password">""</string>
+    <string name="preferences_default_values_ifmap_ip">"127.0.0.1"</string>
+    <string name="preferences_default_values_ifmap_port">8443</string>
+    <string name="preferences_default_values_imonitor_ip">"127.0.0.1"</string>
+    <string name="preferences_default_values_imonitor_port">5667</string>
+    <string name="preferences_default_values_nsca_encription">1</string>
+    <string name="preferences_default_values_nsca_password">""</string>
+    <bool name="preferences_default_values_permanent_connection">true</bool>
+    <bool name="preferences_default_values_use_basic_auth">true</bool>
+    <string name="preferences_default_values_update_interval">600000</string>
+    <string name="preferences_default_values_renew_interval">10000</string>
+
 
     <!--Status-Tab -->
     <string name="status_lable_update_status">update status information</string>

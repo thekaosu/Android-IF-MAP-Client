@@ -21,6 +21,8 @@
 
 package de.simu.decoit.android.decomap.activities.setupview.fragments;
 
+import android.os.Bundle;
+
 import de.simu.decoit.android.decomap.activities.R;
 
 /**
@@ -33,7 +35,11 @@ public class AutomationSettingsFragment extends AbstractPreferenceFragment {
 
     public AutomationSettingsFragment(){
         fragmentID = R.xml.preferences_automation_fragment;
-        dynamicSummaryKeys.add("updateInterval");
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_updateinterval));
+        super.onCreate(savedInstanceState);
+    }
 }

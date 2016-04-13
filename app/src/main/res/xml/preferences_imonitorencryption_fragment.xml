@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference
-        android:name="Password"
-        android:defaultValue=""
+        android:defaultValue="@string/preferences_default_values_nsca_password"
         android:inputType="textPassword"
-        android:key="nscaPassPreference"
+        android:key="@string/preferences_keys_nsca_password"
         android:summary="@string/preferences_summary_imonitorpassword"
         android:title="@string/preferences_title_password" />
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="@string/preferences_default_values_nsca_encription"
         android:entries="@array/preferences_display_cryptForm"
         android:entryValues="@array/preferences_value_cryptForm"
-        android:key="nscaEncPref"
+        android:key="@string/preferences_keys_nsca_encryption"
         android:summary="@string/preferences_summary_cryptPref"
         android:title="@string/preferences_title_cryptPref" />
 </PreferenceScreen>

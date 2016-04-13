@@ -155,7 +155,6 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
         if (!enabled && headerType != HEADER_TYPE_CATEGORY) {
             if (summary != null) {
-
                 summary.setTextColor(ContextCompat.getColor(getContext(), R.color.disabledText));
             }
             if (title != null) {
@@ -165,8 +164,6 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
                 mechanism.setEnabled(false);
             }
         }
-
-
         return view;
     }
 

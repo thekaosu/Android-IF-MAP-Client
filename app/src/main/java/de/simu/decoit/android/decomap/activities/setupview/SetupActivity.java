@@ -58,12 +58,10 @@ public class SetupActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getClass().getName(), "SetupActivity.OnCreate(...) called");
-        if(onIsMultiPane()) {
+        if (onIsMultiPane()) {
             getIntent().putExtra(PreferenceActivity.EXTRA_SHOW_FRAGMENT, AutomationSettingsFragment.class.getName());
         }
         super.onCreate(savedInstanceState);
-//        getFragmentManager().beginTransaction().replace(android.R.id.content, new SetupFragment()).commit();
-//        addPreferencesFromResource(R.xml.preferences);
         getListView().setPadding(0, 0, 0, 0);
     }
 
@@ -75,6 +73,7 @@ public class SetupActivity extends PreferenceActivity {
         if (getListAdapter() instanceof SetupAdapter) {
             ((SetupAdapter) getListAdapter()).resume();
         }
+
     }
 
     public void onBuildHeaders(List<Header> target) {
@@ -100,6 +99,18 @@ public class SetupActivity extends PreferenceActivity {
             } else if (mode.equals(getResources().getTextArray(R.array.preferences_value_serverForm)[0].toString())) {
                 headers.addAll(iMonitorHeaderList);
             }
+
+
+            final String displayedFragment = getIntent().getStringExtra(EXTRA_SHOW_FRAGMENT);
+            if (displayedFragment != null) {
+                for (final Header header : headers) {
+                    if (displayedFragment.equals(header.fragment)) {
+                        switchToHeader(header);
+                        break;
+                    }
+                }
+            }
+
             super.setListAdapter(new SetupAdapter(this, headers));
         }
 
@@ -112,7 +123,7 @@ public class SetupActivity extends PreferenceActivity {
         if (getListAdapter() instanceof SetupAdapter) {
             ((SetupAdapter) getListAdapter()).pause();
         }
-        PreferenceInitializer.initPreferences(this, getBaseContext());
+        PreferenceInitializer.initPreferences(this);
     }
 
     // -------------------------------------------------------------------------

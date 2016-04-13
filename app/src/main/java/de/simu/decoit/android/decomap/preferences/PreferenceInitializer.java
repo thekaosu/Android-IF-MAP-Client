@@ -22,99 +22,98 @@ public class PreferenceInitializer {
     /**
      * init application preferences
      */
-    public static void initPreferences(Context windowContext, Context baseContext) {
+    public static void initPreferences(Context windowContext) {
         Toolbox.logTxt(PreferenceInitializer.class.toString(), "onPreferences(...) called");
 
         // get the preferences.xml preferences
         SharedPreferences prefs = PreferenceManager
-                .getDefaultSharedPreferences(baseContext);
+                .getDefaultSharedPreferences(windowContext);
 
         try {
             // set preferences
             mPreferences.setApplicationFileLogging(prefs.getBoolean(
-                    "applicatiologging", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_applicatiologging), windowContext.getResources().getBoolean(R.bool.preferences_default_values_application_file_logging)));
             mPreferences.setMonitoringPreference(prefs.getString(
                     R.id.monitoringModeSettings + "", windowContext.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString()));
             mPreferences.setLocationTrackingType(prefs.getString(
-                    "locationPref", "GPS"));
+                    windowContext.getResources().getString(R.string.preferences_keys_location_type), windowContext.getResources().getString(R.string.preferences_default_values_location_tracking)));
             mPreferences.setEnableLocationTracking(prefs.getBoolean(
-                    "enableLocationTracking", false));
+                    windowContext.getResources().getString(R.string.preferences_keys_location_tracking_enabled), windowContext.getResources().getBoolean(R.bool.preferences_default_values_enabled_location_tracking)));
 
-            mPreferences.setLogPath(prefs.getString("logPath", Environment.getExternalStorageDirectory() + "/ifmap-client/logs/"));
+            mPreferences.setLogPath(prefs.getString(windowContext.getResources().getString(R.string.preferences_keys_logpath), Environment.getExternalStorageDirectory() + windowContext.getResources().getString(R.string.preferences_default_values_logpath)));
 
-            mPreferences.setAutoUpdate(prefs.getBoolean("autoUpdate", true));
+            mPreferences.setAutoUpdate(prefs.getBoolean(windowContext.getResources().getString(R.string.preferences_keys_automatic_update), windowContext.getResources().getBoolean(R.bool.preferences_default_values_autoupdate)));
 
-            mPreferences.setKeystorePath(prefs.getString("KeystorePath", Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore"));
-            mPreferences.setKeystorePassword(prefs.getString("keystorepw", ""));
+            mPreferences.setKeystorePath(prefs.getString(windowContext.getResources().getString(R.string.preferences_keys_keystore_path), Environment.getExternalStorageDirectory() + windowContext.getResources().getString(R.string.preferences_default_values_keystore_path)));
+            mPreferences.setKeystorePassword(prefs.getString(windowContext.getResources().getString(R.string.preferences_keys_keystore_password), windowContext.getResources().getString(R.string.preferences_default_values_keystore_password)));
             mPreferences.setUseNonConformMetadata(prefs.getBoolean(
-                    R.id.esukomMetadataSettings + "", false));
+                    R.id.esukomMetadataSettings + "", windowContext.getResources().getBoolean(R.bool.preferences_default_values_use_non_conform_metadata)));
 
 
             mPreferences.setDontSendApplicationsInfos(prefs.getBoolean(
-                    "sendNoAppsPreferences", false));
-            mPreferences.setAutostart(prefs.getBoolean("autostartPreferences",
-                    false));
-            mPreferences.setAutoconnect(prefs.getBoolean("autoconnectPreferences",
-                    false));
-            mPreferences.setDontSendGoogleApps(prefs.getBoolean(
-                    "sendNoGoogleAppsPreferences", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_send_no_Apps), windowContext.getResources().getBoolean(R.bool.preferences_default_values_dont_send_application_infos)));
+            mPreferences.setAutostart(prefs.getBoolean(windowContext.getResources().getString(R.string.preferences_keys_autostart),
+                    windowContext.getResources().getBoolean(R.bool.preferences_default_values_autostart)));
+            mPreferences.setAutoconnect(prefs.getBoolean(windowContext.getResources().getString(R.string.preferences_keys_autoconnect),
+                    windowContext.getResources().getBoolean(R.bool.preferences_default_values_autoconnect)));
+            mPreferences.setDontSendGoogleApps(prefs.getBoolean(windowContext.getResources().getString(R.string.preferences_keys_send_no_google_apps_preferences), windowContext.getResources().getBoolean(R.bool.preferences_default_values_dont_send_google_apps)));
             mPreferences.setAllowUnsafeSSLPreference(prefs.getBoolean(
-                    "allowUnsafeSSLPreference", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_allow_unsafe_ssl), windowContext.getResources().getBoolean(R.bool.preferences_default_values_allow_unsafe_ssl)));
             mPreferences.setEnableNewAndEndSessionLog(prefs.getBoolean(
-                    "logNewsessionRequest", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_logNewsessionRequest), windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_new_and_end_seassion)));
             mPreferences.setUpdateConnectionLog(prefs.getBoolean(
-                    "logUpdateConnection", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_log_update_connection), windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_update)));
             mPreferences.setEnablePublishCharacteristicsLog(prefs.getBoolean(
-                    "logPublishCharacteristics", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_log_publish_characteristics), windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_publish)));
             mPreferences.setEnableErrorMessageLog(prefs.getBoolean(
-                    "logErrorMessage", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_log_error_message), windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_error_messages)));
             mPreferences.setEnableInvalideResponseLog(prefs.getBoolean(
-                    "logInvalideResponse", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_log_invalide_response), windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_invalid_response)));
             mPreferences.setEnableRenewRequestLog(prefs.getBoolean(
-                    "logRenewRequest", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_logRenewRequest), windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_renew_request)));
             mPreferences.setUsernamePreference(prefs.getString(
-                    "usernamePreference", "user"));
+                    windowContext.getResources().getString(R.string.preferences_keys_username), windowContext.getResources().getString(R.string.preferences_default_values_username)));
             mPreferences.setPasswordPreference(prefs.getString(
-                    "passwordPreference", ""));
+                    windowContext.getResources().getString(R.string.preferences_keys_password), windowContext.getResources().getString(R.string.preferences_default_values_password)));
             mPreferences.setIFMAPServerIpPreference(prefs.getString(
-                    "IF-MAPServeripPreference", "127.0.0.1"));
+                    windowContext.getResources().getString(R.string.preferences_keys_ifmap_mapserver_ip), windowContext.getResources().getString(R.string.preferences_default_values_ifmap_ip)));
             mPreferences.setIFMAPServerPortPreference(prefs.getString(
-                    "IF-MAPServerportPreference", "8443"));
+                    windowContext.getResources().getString(R.string.preferences_keys_ifmap_mapserver_port), windowContext.getResources().getString(R.string.preferences_default_values_ifmap_port)));
             mPreferences.setIMonitorServerIpPreference(prefs.getString(
-                    "iMonitorServeripPreference", "127.0.0.1"));
+                    windowContext.getResources().getString(R.string.preferences_keys_imonitor_server_ip), windowContext.getResources().getString(R.string.preferences_default_values_imonitor_ip)));
             mPreferences.setIMonitorServerPortPreference(prefs.getString(
-                    "iMonitorServerportPreference", "5667"));
+                    windowContext.getResources().getString(R.string.preferences_keys_imonitor_server_port), windowContext.getResources().getString(R.string.preferences_default_values_imonitor_port)));
             mPreferences.setNscaEncPreference(prefs.getString(
-                    "nscaEncPref", "1"));
+                    windowContext.getResources().getString(R.string.preferences_keys_nsca_encryption), windowContext.getResources().getString(R.string.preferences_default_values_nsca_encription)));
             mPreferences.setNscaPassPreference(prefs.getString(
-                    "nscaPassPreference", ""));
+                    windowContext.getResources().getString(R.string.preferences_keys_nsca_password), windowContext.getResources().getString(R.string.preferences_default_values_nsca_password)));
             mPreferences.setIsPermantConnection(prefs.getBoolean(
-                    "permanantlyConectionPreferences", true));
+                    windowContext.getResources().getString(R.string.preferences_keys_permanent_connection), windowContext.getResources().getBoolean(R.bool.preferences_default_values_permanent_connection)));
 
             //mPreferences.setIsUseBasicAuth(prefs.getString("auth", "Basic-Authentication"));
-            mPreferences.setUseBasicAuth(prefs.getString("authType", windowContext.getResources().getTextArray(R.array.preferences_auth_types)[0].toString()).equals(windowContext.getResources().getTextArray(R.array.preferences_auth_types)[0].toString()));
+            mPreferences.setUseBasicAuth(prefs.getString(windowContext.getResources().getString(R.string.preferences_keys_authentication_type), windowContext.getResources().getTextArray(R.array.preferences_auth_types)[0].toString()).equals(windowContext.getResources().getTextArray(R.array.preferences_auth_types)[0].toString()));
 
             // set update interval
             mPreferences.setUpdateInterval(Long.parseLong(prefs.getString(
-                    "updateInterval", "600000")));
+                    windowContext.getResources().getString(R.string.preferences_keys_updateinterval), windowContext.getResources().getString(R.string.preferences_default_values_update_interval))));
             // check if update interval is above minimum, of not set it to
             // default minimum value
             if (mPreferences.getUpdateInterval() < 60000L) {
-                mPreferences.setUpdateInterval(60000L);
+                mPreferences.setUpdateInterval(Long.parseLong(windowContext.getResources().getString(R.string.preferences_default_values_update_interval)));
                 Toolbox.logTxt(PreferenceInitializer.class.toString(),
-                        "configured update interval is to short...using default (60000)");
+                        "configured update interval is to short...using default (" + windowContext.getResources().getString(R.string.preferences_default_values_update_interval) + ")");
             }
 
             // set renew session interval
             mPreferences.setRenewIntervalPreference(Long.parseLong(prefs
-                    .getString("renewInterval", "10000")));
+                    .getString(windowContext.getResources().getString(R.string.preferences_keys_renew_intervall), windowContext.getResources().getString(R.string.preferences_default_values_renew_interval))));
 
             // check if renew-session interval is above minimum, of not set it to
             // default minimum value
             if (mPreferences.getRenewIntervalPreference() < 10000L) {
-                mPreferences.setRenewIntervalPreference(10000L);
+                mPreferences.setRenewIntervalPreference(Long.parseLong(windowContext.getResources().getString(R.string.preferences_default_values_renew_interval)));
                 Toolbox.logTxt(PreferenceInitializer.class.toString(),
-                        "configured renew session interval is to short...using default (10000)");
+                        "configured renew session interval is to short...using default (" + windowContext.getResources().getString(R.string.preferences_default_values_renew_interval) + ")");
             }
 
         } catch (ClassCastException | NumberFormatException e) {
@@ -123,38 +122,38 @@ public class PreferenceInitializer {
                     "Error while loading preferences! Loading default values! \n\nError:\n" + e.getMessage());
 
             //set default values!
-            mPreferences.setApplicationFileLogging(true);
+            mPreferences.setApplicationFileLogging(windowContext.getResources().getBoolean(R.bool.preferences_default_values_application_file_logging));
             mPreferences.setMonitoringPreference(windowContext.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString());
-            mPreferences.setLocationTrackingType("GPS");
-            mPreferences.setEnableLocationTracking(false);
-            mPreferences.setLogPath(Environment.getExternalStorageDirectory() + "/ifmap-client/logs/");
-            mPreferences.setAutoUpdate(true);
-            mPreferences.setKeystorePath(Environment.getExternalStorageDirectory() + "/ifmap-client/keystore/keystore");
-            mPreferences.setKeystorePassword("");
-            mPreferences.setUseNonConformMetadata(false);
-            mPreferences.setDontSendApplicationsInfos(false);
-            mPreferences.setAutostart(false);
-            mPreferences.setAutoconnect(false);
-            mPreferences.setDontSendGoogleApps(true);
-            mPreferences.setAllowUnsafeSSLPreference(true);
-            mPreferences.setEnableNewAndEndSessionLog(true);
-            mPreferences.setUpdateConnectionLog(true);
-            mPreferences.setEnablePublishCharacteristicsLog(true);
-            mPreferences.setEnableErrorMessageLog(true);
-            mPreferences.setEnableInvalideResponseLog(true);
-            mPreferences.setEnableRenewRequestLog(true);
-            mPreferences.setUsernamePreference("user");
-            mPreferences.setPasswordPreference("");
-            mPreferences.setIFMAPServerIpPreference("127.0.0.1");
-            mPreferences.setIFMAPServerPortPreference("8443");
-            mPreferences.setIMonitorServerIpPreference("127.0.0.1");
-            mPreferences.setIMonitorServerPortPreference("5667");
-            mPreferences.setNscaEncPreference("1");
-            mPreferences.setNscaPassPreference("");
-            mPreferences.setIsPermantConnection(true);
-            mPreferences.setUseBasicAuth(true);
-            mPreferences.setUpdateInterval(600000L);
-            mPreferences.setRenewIntervalPreference(10000L);
+            mPreferences.setLocationTrackingType(windowContext.getResources().getString(R.string.preferences_default_values_location_tracking));
+            mPreferences.setEnableLocationTracking(windowContext.getResources().getBoolean(R.bool.preferences_default_values_enabled_location_tracking));
+            mPreferences.setLogPath(Environment.getExternalStorageDirectory() + windowContext.getResources().getString(R.string.preferences_default_values_logpath));
+            mPreferences.setAutoUpdate(windowContext.getResources().getBoolean(R.bool.preferences_default_values_autoupdate));
+            mPreferences.setKeystorePath(Environment.getExternalStorageDirectory() + windowContext.getResources().getString(R.string.preferences_default_values_keystore_path));
+            mPreferences.setKeystorePassword(windowContext.getResources().getString(R.string.preferences_default_values_keystore_password));
+            mPreferences.setUseNonConformMetadata(windowContext.getResources().getBoolean(R.bool.preferences_default_values_use_non_conform_metadata));
+            mPreferences.setDontSendApplicationsInfos(windowContext.getResources().getBoolean(R.bool.preferences_default_values_dont_send_application_infos));
+            mPreferences.setAutostart(windowContext.getResources().getBoolean(R.bool.preferences_default_values_autostart));
+            mPreferences.setAutoconnect(windowContext.getResources().getBoolean(R.bool.preferences_default_values_autoconnect));
+            mPreferences.setDontSendGoogleApps(windowContext.getResources().getBoolean(R.bool.preferences_default_values_dont_send_google_apps));
+            mPreferences.setAllowUnsafeSSLPreference(windowContext.getResources().getBoolean(R.bool.preferences_default_values_allow_unsafe_ssl));
+            mPreferences.setEnableNewAndEndSessionLog(windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_new_and_end_seassion));
+            mPreferences.setUpdateConnectionLog(windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_update));
+            mPreferences.setEnablePublishCharacteristicsLog(windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_publish));
+            mPreferences.setEnableErrorMessageLog(windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_error_messages));
+            mPreferences.setEnableInvalideResponseLog(windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_invalid_response));
+            mPreferences.setEnableRenewRequestLog(windowContext.getResources().getBoolean(R.bool.preferences_default_values_log_renew_request));
+            mPreferences.setUsernamePreference(windowContext.getResources().getString(R.string.preferences_default_values_username));
+            mPreferences.setPasswordPreference(windowContext.getResources().getString(R.string.preferences_default_values_password));
+            mPreferences.setIFMAPServerIpPreference(windowContext.getResources().getString(R.string.preferences_default_values_ifmap_ip));
+            mPreferences.setIFMAPServerPortPreference(windowContext.getResources().getString(R.string.preferences_default_values_ifmap_port));
+            mPreferences.setIMonitorServerIpPreference(windowContext.getResources().getString(R.string.preferences_default_values_imonitor_ip));
+            mPreferences.setIMonitorServerPortPreference(windowContext.getResources().getString(R.string.preferences_default_values_imonitor_port));
+            mPreferences.setNscaEncPreference(windowContext.getResources().getString(R.string.preferences_default_values_nsca_encription));
+            mPreferences.setNscaPassPreference(windowContext.getResources().getString(R.string.preferences_default_values_nsca_password));
+            mPreferences.setIsPermantConnection(windowContext.getResources().getBoolean(R.bool.preferences_default_values_permanent_connection));
+            mPreferences.setUseBasicAuth(windowContext.getResources().getBoolean(R.bool.preferences_default_values_use_basic_auth));
+            mPreferences.setUpdateInterval(Long.parseLong(windowContext.getResources().getString(R.string.preferences_default_values_update_interval)));
+            mPreferences.setRenewIntervalPreference(Long.parseLong(windowContext.getResources().getString(R.string.preferences_default_values_renew_interval)));
         }
     }
 }

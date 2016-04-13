@@ -1,5 +1,5 @@
 /*
- * BasicAuthSettingsFragment.java        0.2 2015-03-08
+ * AuthSettingsFragment.java        0.2 2015-03-08
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -41,15 +41,17 @@ public class AuthSettingsFragment extends AbstractPreferenceFragment {
     public AuthSettingsFragment() {
         fragmentID = R.xml.preferences_auth_fragment;
 
-        dynamicSummaryKeys.add("authType");
-        dynamicSummaryKeys.add("KeystorePath");
-        dynamicSummaryKeys.add("keystorepw");
-        dynamicSummaryKeys.add("passwordPreference");
-        dynamicSummaryKeys.add("usernamePreference");
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_authentication_type));
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_keystore_path));
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_keystore_password));
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_password));
+        dynamicSummaryKeys.add(getActivity().getResources().getString(R.string.preferences_keys_username));
+
         super.onCreate(savedInstanceState);
 
         updateSettings();
@@ -68,7 +70,7 @@ public class AuthSettingsFragment extends AbstractPreferenceFragment {
         getPreferenceScreen().removeAll();
         addPreferencesFromResource(fragmentID);
 
-        authType = (ListPreference) findPreference("authType");
+        authType = (ListPreference) findPreference(getActivity().getResources().getString(R.string.preferences_keys_authentication_type));
         if (authType.getValue() == null) {
             authType.setValueIndex(0);
         }

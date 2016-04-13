@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <EditTextPreference
-        android:name="Server IP-Address"
-        android:defaultValue="127.0.0.1"
-        android:key="iMonitorServeripPreference"
+        android:defaultValue="@string/preferences_default_values_imonitor_ip"
+        android:key="@string/preferences_keys_imonitor_server_ip"
         android:summary="@string/preferences_summary_serverip"
         android:title="@string/preferences_title_serverip" />
     <EditTextPreference
-        android:name="EditText Preference"
-        android:defaultValue="5667"
+        android:defaultValue="@string/preferences_default_values_imonitor_port"
         android:inputType="number"
-        android:key="iMonitorServerportPreference"
+        android:key="@string/preferences_keys_imonitor_server_port"
         android:summary="@string/preferences_summary_serverport"
         android:title="@string/preferences_title_serverport"/>
 </PreferenceScreen>
