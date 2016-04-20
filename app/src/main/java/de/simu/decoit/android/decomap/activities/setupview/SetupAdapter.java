@@ -61,15 +61,13 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
     public static final long MONITORINGMODE_VIEW_ID = R.id.monitoringModeSettings;
 
     //Contains all view ids, which should not be disabled, while a connection is established
-    private final long[] VIEW_WHILE_CONNECTION_WHITELIST = new long[]{R.id.loggingPreferences};
+    private final long[] VIEW_WHILE_CONNECTION_WHITELIST = new long[]{R.id.loggingPreferences}; //should atleast contain 1 item! or else ther is a bug while using a multipanel device!
 
     private final ArrayList<Long> switchIDS = new ArrayList<>();
 
     private final HashMap<Long, SwitchPreferenceHandler> switchMap = new HashMap<>();
     private final SpinnerSetupModePreferenceHandler selectionHandler;
     private View selectionView;
-
-    private final PreferencesValues mPreferences = PreferencesValues.getInstance();
 
     public SetupAdapter(Context context, List<PreferenceActivity.Header> objects) {
         super(context, 0, objects);
@@ -85,6 +83,7 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
         selectionHandler = new SpinnerSetupModePreferenceHandler(context, new Spinner(context), MONITORINGMODE_VIEW_ID + "");
     }
 
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         PreferenceActivity.Header header = getItem(position);
         int headerType = getHeaderType(header);
@@ -196,10 +195,12 @@ public class SetupAdapter extends ArrayAdapter<PreferenceActivity.Header> {
 
     @Override
     public boolean isEnabled(int position) {
-        if (mPreferences.isLockPreferences()) {
-            for (long id : VIEW_WHILE_CONNECTION_WHITELIST) {
-                if (getItem(position).id == id) {
-                    return true;
+        if (PreferencesValues.getInstance().isLockPreferences()) {
+            if (position > 0 && position < getCount()) {
+                for (long id : VIEW_WHILE_CONNECTION_WHITELIST) {
+                    if (getItem(position).id == id) {
+                        return true;
+                    }
                 }
             }
             return false;

@@ -40,6 +40,7 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
+ * @author Leonid Schwenke, Decoit GmbH
  * @version 0.2
  */
 public class SetupActivity extends PreferenceActivity {
@@ -74,6 +75,14 @@ public class SetupActivity extends PreferenceActivity {
             ((SetupAdapter) getListAdapter()).resume();
         }
 
+        if (onIsMultiPane() && !getListAdapter().isEnabled(getSelectedItemPosition())) {
+            for (int i = 0; i < headers.size(); i++) {
+                if (getListAdapter().isEnabled(i)) {
+                    switchToHeader(headers.get(i));
+                    break;
+                }
+            }
+        }
     }
 
     public void onBuildHeaders(List<Header> target) {
@@ -103,9 +112,9 @@ public class SetupActivity extends PreferenceActivity {
 
             final String displayedFragment = getIntent().getStringExtra(EXTRA_SHOW_FRAGMENT);
             if (displayedFragment != null) {
-                for (final Header header : headers) {
-                    if (displayedFragment.equals(header.fragment)) {
-                        switchToHeader(header);
+                for (int i = 0; i < headers.size(); i++) {
+                    if (getListAdapter().isEnabled(i) && headers.get(i).fragment != null) {
+                        switchToHeader(headers.get(i));
                         break;
                     }
                 }
@@ -125,23 +134,6 @@ public class SetupActivity extends PreferenceActivity {
         }
         PreferenceInitializer.initPreferences(this);
     }
-
-    // -------------------------------------------------------------------------
-    // BUTTON HANDLING
-    // -------------------------------------------------------------------------
-
-//    /**
-//     * we override the behavior of the back-button so that the application runs
-//     * in the background (instead of destroying it) when pressing back (similar
-//     * to the home button)
-//     */
-//    @Override
-//    public void onBackPressed() {
-//        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-//        setIntent.addCategory(Intent.CATEGORY_HOME);
-//        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(setIntent);
-//    }
 
     // -------------------------------------------------------------------------
     // ADAPTER HANDLING
