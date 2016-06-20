@@ -48,10 +48,6 @@
             android:textStyle="bold"
             android:visibility="invisible" />
 
-        <!--ListView android:id="@+id/status_ListView2"
-            android:layout_width="fill_parent" android:layout_height="180dip"
-            android:minHeight="?android:attr/listPreferredItemHeight"
-            android:textAppearance="?android:attr/textAppearanceLarge"></ListView -->
     </LinearLayout>
     <!-- update all button -->
     <Button

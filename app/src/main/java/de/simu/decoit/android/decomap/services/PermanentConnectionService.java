@@ -27,12 +27,12 @@ import android.os.Handler;
 import android.os.IBinder;
 
 import de.hshannover.f4.trust.ifmapj.messages.PublishRequest;
-import de.simu.decoit.android.decomap.activities.MainActivity;
 import de.simu.decoit.android.decomap.connection.SyncConnectionThread;
 import de.simu.decoit.android.decomap.logging.LogMessage;
 import de.simu.decoit.android.decomap.logging.LogMessageHelper;
 import de.simu.decoit.android.decomap.messaging.MessageHandler;
 import de.simu.decoit.android.decomap.messaging.ResponseParameters;
+import de.simu.decoit.android.decomap.monitoring.ifmap.ResponseRunnable;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
@@ -50,7 +50,7 @@ public class PermanentConnectionService extends Service {
 
 	// Callback-Handler for Activity that started the service
 	private Handler mCallbackHandler;
-	private MainActivity.PermanentRunnable mRunnable;
+	private ResponseRunnable mRunnable;
 
 	// callback from Connection-Thread to service
 	private final PermanentConnectionService mCallback = this;
@@ -97,7 +97,7 @@ public class PermanentConnectionService extends Service {
 			mCallbackHandler = callback;
 		}
 
-		public void setRunnable(final MainActivity.PermanentRunnable runnable) {
+		public void setRunnable(final ResponseRunnable runnable) {
 			mRunnable = runnable;
 		}
 

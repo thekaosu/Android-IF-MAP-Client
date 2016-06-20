@@ -46,7 +46,6 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  * 
  * @author Markus Schölzel, Decoit GmbH
  */
-
 public class EventParameters {
 
 	private final DeviceProperties mDeviceProperties;

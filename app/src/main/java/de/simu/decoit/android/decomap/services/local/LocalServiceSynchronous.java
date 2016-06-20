@@ -25,8 +25,8 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import de.simu.decoit.android.decomap.activities.MainActivity;
-import de.simu.decoit.android.decomap.activities.MainActivity.SynchronousRunnable;
+import de.simu.decoit.android.decomap.monitoring.ifmap.IFMapMonitoring;
+import de.simu.decoit.android.decomap.monitoring.ifmap.ResponseRunnable;
 import de.simu.decoit.android.decomap.services.RenewConnectionService;
 
 /**
@@ -46,7 +46,7 @@ public class LocalServiceSynchronous {
      * @return bound local connection service
      */
     public static ServiceConnection getConnection(final LocalServiceParameters values,
-                                                  final SynchronousRunnable callbackHandler, final String msgContext) {
+                                                  final ResponseRunnable callbackHandler, final String msgContext) {
         return new ServiceConnection() {
             // This is called when the connection with the service has been
             // established, giving us the service object we can use to
@@ -54,12 +54,12 @@ public class LocalServiceSynchronous {
             // service that we know is running in our own process, we can
             // cast its IBinder to a concrete class and directly access it.
             public void onServiceConnected(ComponentName className, IBinder service) {
-                MainActivity.sBoundRenewConnService = (RenewConnectionService.LocalBinder) service;
-                MainActivity.sBoundRenewConnService.setActivityCallbackHandler(values.getmMsgHandler());
-                MainActivity.sBoundRenewConnService.setRunnable(callbackHandler);
+                IFMapMonitoring.sBoundRenewConnService = (RenewConnectionService.LocalBinder) service;
+                IFMapMonitoring.sBoundRenewConnService.setActivityCallbackHandler(values.getmMsgHandler());
+                IFMapMonitoring.sBoundRenewConnService.setRunnable(callbackHandler);
 
                 // connect to local service
-                MainActivity.sBoundRenewConnService
+                IFMapMonitoring.sBoundRenewConnService
                         .connect(values.getmServerIpPreference(), values.getmServerPort(), values.getmIpAddress(),
                                 values.getmMessageType(), values.getmReguestParamsPublish(), msgContext);
 
@@ -70,7 +70,7 @@ public class LocalServiceSynchronous {
             // Because it is running in our same process, we should never
             // see this happen.
             public void onServiceDisconnected(ComponentName className) {
-                MainActivity.sBoundRenewConnService = null;
+                IFMapMonitoring.sBoundRenewConnService = null;
             }
         };
     }

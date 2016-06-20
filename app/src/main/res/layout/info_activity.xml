@@ -16,7 +16,7 @@
         android:textAppearance="@color/bgrColor"
         android:textColor="@color/lblColor"
         android:textStyle="bold"
-        android:typeface="normal"/>
+        android:typeface="normal" />
 
 
     <TextView
@@ -30,7 +30,7 @@
         android:textAppearance="@color/bgrColor"
         android:textColor="@color/lblColor"
         android:textStyle="normal"
-        android:typeface="normal"/>
+        android:typeface="normal" />
 
     <ImageView
         android:id="@+id/ImageView01"
@@ -38,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/simu_logo_full"
-        android:paddingTop="5dp"
-        android:contentDescription="@string/info_label_simu_icon_text" />
+        android:contentDescription="@string/info_label_simu_icon_text"
+        android:paddingTop="5dp" />
 
     <TextView
         android:id="@+id/TextView03"
@@ -53,7 +53,7 @@
         android:textAppearance="@color/bgrColor"
         android:textColor="@color/lblColor"
         android:textStyle="normal"
-        android:typeface="normal"/>
+        android:typeface="normal" />
 
 
     <ImageView
@@ -62,8 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/decoit_logo_full"
-        android:paddingTop="5dp"
-        android:contentDescription="@string/info_label_decoit_icon_text" />
+        android:contentDescription="@string/info_label_decoit_icon_text"
+        android:paddingTop="5dp" />
 
     <TextView
         android:id="@id/TextView03"
@@ -77,7 +77,7 @@
         android:textAppearance="@color/bgrColor"
         android:textColor="@color/lblColor"
         android:textStyle="italic"
-        android:typeface="normal"/>
+        android:typeface="normal" />
 
     <Button
         android:id="@+id/OpenProjectWebsite_Button"
@@ -86,6 +86,6 @@
         android:layout_gravity="center_horizontal"
         android:onClick="infoTabButtonHandler"
         android:text="@string/info_label_openwebsite"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 </LinearLayout>
 		

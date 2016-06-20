@@ -22,6 +22,7 @@
 package de.simu.decoit.android.decomap.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,19 +40,17 @@ import de.simu.decoit.android.decomap.device.ListEntry;
 import de.simu.decoit.android.decomap.device.StatusMessageAdapter;
 import de.simu.decoit.android.decomap.device.system.SystemProperties;
 import de.simu.decoit.android.decomap.dialogs.MessageDialog;
-import de.simu.decoit.android.decomap.observer.battery.BatteryReceiver;
-import de.simu.decoit.android.decomap.observer.camera.CameraReceiver;
-import de.simu.decoit.android.decomap.observer.sms.SMSObserver;
+import de.simu.decoit.android.decomap.messaging.MessageParameter;
 import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Activity for showing Device-Status, current location and Applications Permission
- * 
- * @version 0.1.5
+ *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Marcel Jahnke, Decoit GmbH
  * @author Leonid Schwenke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
+ * @version 0.1.5
  */
 public class StatusActivity extends Activity implements OnItemClickListener {
 
@@ -93,6 +92,8 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     // for displaying the location-data in status-list
     public static boolean sIsActivityActive = false;
 
+    private final MessageParameter mp = MessageParameter.getInstance();
+
     // location properties
     private static TextView sLocationLongitude;
     private static TextView sLocationLatitude;
@@ -117,7 +118,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         Toolbox.logTxt(this.getLocalClassName(), "onCreate(...) called");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab3);
+        setContentView(R.layout.status_activity);
     }
 
     @Override
@@ -132,13 +133,13 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         Toolbox.logTxt(this.getLocalClassName(), "onResume() called");
         super.onStart();
 
-        if(sLatitudeValue == null) {
+        if (sLatitudeValue == null) {
             sLatitudeValue = getString(R.string.status_default_undetected);
         }
-        if(sLongitudeValue == null) {
+        if (sLongitudeValue == null) {
             sLongitudeValue = getString(R.string.status_default_undetected);
         }
-        if(sAltitudeValue == null) {
+        if (sAltitudeValue == null) {
             sAltitudeValue = getString(R.string.status_default_undetected);
         }
 
@@ -187,15 +188,15 @@ public class StatusActivity extends Activity implements OnItemClickListener {
         addValueToListEntry(getString(R.string.info_label_value_branding), mDeviceProperties.getPhoneProperties().getBranding());
         addValueToListEntry(getString(R.string.info_label_value_manufacturer), mDeviceProperties.getPhoneProperties().getManufacturer());
         addValueToListEntry(getString(R.string.info_label_value_phonenumber), mDeviceProperties.getPhoneProperties().getPhonenumber());
-        addValueToListEntry(getString(R.string.info_label_value_smscount), Integer.valueOf(SMSObserver.sSmsInCount).toString());
-        addValueToListEntry(getString(R.string.info_label_value_smscount_out), Integer.valueOf(SMSObserver.sSmsSentCount).toString());
-        addValueToListEntry(getString(R.string.info_label_value_smscount_lastsend), convertLastSentDate(SMSObserver.sLastSendDate));
-        addValueToListEntry(getString(R.string.info_label_value_camera_lastused), convertLastSentDate(CameraReceiver.sLastPictureTakenDate));
+        addValueToListEntry(getString(R.string.info_label_value_smscount), Integer.valueOf(mp.getSmsInCount()).toString());
+        addValueToListEntry(getString(R.string.info_label_value_smscount_out), Integer.valueOf(mp.getSmsSentCount()).toString());
+        addValueToListEntry(getString(R.string.info_label_value_smscount_lastsend), convertLastSentDate(mp.getLastSendDate()));
+        addValueToListEntry(getString(R.string.info_label_value_camera_lastused), convertLastSentDate(mp.getLastPictureTakenDate()));
         addValueToListEntry(getString(R.string.info_label_value_bluetooth), mDeviceProperties.getPhoneProperties()
                 .getBluetoothActiveStatusString());
         addValueToListEntry(getString(R.string.info_label_value_microphone), mDeviceProperties.getPhoneProperties()
                 .getMicrophoneActiveString());
-        addValueToListEntry(getString(R.string.info_label_value_battery), BatteryReceiver.sCurrentBatteryLevel + "%");
+        addValueToListEntry(getString(R.string.info_label_value_battery), mp.getCurrentBatteryLevel() + "%");
         addValueToListEntry(getString(R.string.info_label_value_received_total_bytes), SystemProperties.getTotalRxKBytes()
                 + " kb");
         addValueToListEntry(getString(R.string.info_label_value_transferred_total_bytes), SystemProperties.getTotalTxKBytes()
@@ -232,20 +233,19 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     /**
      * Handler for update status information button
      *
-     * @param view
-     *            element that originated the call
+     * @param view element that originated the call
      */
     public void updateStatusButtonHandler(View view) {
         // update status information
         Toast.makeText(this, "updating status information...", Toast.LENGTH_SHORT).show();
         updateEntry(mDeviceProperties.getSystemProperties().getLocalIpAddress(), LIST_POSITION_IP);
-        updateEntry(String.valueOf(SMSObserver.sSmsInCount), LIST_POSITION_DEVICE_SMSCOUNT_IN);
-        updateEntry(String.valueOf(SMSObserver.sSmsSentCount), LIST_POSITION_DEVICE_SMSCOUNT_OUT);
-        updateEntry(convertLastSentDate(SMSObserver.sLastSendDate), LIST_POSITION_DEVICE_SMSSENDDATE);
-        updateEntry(convertLastSentDate(CameraReceiver.sLastPictureTakenDate), LIST_POSITION_DEVICE_LASTCAMERAUSE);
+        updateEntry(String.valueOf(mp.getSmsInCount()), LIST_POSITION_DEVICE_SMSCOUNT_IN);
+        updateEntry(String.valueOf(mp.getSmsSentCount()), LIST_POSITION_DEVICE_SMSCOUNT_OUT);
+        updateEntry(convertLastSentDate(mp.getLastSendDate()), LIST_POSITION_DEVICE_SMSSENDDATE);
+        updateEntry(convertLastSentDate(mp.getLastPictureTakenDate()), LIST_POSITION_DEVICE_LASTCAMERAUSE);
         updateEntry(mDeviceProperties.getPhoneProperties().getBluetoothActiveStatusString(), LIST_POSITION_BLUEATOOTH_ENABLED);
         updateEntry(mDeviceProperties.getPhoneProperties().getMicrophoneActiveString(), LIST_POSITION_MICROPHONE_MUTED);
-        updateEntry(BatteryReceiver.sCurrentBatteryLevel + "%", LIST_POSITION_BATTERY_LEVEL);
+        updateEntry(mp.getCurrentBatteryLevel() + "%", LIST_POSITION_BATTERY_LEVEL);
         updateEntry(SystemProperties.getTotalRxKBytes() + " kb", LIST_POSITION_RECEIVED_BYTES);
         updateEntry(SystemProperties.getTotalTxKBytes() + " kb", LIST_POSITION_TRANSFERED_BYTES);
         updateEntry(sLongitudeValue, LIST_POSITION_LONGITUDE);
@@ -268,95 +268,95 @@ public class StatusActivity extends Activity implements OnItemClickListener {
 
         // update list-entries
         switch (position) {
-        case LIST_POSITION_IP:
-            updateEntry(mDeviceProperties.getSystemProperties().getLocalIpAddress(), position);
-            break;
-        case LIST_POSITION_MAC:
-            updateEntry(mDeviceProperties.getSystemProperties().getMAC(), position);
-            break;
-        case LIST_POSITION_IMSI:
-            updateEntry(mDeviceProperties.getPhoneProperties().getIMSI(), position);
-            break;
-        case LIST_POSITION_IMEI:
-            updateEntry(mDeviceProperties.getPhoneProperties().getIMEI(), position);
-            break;
-        case LIST_POSITION_BUILD_NUMBER:
-            updateEntry(mDeviceProperties.getPhoneProperties().getBuildNumber(), position);
-            break;
-        case LIST_POSITION_DEVICE_BRANDING:
-            updateEntry(mDeviceProperties.getPhoneProperties().getBranding(), position);
-            break;
-        case LIST_POSITION_DEVICE_MANUFACTURER:
-            updateEntry(mDeviceProperties.getPhoneProperties().getManufacturer(), position);
-            break;
-        case LIST_POSITION_DEVICE_PHONENUMBER:
-            updateEntry(mDeviceProperties.getPhoneProperties().getPhonenumber(), position);
-            break;
-        case LIST_POSITION_FIRMWARE_VERSION:
-            updateEntry(mDeviceProperties.getPhoneProperties().getFirmwareVersion(), position);
-            break;
-        case LIST_POSITION_BASEBAND_VERSION:
-            updateEntry(mDeviceProperties.getPhoneProperties().getBasebandVersion(), position);
-            break;
-        case LIST_POSITION_DEVICE_SMSCOUNT_IN:
-            updateEntry(String.valueOf(SMSObserver.sSmsInCount), position);
-            break;
-        case LIST_POSITION_DEVICE_SMSCOUNT_OUT:
-            updateEntry(String.valueOf(SMSObserver.sSmsSentCount), position);
-            break;
-        case LIST_POSITION_DEVICE_SMSSENDDATE:
-            updateEntry(convertLastSentDate(SMSObserver.sLastSendDate), position);
-            break;
-        case LIST_POSITION_DEVICE_LASTCAMERAUSE:
-            updateEntry(convertLastSentDate(CameraReceiver.sLastPictureTakenDate), position);
-            break;
-        case LIST_POSITION_BLUEATOOTH_ENABLED:
-            String bluetoothEntryValue = mDeviceProperties.getPhoneProperties().getBluetoothActiveStatusString();
-            updateEntry(bluetoothEntryValue, position);
-            break;
-        case LIST_POSITION_MICROPHONE_MUTED:
-            String microphoneEntryValue = mDeviceProperties.getPhoneProperties().getMicrophoneActiveString();
-            updateEntry(microphoneEntryValue, position);
-            break;
-        case LIST_POSITION_BATTERY_LEVEL:
-            updateEntry(BatteryReceiver.sCurrentBatteryLevel + "%", position);
-            break;
-        case LIST_POSITION_RECEIVED_BYTES:
-            updateEntry(SystemProperties.getTotalRxKBytes() + " kb", position);
-            break;
-        case LIST_POSITION_TRANSFERED_BYTES:
-            updateEntry(SystemProperties.getTotalTxKBytes() + " kb", position);
-            break;
-        case LIST_POSITION_LATITUDE:
-            updateEntry(sLongitudeValue, position);
-            break;
-        case LIST_POSITION_LONGITUDE:
-            updateEntry(sLatitudeValue, position);
-            break;
-        case LIST_POSITION_ALTITUDE:
-            updateEntry(sAltitudeValue, position);
-            break;
-        case LIST_POSITION_INSTALLED_APPS:
-            showApplicationsInformations(LIST_POSITION_INSTALLED_APPS);
-            break;
-        case LIST_POSITION_INSTALLED_APPS_WITH_PERMS:
-            showApplicationsInformations(LIST_POSITION_INSTALLED_APPS_WITH_PERMS);
-            break;
-        case LIST_POSITION_PERMISSIONS:
-            showApplicationsInformations(LIST_POSITION_PERMISSIONS);
-            break;
-        case LIST_POSITION_CPU_LOAD:
-            updateEntry(mDeviceProperties.getSystemProperties().getFormattedCurCpuLoadPercent(), position);
-            break;
-        case LIST_POSITION_RAM_FREE:
-            updateEntry(mDeviceProperties.getSystemProperties().getFormattedFreeRam(), position);
-            break;
-        case LIST_POSITION_PROCESS_COUNT:
-            updateEntry(String.valueOf(mDeviceProperties.getApplicationProperties().getRuningProcCount()), position);
-            break;
-        case LIST_POSITION_RUNNING_PROCESSES:
-            showApplicationsInformations(LIST_POSITION_RUNNING_PROCESSES);
-            break;
+            case LIST_POSITION_IP:
+                updateEntry(mDeviceProperties.getSystemProperties().getLocalIpAddress(), position);
+                break;
+            case LIST_POSITION_MAC:
+                updateEntry(mDeviceProperties.getSystemProperties().getMAC(), position);
+                break;
+            case LIST_POSITION_IMSI:
+                updateEntry(mDeviceProperties.getPhoneProperties().getIMSI(), position);
+                break;
+            case LIST_POSITION_IMEI:
+                updateEntry(mDeviceProperties.getPhoneProperties().getIMEI(), position);
+                break;
+            case LIST_POSITION_BUILD_NUMBER:
+                updateEntry(mDeviceProperties.getPhoneProperties().getBuildNumber(), position);
+                break;
+            case LIST_POSITION_DEVICE_BRANDING:
+                updateEntry(mDeviceProperties.getPhoneProperties().getBranding(), position);
+                break;
+            case LIST_POSITION_DEVICE_MANUFACTURER:
+                updateEntry(mDeviceProperties.getPhoneProperties().getManufacturer(), position);
+                break;
+            case LIST_POSITION_DEVICE_PHONENUMBER:
+                updateEntry(mDeviceProperties.getPhoneProperties().getPhonenumber(), position);
+                break;
+            case LIST_POSITION_FIRMWARE_VERSION:
+                updateEntry(mDeviceProperties.getPhoneProperties().getFirmwareVersion(), position);
+                break;
+            case LIST_POSITION_BASEBAND_VERSION:
+                updateEntry(mDeviceProperties.getPhoneProperties().getBasebandVersion(), position);
+                break;
+            case LIST_POSITION_DEVICE_SMSCOUNT_IN:
+                updateEntry(String.valueOf(mp.getSmsInCount()), position);
+                break;
+            case LIST_POSITION_DEVICE_SMSCOUNT_OUT:
+                updateEntry(String.valueOf(mp.getSmsSentCount()), position);
+                break;
+            case LIST_POSITION_DEVICE_SMSSENDDATE:
+                updateEntry(convertLastSentDate(mp.getLastSendDate()), position);
+                break;
+            case LIST_POSITION_DEVICE_LASTCAMERAUSE:
+                updateEntry(convertLastSentDate(mp.getLastPictureTakenDate()), position);
+                break;
+            case LIST_POSITION_BLUEATOOTH_ENABLED:
+                String bluetoothEntryValue = mDeviceProperties.getPhoneProperties().getBluetoothActiveStatusString();
+                updateEntry(bluetoothEntryValue, position);
+                break;
+            case LIST_POSITION_MICROPHONE_MUTED:
+                String microphoneEntryValue = mDeviceProperties.getPhoneProperties().getMicrophoneActiveString();
+                updateEntry(microphoneEntryValue, position);
+                break;
+            case LIST_POSITION_BATTERY_LEVEL:
+                updateEntry(mp.getCurrentBatteryLevel() + "%", position);
+                break;
+            case LIST_POSITION_RECEIVED_BYTES:
+                updateEntry(SystemProperties.getTotalRxKBytes() + " kb", position);
+                break;
+            case LIST_POSITION_TRANSFERED_BYTES:
+                updateEntry(SystemProperties.getTotalTxKBytes() + " kb", position);
+                break;
+            case LIST_POSITION_LATITUDE:
+                updateEntry(sLongitudeValue, position);
+                break;
+            case LIST_POSITION_LONGITUDE:
+                updateEntry(sLatitudeValue, position);
+                break;
+            case LIST_POSITION_ALTITUDE:
+                updateEntry(sAltitudeValue, position);
+                break;
+            case LIST_POSITION_INSTALLED_APPS:
+                showApplicationsInformations(LIST_POSITION_INSTALLED_APPS);
+                break;
+            case LIST_POSITION_INSTALLED_APPS_WITH_PERMS:
+                showApplicationsInformations(LIST_POSITION_INSTALLED_APPS_WITH_PERMS);
+                break;
+            case LIST_POSITION_PERMISSIONS:
+                showApplicationsInformations(LIST_POSITION_PERMISSIONS);
+                break;
+            case LIST_POSITION_CPU_LOAD:
+                updateEntry(mDeviceProperties.getSystemProperties().getFormattedCurCpuLoadPercent(), position);
+                break;
+            case LIST_POSITION_RAM_FREE:
+                updateEntry(mDeviceProperties.getSystemProperties().getFormattedFreeRam(), position);
+                break;
+            case LIST_POSITION_PROCESS_COUNT:
+                updateEntry(String.valueOf(mDeviceProperties.getApplicationProperties().getRuningProcCount()), position);
+                break;
+            case LIST_POSITION_RUNNING_PROCESSES:
+                showApplicationsInformations(LIST_POSITION_RUNNING_PROCESSES);
+                break;
         }
         mListArray.set(position, mEntry);
         mStatusAdapter.notifyDataSetChanged();
@@ -365,36 +365,35 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     /**
      * show applications-informations inside a dialog-box
      *
-     * @param infoType
-     *            type of applications-informations
+     * @param infoType type of applications-informations
      */
     private void showApplicationsInformations(int infoType) {
         String title = null;
         String msgToShow;
         ArrayList<String> appsettings = null;
         switch (infoType) {
-        case LIST_POSITION_INSTALLED_APPS:
-            // gather installed applications informations
-            // and show them in a simple dialog-box
-            // getFormattedApplicationList(boolean excludeNativeApplications, boolean includeVersionNumber,
-            // boolean includePermissions)
-            appsettings = mDeviceProperties.getApplicationProperties().getFormattedApplicationList(true, true, false, true);
-            title = "Installed Applications";
-            break;
-        case LIST_POSITION_INSTALLED_APPS_WITH_PERMS:
-            // gather installed applications and show them in a simple
-            // dialog-box
-            appsettings = mDeviceProperties.getApplicationProperties().getFormattedApplicationList(false, true, true, true);
-            title = "Installed Applications";
-            break;
-        case LIST_POSITION_PERMISSIONS:
-            appsettings = mDeviceProperties.getApplicationProperties().getFormattedPermissionsList();
-            title = "Permissions";
-            break;
-        case LIST_POSITION_RUNNING_PROCESSES:
-            appsettings = mDeviceProperties.getApplicationProperties().getFormattedRunningAppProcessNamesList();
-            title = "Running Processes";
-            break;
+            case LIST_POSITION_INSTALLED_APPS:
+                // gather installed applications informations
+                // and show them in a simple dialog-box
+                // getFormattedApplicationList(boolean excludeNativeApplications, boolean includeVersionNumber,
+                // boolean includePermissions)
+                appsettings = mDeviceProperties.getApplicationProperties().getFormattedApplicationList(true, true, false, true);
+                title = "Installed Applications";
+                break;
+            case LIST_POSITION_INSTALLED_APPS_WITH_PERMS:
+                // gather installed applications and show them in a simple
+                // dialog-box
+                appsettings = mDeviceProperties.getApplicationProperties().getFormattedApplicationList(false, true, true, true);
+                title = "Installed Applications";
+                break;
+            case LIST_POSITION_PERMISSIONS:
+                appsettings = mDeviceProperties.getApplicationProperties().getFormattedPermissionsList();
+                title = "Permissions";
+                break;
+            case LIST_POSITION_RUNNING_PROCESSES:
+                appsettings = mDeviceProperties.getApplicationProperties().getFormattedRunningAppProcessNamesList();
+                title = "Running Processes";
+                break;
         }
 
         if (appsettings != null) {
@@ -416,10 +415,8 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     /**
      * add a new value to device properties list
      *
-     * @param label
-     *            label of device properties list-entry
-     * @param entry
-     *            value of properties-list-entry
+     * @param label label of device properties list-entry
+     * @param entry value of properties-list-entry
      */
     private void addValueToListEntry(String label, String entry) {
         if (entry == null || entry.length() == 0) {
@@ -431,10 +428,8 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     /**
      * set updated value to device properties list
      *
-     * @param value
-     *            new value for entry
-     * @param position
-     *            position for list entry
+     * @param value    new value for entry
+     * @param position position for list entry
      */
     private void updateEntry(String value, int position) {
         ListEntry current = (ListEntry) mStatusAdapter.getItem(position);
@@ -449,17 +444,14 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     /**
      * show the current location of the user
      *
-     * @param latitude
-     *            current latitude value
-     * @param longitude
-     *            current longitude value
-     * @param altitude
-     *            current altitude value
+     * @param latitude  current latitude value
+     * @param longitude current longitude value
+     * @param altitude  current altitude value
      */
-    public static void setCurrentLocation(double latitude, double longitude, double altitude) {
-        sLocationLatitude.setText("Latitude: " + latitude);
-        sLocationLongitude.setText("Longitude: " + longitude);
-        sLocationAltitude.setText("Altitude: " + altitude);
+    public static void setCurrentLocation(Context context, double latitude, double longitude, double altitude) {
+        sLocationLatitude.setText(context.getString(R.string.info_label_longitude_double, latitude));
+        sLocationLongitude.setText(context.getString(R.string.info_label_latitude_double, longitude));
+        sLocationAltitude.setText(context.getString(R.string.info_label_altitude_double, altitude));
         sLatitudeValue = Double.valueOf(latitude).toString();
         sLongitudeValue = Double.valueOf(longitude).toString();
         sAltitudeValue = Double.valueOf(altitude).toString();
@@ -468,8 +460,7 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     /**
      * helper function to convert the passed in date to timestamp-string
      *
-     * @param date
-     *            date to convert
+     * @param date date to convert
      * @return date as timestamp-string
      */
     private String convertLastSentDate(Date date) {

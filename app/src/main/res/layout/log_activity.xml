@@ -14,19 +14,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="@string/log_tab_label_export"
-            android:onClick="exportLogEntrys"/>
+            android:onClick="exportLogEntrys"
+            android:text="@string/log_tab_label_export" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="@string/log_tab_label_removeall"
-            android:onClick="removeAllLogEntrys"/>
+            android:onClick="removeAllLogEntrys"
+            android:text="@string/log_tab_label_removeall" />
     </LinearLayout>
 
     <ListView
         android:id="@+id/logMessages_ListView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent" />
 </LinearLayout>

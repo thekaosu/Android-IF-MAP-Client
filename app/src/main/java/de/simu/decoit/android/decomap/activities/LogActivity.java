@@ -68,7 +68,7 @@ public class LogActivity extends Activity {
         Toolbox.logTxt(this.getClass().getName(), "LogActivity.OnCreate(...) called");
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.tab2);
+        setContentView(R.layout.log_activity);
 
         // create new database connection
         mLogDB = new LoggingDatabase(this);

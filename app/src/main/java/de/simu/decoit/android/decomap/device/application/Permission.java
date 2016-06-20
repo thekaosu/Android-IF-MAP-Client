@@ -31,8 +31,8 @@ public class Permission {
 	public static final byte PERMISSIONTYPE_GRANTED = 0;
 	public static final byte PERMISSIONTYPE_REQUIRED = 1;
 
-	private String permissionName;
-	private byte permissionType;
+	private final String permissionName;
+	private final byte permissionType;
 
 	/**
 	 * constructor

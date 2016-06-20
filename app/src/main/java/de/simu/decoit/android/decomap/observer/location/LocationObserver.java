@@ -28,6 +28,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import de.simu.decoit.android.decomap.activities.MainActivity;
 import de.simu.decoit.android.decomap.activities.R;
+import de.simu.decoit.android.decomap.messaging.MessageParameter;
 
 /**
  * Location Listener Class for getting current physical Location of the Device/User
@@ -42,6 +43,8 @@ public class LocationObserver implements LocationListener {
 
     private MainActivity mCurrentAppContext;
 
+    private final MessageParameter mp = MessageParameter.getInstance();
+
     /**
      * set current application context (for callback)
      * 
@@ -54,10 +57,7 @@ public class LocationObserver implements LocationListener {
 
     @Override
     public void onLocationChanged(Location loc) {
-        loc.getLatitude();
-        loc.getLongitude();
-        loc.getAltitude();
-        mCurrentAppContext.setCurrentLocation(loc.getLatitude(), loc.getLongitude(), loc.getAltitude());
+        mp.setCurrentLocation(mCurrentAppContext, loc.getLatitude(), loc.getLongitude(), loc.getAltitude());
 
     }
 

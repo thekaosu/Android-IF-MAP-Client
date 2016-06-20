@@ -25,8 +25,8 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 
-import de.simu.decoit.android.decomap.activities.MainActivity;
-import de.simu.decoit.android.decomap.activities.MainActivity.PermanentRunnable;
+import de.simu.decoit.android.decomap.monitoring.ifmap.IFMapMonitoring;
+import de.simu.decoit.android.decomap.monitoring.ifmap.ResponseRunnable;
 import de.simu.decoit.android.decomap.services.PermanentConnectionService;
 
 /**
@@ -46,24 +46,24 @@ public class LocalServicePermanent {
 	 * @return bound local service
 	 */
 	public static ServiceConnection getPermConnection(final LocalServiceParameters values,
-													  final PermanentRunnable callbackHandler, final String msgContext) {
+													  final ResponseRunnable callbackHandler, final String msgContext) {
 		return new ServiceConnection() {
 			@Override
 			public void onServiceConnected(ComponentName name, IBinder service) {
-				MainActivity.sBoundPermConnService = (PermanentConnectionService.LocalBinder) service;
-				MainActivity.sBoundPermConnService.setActivityCallbackHandler(values.getmMsgHandler());
-				MainActivity.sBoundPermConnService.setRunnable(callbackHandler);
+				IFMapMonitoring.sBoundPermConnService = (PermanentConnectionService.LocalBinder) service;
+				IFMapMonitoring.sBoundPermConnService.setActivityCallbackHandler(values.getmMsgHandler());
+				IFMapMonitoring.sBoundPermConnService.setRunnable(callbackHandler);
 
 				// connect to local service
-				MainActivity.sBoundPermConnService
+				IFMapMonitoring.sBoundPermConnService
 						.connect(values.getmServerIpPreference(), values.getmServerPort(), values.getmIpAddress(),
 								values.getmMessageType(), values.getmReguestParamsPublish(), msgContext);
 			}
 
 			@Override
 			public void onServiceDisconnected(ComponentName name) {
-                MainActivity.sBoundPermConnService.setRunnable(null);
-				MainActivity.sBoundPermConnService = null;
+				IFMapMonitoring.sBoundPermConnService.setRunnable(null);
+				IFMapMonitoring.sBoundPermConnService = null;
 			}
 		};
 	}

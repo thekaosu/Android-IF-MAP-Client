@@ -43,7 +43,7 @@ public class InfoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab4);
+        setContentView(R.layout.info_activity);
     }
 
     // -------------------------------------------------------------------------

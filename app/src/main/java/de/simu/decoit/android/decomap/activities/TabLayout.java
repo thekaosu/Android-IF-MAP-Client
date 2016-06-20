@@ -135,9 +135,6 @@ public class TabLayout extends TabActivity {
                 currentTab = mTabHost.getCurrentTab();
             }
         });
-        // set tabs Colors
-//        mTabHost.setBackgroundColor(Color.BLACK);
-//        mTabHost.getTabWidget().setBackgroundColor(Color.BLACK);
     }
 
     @Override
@@ -290,11 +287,7 @@ public class TabLayout extends TabActivity {
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 if (currentTab < maxTabs) {
-//                    newView.setAnimation(outToLeftAnimation());
-
                     mTabHost.setCurrentTab(currentTab + 1);
-//                    newView = mTabHost.getCurrentView();
-//                    newView.setAnimation(inFromRightAnimation());
                 }
                 return true;
             }
@@ -305,8 +298,6 @@ public class TabLayout extends TabActivity {
             if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 if (currentTab > 0) {
-//                    mTabHost.setAnimation(outToLeftAnimation());
-//                    mTabHost.setAnimation(inFromRightAnimation());
                     mTabHost.setCurrentTab(currentTab - 1);
                 }
             }

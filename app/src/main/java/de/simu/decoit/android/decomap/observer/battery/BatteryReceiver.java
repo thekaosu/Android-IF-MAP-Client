@@ -28,30 +28,30 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 
 import de.simu.decoit.android.decomap.activities.R;
+import de.simu.decoit.android.decomap.messaging.MessageParameter;
 
 /**
  * Receiver-Objects, registers its own broadcast-receiver to get the current
  * battery-status
- * 
- * @version 0.1.4.2
+ *
  * @author Dennis Dunekacke, Decoit GmbH
+ * @version 0.1.4.2
  */
 public class BatteryReceiver {
 
-    public static String sCurrentBatteryLevel;
+    private final MessageParameter mp = MessageParameter.getInstance();
 
     /**
      * constructor
-     * 
-     * @param context
-     *            application-context
+     *
+     * @param context application-context
      */
     public BatteryReceiver(Context context) {
         final IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         BatteryLevelReceiver mBatteryLevelReceiver = new BatteryLevelReceiver();
         context.registerReceiver(mBatteryLevelReceiver, intentFilter);
-        if(sCurrentBatteryLevel == null) {
-            sCurrentBatteryLevel = context.getString(R.string.status_default_undetected);
+        if (mp.getCurrentBatteryLevel() == null) {
+            mp.setCurrentBatteryLevel(context.getString(R.string.status_default_undetected));
         }
     }
 
@@ -67,7 +67,7 @@ public class BatteryReceiver {
             if (rawlevel >= 0 && scale > 0) {
                 level = (rawlevel * 100) / scale;
             }
-            sCurrentBatteryLevel = level + "";
+            mp.setCurrentBatteryLevel(level + "");
         }
     }
 }

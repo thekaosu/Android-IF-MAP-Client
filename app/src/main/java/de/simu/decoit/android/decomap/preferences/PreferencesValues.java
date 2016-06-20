@@ -18,7 +18,6 @@
  * specific language governing permissions and limitations 
  * under the License. 
  */
-
 package de.simu.decoit.android.decomap.preferences;
 
 import java.util.HashMap;
@@ -81,7 +80,6 @@ public class PreferencesValues {
     private boolean allowUnsafeSSLPreference;
     private boolean isPermantConnection;
     private long renewIntervalPreference;
-    private final long renewRequestMinInterval = 10000; // default minimum
 
     // logging-settings
     private boolean applicationFileLogging = false;
@@ -320,11 +318,7 @@ public class PreferencesValues {
         this.renewIntervalPreference = renewIntervalPreference;
     }
 
-    public long getRenewRequestMinInterval() {
-        return renewRequestMinInterval;
-    }
-
-    public int getConnectionTimeout(){
+    public int getConnectionTimeout() {
         return connectionTimeout;
     }
 

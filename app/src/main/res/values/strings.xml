@@ -63,8 +63,6 @@
     <string name="main_status_message_esukom_metadata_not_supportet">"logging of esukom specific metadata is currently not supported!\n"</string>
 
 
-
-
     <!-- Strings from Message-Handler that will be shown in Main-Status-Output-Textfield -->
     <string name="messagehandler_mainstatus_message_newsession">new session established</string>
     <string name="messagehandler_mainstatus_message_renewsession">session renewed</string>
@@ -236,6 +234,9 @@
     <string name="info_label_longitude">"Longitude: "</string>
     <string name="info_label_latitude">"Latitude: "</string>
     <string name="info_label_altitude">"Altitude: "</string>
+    <string name="info_label_longitude_double">"Longitude: %1$d"</string>
+    <string name="info_label_latitude_double">"Latitude: %1$d"</string>
+    <string name="info_label_altitude_double">"Altitude: %1$d"</string>
     <string name="info_label_apps">"Applications: "</string>
     <string name="info_label_appswithperms">"Application Details:" </string>
     <string name="info_label_perms">"Permissions: "</string>
@@ -269,7 +270,6 @@
     <string name="log_tab_logcolum_time">"Time:   "</string>
     <string name="log_tab_export_dialog_success_part1">Messages have been successfully exported as \"</string>
     <string name="log_tab_export_dialog_success_part2">"\" to the log directory "</string>
-    <string name="log_tab_export_dialog_fail">"Export failed! "\nReason: </string>
     <string name="log_tab_export_dir_creation_fail">"Failed to create missing directory! \nReason: "</string>
 
 

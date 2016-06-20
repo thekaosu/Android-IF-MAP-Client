@@ -36,7 +36,7 @@ public class PreferenceFileChooserDialog extends Dialog {
     private ArrayList<String> fileList;
     private File currentPath;
     private boolean onlyDir = false;
-    private String fileEnding;
+    private final String fileEnding;
     private final String key;
 
     private final LayoutInflater inflater;

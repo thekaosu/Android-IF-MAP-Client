@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- main tab -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainTabLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingLeft="5dip"
+    android:paddingRight="5dip"
+    android:paddingTop="5dip">
+
+
+    <!-- connect button -->
+    <Button
+        android:id="@+id/Connect_Button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="mainTabButtonHandler"
+        android:text="@string/main_buttonlabel_connect"
+        android:textStyle="bold" />
+
+    <!-- disconnect button -->
+    <Button
+        android:id="@+id/Disconnect_Button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="mainTabButtonHandler"
+        android:text="@string/main_buttonlabel_disconnect"
+        android:textStyle="bold" />
+
+    <!-- publish device characteristics button -->
+    <Button
+        android:id="@+id/PublishDeviceCharacteristics_Button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="mainTabButtonHandler"
+        android:text="@string/main_buttonlabel_publishdevicecharacteristics"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/RequestStatus_EditText"
+        android:layout_width="fill_parent"
+        android:layout_height="270dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/backgroundIceLight"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:gravity="top"
+        android:inputType="textMultiLine|textNoSuggestions"
+        android:scrollbars="vertical" />
+</LinearLayout>
