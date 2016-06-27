@@ -1,11 +1,11 @@
 /* 
- * Permission.java        0.2 2015-03-08
+ * Permission..java          0.3 2015-03-08
  * 
  * Licensed to the Apache Software Foundation (ASF) under one 
  * or more contributor license agreements.  See the NOTICE file 
  * distributed with this work for additional information 
  * regarding copyright ownership.  The ASF licenses this file 
- * to you under the Apache License, Version 2.0 (the 
+ * to you under the Apache License, Version 3.0 (the
  * "License"); you may not use this file except in compliance 
  * with the License.  You may obtain a copy of the License at 
  * 
@@ -23,7 +23,7 @@ package de.simu.decoit.android.decomap.device.application;
 /**
  * class representing an permission
  * 
- * @version 0.2
+ * @version 0.3
  * @author Dennis Dunekacke, Decoit Gmbh
  */
 public class Permission {

@@ -1,5 +1,5 @@
 +-----------------------------------------------------+
-|           Androif-IfMap-Client Version 0.1.6.2      |
+|           DECOmap for Android Version 0.3.0      |
 +-----------------------------------------------------+
 
 Content:
@@ -9,7 +9,7 @@ Content:
    a) installation
    b) configuring
    c) running
-4) known issues/TODO´s
+4) known issues/TODOï¿½s
 5) additional Notes
 6) Changelog
 
@@ -30,7 +30,7 @@ Licensed to the Apache Software Foundation (ASF) under one
 or more contributor license agreements.  See the NOTICE file  
 distributed with this work for additional information         
 regarding copyright ownership.  The ASF licenses this file    
-to you under the Apache License, Version 2.0 (the            
+to you under the Apache License, Version 3.0 (the
 "License"); you may not use this file except in compliance    
 with the License.  You may obtain a copy of the License at    
                                                                
@@ -55,22 +55,22 @@ http://stackoverflow.com/questions/5608540/android-uninstall-failed-adb-uninstal
 
 b) configuring
 Before you can use the AndroidIfMapClient, you have to set some Preferences. This
-can be done inside the Preferences-Tab. The different Options are explained there.
+can be done inside the Preferences-Tab. Choose your Monitoring-Mode and make sure
+to at least configure the connection Preferences.
+The different Options are explained there.
 
 c) running
-Currently, the AndroidIfMapClient can run in 2 different modes: Manual-Update or Auto-Update-Mode.
+Currently, the AndroidIfMapClient can run in 2 different publish modes: Manual-Update or Auto-Update-Mode.
 You can switch between both modes by enabling/disabling "Enable auto-update" inside the 
-Preferences-Tab. In Manual Mode, you can publish Device-Characteristics by using the related
-Button inside the Main-Tab. In Auto-Update-Mode, this button will be disabled and the 
+Preferences-Tab. After connecting to the server Device-Characteristics are send to the server.
+In Manual Mode, you can publish Device-Characteristics by using the related
+Button inside the Main-Tab. In Auto-Update-Mode, this button will be disabled and the
 AndroidIfMapClient will send this data automatically in the Intervall set inside the
 Preference-Tab.
 
 
-4 - TODO´s:
+4 - TODOï¿½s:
 -----------
--> this is just a prototype, so there are a lot of TODO´s that have to be handled
-   in the next version
-   
 -> VPN is supported, but the Connection has to be established with the Android
    "Native"-VPN-Client. You can do that by bringing the AndroidIfMapClient to the
    background, connect to VPN via native Android-VPN-Client and reopen the 
@@ -180,11 +180,10 @@ Version 0.1.5:
 -> Added autoconnect-option, which leads to an initial new-session-request as soon as the Android-Client has
    been started
    
--> It´s now possible to send esukom-specific-metadata which is used within the esukom-project
+-> Itï¿½s now possible to send esukom-specific-metadata which is used within the esukom-project
 
 -> Changed button behaviour: the back Button does not close the Android-Client anymore but brings
-   it to the background. To quit the Android-Client, use the "quit"-option inside the menu 
-
+   it to the background. To quit the Android-Client, use the "quit"-option inside the menu
 
 Version 0.1.6:
 
@@ -219,3 +218,27 @@ Version 0.2:
 -> fix some bugs (see git log for changes)
 -> rename to "DECOmap for Android"
 -> change naming and artwork according to SIMU-style
+
+Version 0.3.0:
+
+-> Application is refactored and now only supporting Android API 16+
+
+-> A lot of design changes
+
+-> added iMonitor Logging
+
+-> Now its a Gradle project
+
+-> Preference menu structure changes
+
+-> new preference options
+
+-> Keystore authentification is now a thing
+
+-> Now you can switch between IF-Map and iMonitor monitoring mode
+
+-> iMonitor mode improvement
+
+-> Now compatible with Tables
+
+-> Better logging menu with some extra features like remove all and export

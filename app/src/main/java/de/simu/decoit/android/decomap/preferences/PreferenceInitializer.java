@@ -1,11 +1,11 @@
 /*
- * PreferencesValues.java       0.2 2015-03-08
+ * PreferencesValues..java          0.3 2015-03-08
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
+ * to you under the Apache License, Version 3.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
@@ -33,7 +33,7 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  *
  * @author Dennis Dunekacke, Decoit GmbH
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public class PreferenceInitializer {
 
@@ -54,7 +54,7 @@ public class PreferenceInitializer {
             mPreferences.setApplicationFileLogging(prefs.getBoolean(
                     windowContext.getResources().getString(R.string.preferences_keys_applicatiologging), windowContext.getResources().getBoolean(R.bool.preferences_default_values_application_file_logging)));
             mPreferences.setMonitoringPreference(prefs.getString(
-                    R.id.monitoringModeSettings + "", windowContext.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString()));
+                    String.valueOf(R.id.monitoringModeSettings) , windowContext.getResources().getTextArray(R.array.preferences_value_serverForm)[1].toString()));
             mPreferences.setLocationTrackingType(prefs.getString(
                     windowContext.getResources().getString(R.string.preferences_keys_location_type), windowContext.getResources().getString(R.string.preferences_default_values_location_tracking)));
             mPreferences.setEnableLocationTracking(prefs.getBoolean(

@@ -16,13 +16,6 @@
         <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_9ef8dc38eec7adda5ae0aee4e10ac586740c346e\classes.dex" />
     </item>
     <item
-        jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.3.0\jars\classes.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="debf30ce0a7560396b6235edef77e447006454c2">
-        <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.3.0_5c35e684ccbd46c272e6c9fdf8ad23d50ec9d3cf\classes.dex" />
-    </item>
-    <item
         jar="C:\Users\lschwenke\.gradle\caches\modules-2\files-2.1\org.apache.httpcomponents\httpcore\4.4.1\f5aa318bda4c6c8d688c9d00b90681dcd82ce636\httpcore-4.4.1.jar"
         jumboMode="true"
         revision="23.0.3"
@@ -61,7 +54,7 @@
         jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="5496277c24462563b7a857df8e2f45f336dfab5e">
+        sha1="95c958256050c0d27e07c64fdd68002498a6a7db">
         <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_1956e6945b0d5118960c1c760bfce8497409983d\classes.dex" />
     </item>
     <item
@@ -82,7 +75,7 @@
         jar="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="562937d2cd032899fb8aa2920b4096fa70c64721">
+        sha1="a1f3e552f54802ce3ceeb2954f955d57b825bf61">
         <dex dex="C:\Users\lschwenke\android\Android-IF-MAP-Client\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_f8fba384e796a3e8dcd27d11c87c776bc7f73747\classes.dex" />
     </item>
     <item

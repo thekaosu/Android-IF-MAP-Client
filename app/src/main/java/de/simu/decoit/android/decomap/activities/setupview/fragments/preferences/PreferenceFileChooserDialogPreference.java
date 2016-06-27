@@ -13,7 +13,7 @@ import de.simu.decoit.android.decomap.dialogs.PreferenceFileChooserDialog;
  * Preference to use PreferenceFileChooserDialog
  *
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public class PreferenceFileChooserDialogPreference extends Preference {
 

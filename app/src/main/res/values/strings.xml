@@ -284,7 +284,7 @@
     <string name="info_name">DECOmap for Android</string>
     <string name="info_version">Version 0.2</string>
     <string name="info_copyright">© 2015 Decoit GmbH</string>
-    <string name="info_license">Released under Apache License, Version 2.0</string>
+    <string name="info_license">Released under Apache License, Version 3.0</string>
     <string name="info_label_openwebsite">Visit SIMU-Project Website</string>
     <string name="info_label_simu_icon_text">SIMU Icon</string>
     <string name="info_label_decoit_icon_text">Decoit logo</string>

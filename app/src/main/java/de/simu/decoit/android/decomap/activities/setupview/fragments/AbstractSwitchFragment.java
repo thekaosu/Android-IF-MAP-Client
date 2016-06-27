@@ -13,7 +13,7 @@ import de.simu.decoit.android.decomap.activities.setupview.handler.SwitchPrefere
  * Abstract Fragment with backbutton and preference inside of the header
  *
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public abstract class AbstractSwitchFragment extends AbstractPreferenceFragment {
 
@@ -37,7 +37,7 @@ public abstract class AbstractSwitchFragment extends AbstractPreferenceFragment 
             actionbar.setDisplayHomeAsUpEnabled(true);
         }
 
-        switchPreferenceHandler = new SwitchPreferenceHandler(getActivity(), actionBarSwitch, keyID + "");
+        switchPreferenceHandler = new SwitchPreferenceHandler(getActivity(), actionBarSwitch, String.valueOf(keyID));
         updateSettings();
     }
 

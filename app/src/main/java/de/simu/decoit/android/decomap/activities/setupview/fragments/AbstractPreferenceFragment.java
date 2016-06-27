@@ -19,7 +19,7 @@ import de.simu.decoit.android.decomap.activities.setupview.fragments.preferences
  * Abstract Fragment with backbutton and summary changer
  *
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public abstract class AbstractPreferenceFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener {
 

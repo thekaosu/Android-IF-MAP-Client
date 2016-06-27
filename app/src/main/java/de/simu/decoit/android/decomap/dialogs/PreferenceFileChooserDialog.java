@@ -28,7 +28,7 @@ import de.simu.decoit.android.decomap.activities.R;
  * Dialog to choose files or directories!
  *
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public class PreferenceFileChooserDialog extends Dialog {
 

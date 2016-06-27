@@ -1,11 +1,11 @@
 /*
- * MainActivity.java        0.2 2015-03-08
+ * MainActivity..java          0.3 2015-03-08
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
  * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
+ * to you under the Apache License, Version 3.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
@@ -21,13 +21,16 @@
 
 package de.simu.decoit.android.decomap.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,7 +57,7 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  * @author Marcel Jahnke, Decoit GmbH
  * @author Markus Schölzel, Decoit GmbH
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public class MainActivity extends Activity {
 
@@ -205,7 +208,13 @@ public class MainActivity extends Activity {
         // remove updates from location manager
         if (mLocManager != null) {
             try {
-                mLocManager.removeUpdates(mLocListener);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toolbox.logTxt(this.getLocalClassName(), "No permission to get location. Deactivating location tracking!");
+                    mPreferences.setEnableLocationTracking(false);
+                } else{
+                    mLocManager.removeUpdates(mLocListener);
+                }
+
             } catch (NullPointerException e) {
                 Toolbox.logTxt(this.getClass().getName(),
                         "error on destroy: " + e);
@@ -301,6 +310,12 @@ public class MainActivity extends Activity {
         mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         mLocListener = new LocationObserver();
         mLocListener.setAppllicationContext(this);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toolbox.logTxt(this.getLocalClassName(), "No permission to get location. Deactivating location tracking!");
+            mPreferences.setEnableLocationTracking(false);
+            return;
+        }
 
         // gps
         if (mPreferences.getLocationTrackingType().equalsIgnoreCase("gps")) {

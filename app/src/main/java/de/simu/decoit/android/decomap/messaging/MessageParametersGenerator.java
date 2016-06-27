@@ -1,11 +1,11 @@
 /* 
- * MessageParametersGenerator.java        0.2 2015-03-08
+ * MessageParametersGenerator..java          0.3 2015-03-08
  * 
  * Licensed to the Apache Software Foundation (ASF) under one 
  * or more contributor license agreements.  See the NOTICE file 
  * distributed with this work for additional information 
  * regarding copyright ownership.  The ASF licenses this file 
- * to you under the Apache License, Version 2.0 (the 
+ * to you under the Apache License, Version 3.0 (the
  * "License"); you may not use this file except in compliance 
  * with the License.  You may obtain a copy of the License at 
  * 
@@ -67,7 +67,7 @@ import de.simu.decoit.android.decomap.util.Toolbox;
  * @author Dennis Dunekacke, DECOIT GmbH
  * @author Markus Schölzel, Decoit GmbH
  * @author Leonid Schwenke, Decoit GmbH
- * @version 0.2
+ * @version 0.3
  */
 public class MessageParametersGenerator<T> {
 
@@ -536,7 +536,7 @@ public class MessageParametersGenerator<T> {
                 if (!sInitialDevCharWasSend || entryNameChanged || (appEntryExists && !mLastAppList.get(i).getVersionName().equals(currentAppList.get(i).getVersionName()))) {
                     fe = ifMapCreator.createFeature("VersionName", time, currentAppList.get(i).getVersionName(), ARBIT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
-                    fe = ifMapCreator.createFeature("VersionCode", time, currentAppList.get(i).getVersionCode() + "", QUANT);
+                    fe = ifMapCreator.createFeature("VersionCode", time, String.valueOf(currentAppList.get(i).getVersionCode()), QUANT);
                     addToUpdateRequest(publishRequest, phoneAppCat, null, fe, MetadataLifetime.session, true);
                 }
 
@@ -598,26 +598,26 @@ public class MessageParametersGenerator<T> {
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
                     try {
                         cam = Camera.open(camIdx);
-                        mPreferences.setCamActiv(camIdx + "", false);
+                        mPreferences.setCamActiv(String.valueOf(camIdx), false);
                         cam.release();
                     } catch (RuntimeException e) {
                         Toolbox.logTxt(this.getClass().getName(),
                                 "Camera failed to open: "
                                         + e.getLocalizedMessage());
-                        mPreferences.setCamActiv(camIdx + "", true);
+                        mPreferences.setCamActiv(String.valueOf(camIdx), true);
                     }
                 }
                 Camera.getCameraInfo(camIdx, cameraInfo);
                 if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
                     try {
                         cam = Camera.open(camIdx);
-                        mPreferences.setCamActiv(camIdx + "", false);
+                        mPreferences.setCamActiv(String.valueOf(camIdx), false);
                         cam.release();
                     } catch (RuntimeException e) {
                         Toolbox.logTxt(this.getClass().getName(),
                                 "Camera failed to open: "
                                         + e.getLocalizedMessage());
-                        mPreferences.setCamActiv(camIdx + "", true);
+                        mPreferences.setCamActiv(String.valueOf(camIdx), true);
                     }
                 }
             }
