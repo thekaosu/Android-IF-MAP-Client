@@ -23,8 +23,11 @@ package de.simu.decoit.android.decomap.activities;
 
 import android.app.TabActivity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
@@ -36,7 +39,11 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TabHost;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.simu.decoit.android.decomap.activities.setupview.SetupActivity;
+import de.simu.decoit.android.decomap.util.Toolbox;
 
 /**
  * Tab.-Activity for Setting the different Activities to Tab-Widget
@@ -135,6 +142,65 @@ public class TabLayout extends TabActivity {
                 currentTab = mTabHost.getCurrentTab();
             }
         });
+
+        checkAndRequestPermissions();
+    }
+
+    /**
+     * checking and requesting permissions!
+     *
+     * @return permissions requested
+     */
+    private boolean checkAndRequestPermissions() {
+        String permissions[] = {android.Manifest.permission.INTERNET,
+                android.Manifest.permission.READ_PHONE_STATE,
+                android.Manifest.permission.ACCESS_NETWORK_STATE,
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                android.Manifest.permission.RECEIVE_SMS,
+                android.Manifest.permission.ACCESS_WIFI_STATE,
+                android.Manifest.permission.MODIFY_AUDIO_SETTINGS,
+                android.Manifest.permission.BLUETOOTH,
+                android.Manifest.permission.READ_SMS,
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.RECEIVE_BOOT_COMPLETED,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        for (String permission : permissions) {
+            int permissionInt = ContextCompat.checkSelfPermission(this, permission);
+            if (permissionInt != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(permission);
+            }
+        }
+
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray
+                    (new String[listPermissionsNeeded.size()]), 2);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (grantResults.length > 0) {
+            for (int i : grantResults) {
+                if (i == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted
+                    Toolbox.logTxt(this.getLocalClassName(), "Permission granted!");
+                } else {
+                    // permission denied!
+                    Toolbox.logTxt(this.getLocalClassName(), "Permission denied!!! Closing application");
+                    System.exit(1);
+                }
+            }
+        } else {
+            // permission denied!
+            Toolbox.logTxt(this.getLocalClassName(), "Permission denied!!! Closing application");
+            System.exit(1);
+        }
     }
 
     @Override

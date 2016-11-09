@@ -92,6 +92,8 @@ public class StatusActivity extends Activity implements OnItemClickListener {
     // for displaying the location-data in status-list
     public static boolean sIsActivityActive = false;
 
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
+
     private final MessageParameter mp = MessageParameter.getInstance();
 
     // location properties
